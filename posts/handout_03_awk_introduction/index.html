@@ -1,0 +1,2350 @@
+<!DOCTYPE html>
+
+
+<html lang="zh-tw" data-theme="">
+<head>
+    
+        
+<meta charset="utf-8">
+<meta name="HandheldFriendly" content="True">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="no-referrer-when-downgrade">
+
+<title>Alfred 的教學筆記 03 - awk 指令介紹 - Alfred Chen</title>
+
+<meta name="description" content="內容：awk 指令介紹">
+
+
+
+
+
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="apple-touch-icon-precomposed" href="favicon.png">
+
+
+<style>
+  body {
+    visibility: hidden;
+    opacity: 0;
+  }
+</style>
+
+<noscript>
+  <style>
+    body {
+      visibility: visible;
+      opacity: 1;
+    }
+  </style>
+</noscript>
+
+
+
+    
+
+
+
+
+
+    
+    
+        
+    
+    
+
+    
+        <link rel="stylesheet" href="/css/style.min.65a6fe530f7f8ef21128f582fec92c4cf1e7ba18ed6aad0eadf7b1bb42f2d616.css" integrity="sha256-Zab&#43;Uw9/jvIRKPWC/sksTPHnuhjtaq0Orfexu0Ly1hY=">
+    
+
+
+
+
+
+    
+
+    
+
+
+
+
+
+    
+    
+        
+    
+    
+
+    
+        <script src="/js/script.min.74bf1a3fcf1af396efa4acf3e660e876b61a2153ab9cbe1893ac24ea6d4f94ee.js" type="text/javascript" charset="utf-8" integrity="sha256-dL8aP88a85bvpKzz5mDodrYaIVOrnL4Yk6wk6m1PlO4="></script>
+    
+
+
+
+
+
+
+
+<meta property="og:title" content="Alfred 的教學筆記 03 - awk 指令介紹" />
+<meta property="og:description" content="內容：awk 指令介紹" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/handout_03_awk_introduction/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-01-01T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-01-01T00:00:00+00:00" />
+
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Alfred 的教學筆記 03 - awk 指令介紹"/>
+<meta name="twitter:description" content="內容：awk 指令介紹"/>
+
+
+
+    
+        <link rel="webmention" href="https://webmention.io/hugo-theme-anubis/webmention" />
+        
+            <link rel="pingback" href="https://webmention.io/hugo-theme-anubis/xmlrpc" />
+        
+    
+    
+        <link rel="webmention" href="https://yourdomain.com/webemntions/receive" />
+    
+
+
+
+
+
+
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-12345"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-12345', { 'anonymize_ip': false });
+}
+</script>
+
+
+
+
+
+    
+</head>
+<body>
+    <a class="skip-main" href="#main">Skip to main content</a>
+    <div class="container">
+        <header class="common-header"> 
+            
+                <div class="header-top">
+    <h1 class="site-title">
+    <a href="/">Alfred Chen</a>
+</h1>
+    <ul class="social-icons">
+
+
+    
+        <li>
+            <a href="https://Chen-Alfred.github.io/" title="Github" rel="me">
+            <span class="inline-svg" >
+
+
+
+
+    
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+
+</span>
+
+            </a>
+        </li>
+    
+
+    
+        
+        
+        <li>
+            <a href="mailto:achieve0616@gmail.com" title="Email" rel="me">
+            <span class="inline-svg" >
+
+
+
+
+    
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M464 64H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm0 48v40.805c-22.422 18.259-58.168 46.651-134.587 106.49-16.841 13.247-50.201 45.072-73.413 44.701-23.208.375-56.579-31.459-73.413-44.701C106.18 199.465 70.425 171.067 48 152.805V112h416zM48 400V214.398c22.914 18.251 55.409 43.862 104.938 82.646 21.857 17.205 60.134 55.186 103.062 54.955 42.717.231 80.509-37.199 103.053-54.947 49.528-38.783 82.032-64.401 104.947-82.653V400H48z"/></svg>
+
+</span>
+
+            </a>
+        </li>
+    
+
+    
+        <li>
+            <a href="https://www.facebook.com/ciphero0616" title="Facebook" rel="me">
+            <span class="inline-svg" >
+
+
+
+
+    
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M504 256C504 119 393 8 256 8S8 119 8 256c0 123.78 90.69 226.38 209.25 245V327.69h-63V256h63v-54.64c0-62.15 37-96.48 93.67-96.48 27.14 0 55.52 4.84 55.52 4.84v61h-31.28c-30.8 0-40.41 19.12-40.41 38.73V256h68.78l-11 71.69h-57.78V501C413.31 482.38 504 379.78 504 256z"/></svg>
+
+</span>
+
+            </a>
+        </li>
+    
+
+
+
+
+</ul>
+</div>
+
+    <nav>
+        
+        
+        <a class="" href="/about/" title="about">About</a>
+        
+        <a class="" href="/posts/" title="posts">Posts</a>
+        
+        <a class="" href="/tags/" title="tags">Tags</a>
+        
+        <a class="" href="/categories/" title="categories">Categories</a>
+        
+    </nav>
+
+
+
+
+
+
+            
+        </header>
+        <main id="main" tabindex="-1"> 
+            
+    
+
+    <article class="post h-entry">
+        <div class="post-header">
+            <header>
+                <h1 class="p-name post-title">Alfred 的教學筆記 03 - awk 指令介紹</h1>
+
+                
+            </header>
+        </div>
+        <div class="content e-content">
+            <hr>
+<h2 id="一awk-的簡單範例" >一、awk 的簡單範例：
+<span>
+    <a href="#%e4%b8%80awk-%e7%9a%84%e7%b0%a1%e5%96%ae%e7%af%84%e4%be%8b">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h2><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ cat mart.txt
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">1</span> 新北投溫泉<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span> 北投區 新北投站 以溫泉業、餐飲業為主
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">2</span> 行義路溫泉美食<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span> 北投區 石牌站 溫泉、餐飲
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">3</span> 石牌捷運<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span> 北投區 石牌站 餐飲、日常生活用品
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">4</span> 士林捷運站周邊 士林區 士林站 餐飲、服飾、日用品、家飾、喜餅
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">5</span> 士林觀光夜市<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span> 士林區 劍潭站 以餐飲小吃、服飾為主
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">6</span> 天母<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span> 士林區 芝山站 餐飲、手工創意商品、百貨
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 印出第2個欄位</span>
+</span></span><span style="display:flex;"><span>$ awk <span style="color:#e6db74">&#39;{print $2}&#39;</span> mart.txt
+</span></span><span style="display:flex;"><span>新北投溫泉<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>行義路溫泉美食<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>石牌捷運<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>士林捷運站周邊
+</span></span><span style="display:flex;"><span>士林觀光夜市<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>天母<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 印出第2,3個欄位</span>
+</span></span><span style="display:flex;"><span>$ awk <span style="color:#e6db74">&#39;{print $2,$3}&#39;</span> mart.txt
+</span></span><span style="display:flex;"><span>新北投溫泉<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span> 北投區
+</span></span><span style="display:flex;"><span>行義路溫泉美食<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span> 北投區
+</span></span><span style="display:flex;"><span>石牌捷運<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span> 北投區
+</span></span><span style="display:flex;"><span>士林捷運站周邊 士林區
+</span></span><span style="display:flex;"><span>士林觀光夜市<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span> 士林區
+</span></span><span style="display:flex;"><span>天母<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span> 士林區
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 印出第2,3個欄位，但第3欄只印出前2個字</span>
+</span></span><span style="display:flex;"><span>$ awk <span style="color:#e6db74">&#39;{print $2,substr($3,1,2)}&#39;</span> mart.txt
+</span></span><span style="display:flex;"><span>新北投溫泉<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span> 北投
+</span></span><span style="display:flex;"><span>行義路溫泉美食<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span> 北投
+</span></span><span style="display:flex;"><span>石牌捷運<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span> 北投
+</span></span><span style="display:flex;"><span>士林捷運站周邊 士林
+</span></span><span style="display:flex;"><span>士林觀光夜市<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span> 士林
+</span></span><span style="display:flex;"><span>天母<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span> 士林
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 印出第2個欄位，以及第2個欄位的長度 (1個中文/英文/符號算1個長度)</span>
+</span></span><span style="display:flex;"><span>$ awk <span style="color:#e6db74">&#39;{print $2,length($2)}&#39;</span> mart.txt
+</span></span><span style="display:flex;"><span>新北投溫泉<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span> <span style="color:#ae81ff">9</span>
+</span></span><span style="display:flex;"><span>行義路溫泉美食<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span> <span style="color:#ae81ff">11</span>
+</span></span><span style="display:flex;"><span>石牌捷運<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span> <span style="color:#ae81ff">8</span>
+</span></span><span style="display:flex;"><span>士林捷運站周邊 <span style="color:#ae81ff">7</span>
+</span></span><span style="display:flex;"><span>士林觀光夜市<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span> <span style="color:#ae81ff">10</span>
+</span></span><span style="display:flex;"><span>天母<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span> <span style="color:#ae81ff">6</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 印出全部欄位($0)</span>
+</span></span><span style="display:flex;"><span>$ awk <span style="color:#e6db74">&#39;{print $0}&#39;</span> mart.txt
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">1</span> 新北投溫泉<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span> 北投區 新北投站 以溫泉業、餐飲業為主
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">2</span> 行義路溫泉美食<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span> 北投區 石牌站 溫泉、餐飲
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">3</span> 石牌捷運<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span> 北投區 石牌站 餐飲、日常生活用品
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">4</span> 士林捷運站周邊 士林區 士林站 餐飲、服飾、日用品、家飾、喜餅
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">5</span> 士林觀光夜市<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span> 士林區 劍潭站 以餐飲小吃、服飾為主
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">6</span> 天母<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span> 士林區 芝山站 餐飲、手工創意商品、百貨
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 只印出北投區的商圈資料</span>
+</span></span><span style="display:flex;"><span>$ awk <span style="color:#e6db74">&#39;{if($3 == &#34;北投區&#34;) print $0}&#39;</span> mart.txt
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">1</span> 新北投溫泉<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span> 北投區 新北投站 以溫泉業、餐飲業為主
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">2</span> 行義路溫泉美食<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span> 北投區 石牌站 溫泉、餐飲
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">3</span> 石牌捷運<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span> 北投區 石牌站 餐飲、日常生活用品
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>$ awk <span style="color:#e6db74">&#39;$3 == &#34;北投區&#34; {print $0}&#39;</span> mart.txt
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">1</span> 新北投溫泉<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span> 北投區 新北投站 以溫泉業、餐飲業為主
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">2</span> 行義路溫泉美食<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span> 北投區 石牌站 溫泉、餐飲
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">3</span> 石牌捷運<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span> 北投區 石牌站 餐飲、日常生活用品
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 只印出北投區且靠近石牌站的商圈資料</span>
+</span></span><span style="display:flex;"><span>$ awk <span style="color:#e6db74">&#39;{if($3 == &#34;北投區&#34; &amp;&amp; $4 == &#34;石牌站&#34;) print $0}&#39;</span> mart.txt
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">2</span> 行義路溫泉美食<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span> 北投區 石牌站 溫泉、餐飲
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">3</span> 石牌捷運<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span> 北投區 石牌站 餐飲、日常生活用品
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 如果分割字元不是空白的話：</span>
+</span></span><span style="display:flex;"><span>$ cat test.txt
+</span></span><span style="display:flex;"><span>12,345,6789
+</span></span><span style="display:flex;"><span>ab,cde,fghi
+</span></span><span style="display:flex;"><span>ABCD,EFG,HI
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>$ awk -F <span style="color:#e6db74">&#39;,&#39;</span> <span style="color:#e6db74">&#39;{print $2}&#39;</span> test.txt  <span style="color:#75715e"># 印出第2個欄位</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">345</span>
+</span></span><span style="display:flex;"><span>cde
+</span></span><span style="display:flex;"><span>EFG
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>$ awk -F <span style="color:#e6db74">&#39;,&#39;</span> <span style="color:#e6db74">&#39;{print $2, NF, NR}&#39;</span> test.txt  <span style="color:#75715e"># 印出第2個欄位、欄位數、列數</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">345</span> <span style="color:#ae81ff">3</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>cde <span style="color:#ae81ff">3</span> <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>EFG <span style="color:#ae81ff">3</span> <span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 如果分割字元不只一個的話：</span>
+</span></span><span style="display:flex;"><span>$ cat test2.txt  <span style="color:#75715e"># 以 oo 作為分隔字元</span>
+</span></span><span style="display:flex;"><span>12oo345oo6789
+</span></span><span style="display:flex;"><span>aboocdeoofghi
+</span></span><span style="display:flex;"><span>ABCDooEFGooHI
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>$ awk -F <span style="color:#e6db74">&#39;oo&#39;</span> <span style="color:#e6db74">&#39;{print $2}&#39;</span> test2.txt
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">345</span>
+</span></span><span style="display:flex;"><span>cde
+</span></span><span style="display:flex;"><span>EFG
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>$ cat test3.txt  <span style="color:#75715e"># 以 *| 作為分隔字元</span>
+</span></span><span style="display:flex;"><span>12*|345*|<span style="color:#ae81ff">6789</span>
+</span></span><span style="display:flex;"><span>ab*|cde*|fghi
+</span></span><span style="display:flex;"><span>ABCD*|EFG*|HI
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>$ awk -F <span style="color:#e6db74">&#39;\\*\\|&#39;</span> <span style="color:#e6db74">&#39;{print $2}&#39;</span> test3.txt
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">345</span>
+</span></span><span style="display:flex;"><span>cde
+</span></span><span style="display:flex;"><span>EFG
+</span></span></code></pre></div><hr>
+<h2 id="二awk-的特性" >二、awk 的特性：
+<span>
+    <a href="#%e4%ba%8cawk-%e7%9a%84%e7%89%b9%e6%80%a7">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h2><ul>
+<li>是 Linux/UNIX 中的字串處理指令 (跨平台)</li>
+<li>是一種程式語言 (直譯式、弱型別)，具有變數、函式、條件判斷、迴圈。</li>
+<li>每列驅動：每讀取一列資料，就執行一次程式碼。適合用來整批、逐筆的處理資料。
+※ awk 參考網址：https://www.tutorialspoint.com/awk/index.htm</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># 每一列皆印出 hello (資料有幾筆，hello 就有幾筆)</span>
+</span></span><span style="display:flex;"><span>$ awk <span style="color:#e6db74">&#39;{print &#34;hello&#34;}&#39;</span> mart.txt
+</span></span><span style="display:flex;"><span>hello
+</span></span><span style="display:flex;"><span>hello
+</span></span><span style="display:flex;"><span>hello
+</span></span><span style="display:flex;"><span>hello
+</span></span><span style="display:flex;"><span>hello
+</span></span><span style="display:flex;"><span>hello
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>$ awk <span style="color:#e6db74">&#39;{print &#34;hello &#34;$2}&#39;</span> mart.txt
+</span></span><span style="display:flex;"><span>hello 新北投溫泉<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>hello 行義路溫泉美食<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>hello 石牌捷運<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>hello 士林捷運站周邊
+</span></span><span style="display:flex;"><span>hello 士林觀光夜市<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>hello 天母<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span>
+</span></span></code></pre></div><hr>
+<h2 id="三awk-的執行方式" >三、awk 的執行方式：
+<span>
+    <a href="#%e4%b8%89awk-%e7%9a%84%e5%9f%b7%e8%a1%8c%e6%96%b9%e5%bc%8f">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h2><ol>
+<li>直接在 shell 中執行：</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ awk <span style="color:#e6db74">&#39;{print &#34;hello &#34;$2}&#39;</span> mart.txt
+</span></span><span style="display:flex;"><span>hello 新北投溫泉<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>hello 行義路溫泉美食<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>hello 石牌捷運<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>hello 士林捷運站周邊
+</span></span><span style="display:flex;"><span>hello 士林觀光夜市<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>hello 天母<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span>
+</span></span></code></pre></div><ol start="2">
+<li>寫在檔案中再執行</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ cat hello.awk
+</span></span><span style="display:flex;"><span><span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  print <span style="color:#e6db74">&#34;hello &#34;</span>$2
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>$ awk -f hello.awk mart.txt
+</span></span><span style="display:flex;"><span>hello 新北投溫泉<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>hello 行義路溫泉美食<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>hello 石牌捷運<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>hello 士林捷運站周邊
+</span></span><span style="display:flex;"><span>hello 士林觀光夜市<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>hello 天母<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span>
+</span></span></code></pre></div><ul>
+<li>awk 執行語法的兩種基本形式：
+<code>awk [-v var=value] [-F delimiter] 'pattern { action }' datafile(s)</code>
+<code>awk [-v var=value] [-F delimiter] -f scriptfile datafile(s)</code></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>練習1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>一、資料集：請先至下列網址下載資料：<br><a href="https://data.gov.tw/dataset/120711">https://data.gov.tw/dataset/120711</a> <br>(請下載 csv 檔，並另存檔名為「cov19.csv」)。 <br> 二、題目：請篩選出於 2022 年內，桃園市中壢區的所有資料，並去除「確定病名」、「是否為境外移入」兩個欄位。<br>三、說明：請用上述兩種 awk 方法來作答 (在 shell 中執行，以及寫在檔案執行)，而不要用 grep 方法。<br><a href="#%E7%B7%B4%E7%BF%921(%E8%A7%A3%E7%AD%94)">練習1(解答)</a></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="四awk-的程式結構" >四、awk 的程式結構：
+<span>
+    <a href="#%e5%9b%9bawk-%e7%9a%84%e7%a8%8b%e5%bc%8f%e7%b5%90%e6%a7%8b">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h2><table>
+<thead>
+<tr>
+<th>區塊</th>
+<th>功能</th>
+<th>例如</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BEGIN {&hellip;}</td>
+<td>前置處理</td>
+<td>變數宣告、設定、輸出表頭</td>
+</tr>
+<tr>
+<td>{&hellip;}</td>
+<td>主要處理邏輯</td>
+<td>主要功能</td>
+</tr>
+<tr>
+<td>END {&hellip;}</td>
+<td>後續處理</td>
+<td>輸出表尾</td>
+</tr>
+</tbody>
+</table>
+<p>![awk workflow](<a href="https://i.imgur.com/wm6qQ7e.png">https://i.imgur.com/wm6qQ7e.png</a> =60%x60%)</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ cat hello2.awk
+</span></span><span style="display:flex;"><span>BEGIN <span style="color:#f92672">{</span>print <span style="color:#e6db74">&#34;hello BEGIN&#34;</span>;<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  print <span style="color:#e6db74">&#34;hello &#34;</span>$2;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>END <span style="color:#f92672">{</span>print <span style="color:#e6db74">&#34;hello END&#34;</span>;<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>$ awk -f hello2.awk mart.txt
+</span></span><span style="display:flex;"><span>hello BEGIN
+</span></span><span style="display:flex;"><span>hello 新北投溫泉<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>hello 行義路溫泉美食<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>hello 石牌捷運<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>hello 士林捷運站周邊
+</span></span><span style="display:flex;"><span>hello 士林觀光夜市<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>hello 天母<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>hello END
+</span></span></code></pre></div><hr>
+<h2 id="五變數" >五、變數
+<span>
+    <a href="#%e4%ba%94%e8%ae%8a%e6%95%b8">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h2><h3 id="1-欄位變數" >(1). 欄位變數
+<span>
+    <a href="#1-%e6%ac%84%e4%bd%8d%e8%ae%8a%e6%95%b8">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><ul>
+<li>$1：第 1 欄</li>
+<li>$2：第 2 欄
+&hellip;</li>
+<li>$n：第 n 欄 (n 的範圍為 0 到 NF 的任何數字)</li>
+<li>$0：指全部欄位</li>
+<li>$NF：最後一欄</li>
+</ul>
+<h3 id="2-自訂變數" >(2). 自訂變數
+<span>
+    <a href="#2-%e8%87%aa%e8%a8%82%e8%ae%8a%e6%95%b8">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><ul>
+<li>由字母、數字、底線組成，且字母大小寫有差別。</li>
+<li>變數名稱不可以用數字開頭。</li>
+<li>變數可以包含字串或數字。</li>
+<li>變數不須宣告或設定初始值，未設定初始值時，會以空字串(<code>&quot;&quot;</code>)或 0 作為預設的初始值。awk 會根據程式的運作來決定一個變數要視為字串或數字來處理。</li>
+<li>設定變數的語法為：<code>var = expression</code>
+<pre tabindex="0"><code>x = 1    # 設定變數 x 其值為 1
+print x  # 讀取變數 x 並列印出來
+</code></pre></li>
+<li>從外部輸入的自訂變數：</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ awk -v good<span style="color:#f92672">=</span>不好玩的 <span style="color:#e6db74">&#39;{print good$2}&#39;</span> mart.txt
+</span></span><span style="display:flex;"><span>不好玩的新北投溫泉<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>不好玩的行義路溫泉美食<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>不好玩的石牌捷運<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>不好玩的士林捷運站周邊
+</span></span><span style="display:flex;"><span>不好玩的士林觀光夜市<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>不好玩的天母<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>$ awk -v very<span style="color:#f92672">=</span>非常 -v good<span style="color:#f92672">=</span>不好玩的 <span style="color:#e6db74">&#39;{print very&#34;&#34;good$2}&#39;</span> mart.txt
+</span></span><span style="display:flex;"><span>非常不好玩的新北投溫泉<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>非常不好玩的行義路溫泉美食<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>非常不好玩的石牌捷運<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>非常不好玩的士林捷運站周邊
+</span></span><span style="display:flex;"><span>非常不好玩的士林觀光夜市<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>非常不好玩的天母<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span>
+</span></span></code></pre></div><ul>
+<li>陣列變數 (關聯式陣列)：
+<ul>
+<li>陣列是一個可以儲存一組值的變數。</li>
+<li>將一個值設定給陣列某個元素的語法為：<code>array[index] = value</code>
+<ul>
+<li>awk中，陣列的索引(index)可以是字串或數字。</li>
+<li>陣列的元素不會依特定次序儲存。</li>
+<li>可以用一個 for 迴圈來讀取陣列中的所有元素：<code>for(item in array)</code>，並用<code>array[item]</code>來取得元素的值。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-內建系統變數" >(3). 內建/系統變數
+<span>
+    <a href="#3-%e5%85%a7%e5%bb%ba%e7%b3%bb%e7%b5%b1%e8%ae%8a%e6%95%b8">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><p>所有內建/系統變數名稱都由大寫字母組成</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>變數</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>ARGC</td>
+<td>命令列參數的數目</td>
+</tr>
+<tr>
+<td>2</td>
+<td>ARGV</td>
+<td>一個陣列，包含命令列的參數</td>
+</tr>
+<tr>
+<td>3</td>
+<td>CONVFMT</td>
+<td>由數字轉換成字串時所採取的編碼方式 (預設為%.6g)</td>
+</tr>
+<tr>
+<td>4</td>
+<td>ENVIRON</td>
+<td>用來存放環境變數的陣列</td>
+</tr>
+<tr>
+<td>5</td>
+<td>FILENAME</td>
+<td>當前的檔案名稱</td>
+</tr>
+<tr>
+<td>6</td>
+<td>FNR</td>
+<td>如同NF，但為相對於當前的檔案</td>
+</tr>
+<tr>
+<td>7</td>
+<td>FS</td>
+<td>欄位區隔符號 (預設為空格)</td>
+</tr>
+<tr>
+<td>8</td>
+<td>NF</td>
+<td>當前紀錄的欄位數目</td>
+</tr>
+<tr>
+<td>9</td>
+<td>NR</td>
+<td>當前紀錄的數目</td>
+</tr>
+<tr>
+<td>10</td>
+<td>OFMT</td>
+<td>數字的輸出編排方式 (預設為%.6g)</td>
+</tr>
+<tr>
+<td>11</td>
+<td>OFS</td>
+<td>輸出欄位的區隔符號 (預設為空格)</td>
+</tr>
+<tr>
+<td>12</td>
+<td>ORS</td>
+<td>輸出紀錄的區隔符號 (預設為newline)</td>
+</tr>
+<tr>
+<td>13</td>
+<td>RLENGTH</td>
+<td>函式 match() 所找到之子字串的長度</td>
+</tr>
+<tr>
+<td>14</td>
+<td>RS</td>
+<td>紀錄的區隔符號 (預設為newline)</td>
+</tr>
+<tr>
+<td>15</td>
+<td>RSTART</td>
+<td>函式 match() 所找到之子字串位於字串的第1個位置</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="六內建函式" >六、內建函式
+<span>
+    <a href="#%e5%85%ad%e5%85%a7%e5%bb%ba%e5%87%bd%e5%bc%8f">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h2><p>以下僅摘錄一部分本專案之常用內建函式：</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>函式</th>
+<th>語法</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>index</td>
+<td>index(str, substr)</td>
+<td>回傳 substr 在 str 中出現的位置 (從 1 起算)</td>
+</tr>
+<tr>
+<td>2</td>
+<td>int</td>
+<td>int(x)</td>
+<td>截掉小數點後面的任何數字，回傳 x 的整數值</td>
+</tr>
+<tr>
+<td>3</td>
+<td>length</td>
+<td>length(str)</td>
+<td>回傳字串 str 的長度。如果沒有參數，則回傳 $0 的長度</td>
+</tr>
+<tr>
+<td>4</td>
+<td>printf</td>
+<td>printf(format, expr-list)</td>
+<td>依據 format 的格式，並由 expr-list 變數建立字串，並列印出來</td>
+</tr>
+<tr>
+<td>5</td>
+<td>split</td>
+<td>split(str, array, sep)</td>
+<td>以欄位區隔符號 sep 剖析字串 str 並將結果存入陣列 array 的元素中。傳回值為元素的總數。如果沒有指定 sep，則會使用系統變數 FS</td>
+</tr>
+<tr>
+<td>6</td>
+<td>substr</td>
+<td>substr(str, beg, len)</td>
+<td>回傳值為一子字串，也就是在字串 str 中，自位置 beg 開始，最大長度為 len 的子字串。如果沒有指定 len，則會回傳字串 str 中自位置 beg 開始至結尾的部分</td>
+</tr>
+<tr>
+<td>7</td>
+<td>tolower</td>
+<td>tolower(str)</td>
+<td>將 str 裡的大寫字元全部轉換成小寫，並回傳新字串</td>
+</tr>
+<tr>
+<td>8</td>
+<td>toupper</td>
+<td>toupper(str)</td>
+<td>將 str 裡的小寫字元全部轉換成大寫，並回傳新字串</td>
+</tr>
+<tr>
+<td>9</td>
+<td>gsub</td>
+<td>gsub(r, s, t)</td>
+<td>在字串 t 中，凡是與正規表達式 r 相符的地方，都會替換成 s (採用全域替換的方式)。回傳值為替換的次數。若沒有指定 t，則以 $0 為預設值</td>
+</tr>
+<tr>
+<td>10</td>
+<td>sub</td>
+<td>sub(r, s, t)</td>
+<td>在字串 t 中，將首次與正規表達式 r 相符的地方替換成 s。如果成功則回傳 1，否則回傳 0。若沒有指定 t，則以 $0 為預設值</td>
+</tr>
+<tr>
+<td>11</td>
+<td>match</td>
+<td>match(s, r)</td>
+<td>此函式會回傳與正規表達式 r 相符之子字串，於字串 s 中的開頭位置。若沒有發現與 r 相符的地方則回傳 0。此函式亦會將系統變數 RSTART 與 RLENGTH 分別設定為：相符子字串的第1個位置與其長度</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># printf() 範例：</span>
+</span></span><span style="display:flex;"><span>$ awk <span style="color:#e6db74">&#39;BEGIN {x = 1024; y = sqrt(x); printf(&#34;sqrt(%f) = %f\n&#34;, x, y)}&#39;</span>
+</span></span><span style="display:flex;"><span>sqrt<span style="color:#f92672">(</span>1024.000000<span style="color:#f92672">)</span> <span style="color:#f92672">=</span> 32.000000
+</span></span></code></pre></div><ul>
+<li>print 和 printf() 的差異：
+<ul>
+<li>print：列印結束時會自動斷行、輸出時的欄位分割符號預設為OFS。</li>
+<li>printf()：列印結束時不會自動斷行(須自行控制)，用法與 C 語言中的 printf() 很類似。<br>參考網址：https://bl831.als.lbl.gov/~gmeigs/scripting_help/printf_awk_notes.txt</li>
+</ul>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ awk <span style="color:#e6db74">&#39;BEGIN {print &#34;A&#34;,&#34;B&#34;,&#34;C&#34;; print &#34;D&#34;,&#34;E&#34;,&#34;F&#34;;}&#39;</span>
+</span></span><span style="display:flex;"><span>A B C
+</span></span><span style="display:flex;"><span>D E F
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>$ awk <span style="color:#e6db74">&#39;BEGIN {OFS = &#34;|&#34;; print &#34;A&#34;,&#34;B&#34;,&#34;C&#34;; print &#34;D&#34;,&#34;E&#34;,&#34;F&#34;;}&#39;</span>
+</span></span><span style="display:flex;"><span>A|B|C
+</span></span><span style="display:flex;"><span>D|E|F
+</span></span></code></pre></div><hr>
+<h2 id="七流程控制" >七、流程控制
+<span>
+    <a href="#%e4%b8%83%e6%b5%81%e7%a8%8b%e6%8e%a7%e5%88%b6">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h2><h3 id="1-條件判斷" >(1). 條件判斷：
+<span>
+    <a href="#1-%e6%a2%9d%e4%bb%b6%e5%88%a4%e6%96%b7">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><pre tabindex="0"><code># 基本形式：
+if (expression)
+  action1
+[else if (expression)
+  action2]
+[else
+  action3]
+</code></pre><pre tabindex="0"><code># 動作若不只一個，要放在一對大括號中間
+if (expression) {
+  action1
+  action2
+}
+</code></pre><h3 id="2-迴圈" >(2). 迴圈：
+<span>
+    <a href="#2-%e8%bf%b4%e5%9c%88">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><pre tabindex="0"><code># while 迴圈的形式：
+while (condition)
+  action
+</code></pre><pre tabindex="0"><code># do 迴圈的形式：
+do
+  action
+while (condition)
+</code></pre><pre tabindex="0"><code># for 迴圈的形式：
+for (set_counter; test_counter; increment_counter)
+  action
+</code></pre><h3 id="3-其他述句" >(3). 其他述句：
+<span>
+    <a href="#3-%e5%85%b6%e4%bb%96%e8%bf%b0%e5%8f%a5">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><ul>
+<li>break：跳出迴圈，使迴圈不再重複執行。</li>
+<li>continue：在到達迴圈底部之前，先停止這次的執行，然後由頂部開始下一次的執行。</li>
+<li>next：使 awk 讀取下一個輸入列，並回到 awk script 的頂端繼續執行。</li>
+<li>exit：跳出主輸入迴圈，並將控制權交給 END 規則 (如果存在的話)。若 END 規則未定義，或 exit 述句位於 END 規則中，則會中止執行。</li>
+</ul>
+<hr>
+<h2 id="八應用" >八、應用：
+<span>
+    <a href="#%e5%85%ab%e6%87%89%e7%94%a8">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h2><h3 id="1-大量產生工作所需的-script程式碼片段" >(1). 大量產生工作所需的 Script/程式碼片段
+<span>
+    <a href="#1-%e5%a4%a7%e9%87%8f%e7%94%a2%e7%94%9f%e5%b7%a5%e4%bd%9c%e6%89%80%e9%9c%80%e7%9a%84-script%e7%a8%8b%e5%bc%8f%e7%a2%bc%e7%89%87%e6%ae%b5">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># 範例：產生工作指令</span>
+</span></span><span style="display:flex;"><span>$ cat backup_list.txt
+</span></span><span style="display:flex;"><span>DIR_01
+</span></span><span style="display:flex;"><span>DIR_03
+</span></span><span style="display:flex;"><span>DIR_05
+</span></span><span style="display:flex;"><span>DIR_07
+</span></span><span style="display:flex;"><span>DIR_09
+</span></span><span style="display:flex;"><span>DIR_11
+</span></span><span style="display:flex;"><span>DIR_13
+</span></span><span style="display:flex;"><span>DIR_15
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>$ awk <span style="color:#e6db74">&#39;{printf(&#34;java -jar WorkCMD.jar -c %s\n&#34;, $1);}&#39;</span> backup_list.txt
+</span></span><span style="display:flex;"><span>java -jar WorkCMD.jar -c DIR_01
+</span></span><span style="display:flex;"><span>java -jar WorkCMD.jar -c DIR_03
+</span></span><span style="display:flex;"><span>java -jar WorkCMD.jar -c DIR_05
+</span></span><span style="display:flex;"><span>java -jar WorkCMD.jar -c DIR_07
+</span></span><span style="display:flex;"><span>java -jar WorkCMD.jar -c DIR_09
+</span></span><span style="display:flex;"><span>java -jar WorkCMD.jar -c DIR_11
+</span></span><span style="display:flex;"><span>java -jar WorkCMD.jar -c DIR_13
+</span></span><span style="display:flex;"><span>java -jar WorkCMD.jar -c DIR_15
+</span></span></code></pre></div><h3 id="2-控制輸出格式-製作報表" >(2). 控制輸出格式 (製作報表)
+<span>
+    <a href="#2-%e6%8e%a7%e5%88%b6%e8%bc%b8%e5%87%ba%e6%a0%bc%e5%bc%8f-%e8%a3%bd%e4%bd%9c%e5%a0%b1%e8%a1%a8">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><p>本範例請先至網址下載資料：https://data.gov.tw/dataset/120711
+(下載 csv 檔，並另存檔名為「cov19.csv」)。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ cat cov19.awk
+</span></span><span style="display:flex;"><span>BEGIN <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  print <span style="color:#e6db74">&#34;----------  ----------&#34;</span>;
+</span></span><span style="display:flex;"><span>  print <span style="color:#e6db74">&#34;   縣市     確定病例數&#34;</span>;
+</span></span><span style="display:flex;"><span>  print <span style="color:#e6db74">&#34;----------  ----------&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  sum<span style="color:#f92672">[</span>$3<span style="color:#f92672">]</span> +<span style="color:#f92672">=</span> $8;  <span style="color:#75715e"># 各縣市小計</span>
+</span></span><span style="display:flex;"><span>  total <span style="color:#f92672">+=</span> $8;    <span style="color:#75715e"># 總計</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>END <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">for</span><span style="color:#f92672">(</span>key in sum<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    city <span style="color:#f92672">=</span> key;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>key <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;空值&#34;</span><span style="color:#f92672">)</span> city <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;境外　&#34;</span>;
+</span></span><span style="display:flex;"><span>    printf<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;%-7s  %10d\n&#34;</span>, city, sum<span style="color:#f92672">[</span>key<span style="color:#f92672">])</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>  print <span style="color:#e6db74">&#34;----------  ----------&#34;</span>;
+</span></span><span style="display:flex;"><span>  printf<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;   總計     %10d\n&#34;</span>, total<span style="color:#f92672">)</span>;
+</span></span><span style="display:flex;"><span>  print <span style="color:#e6db74">&#34;----------  ----------&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>$ tail -n+2 cov19.csv | awk -F <span style="color:#e6db74">&#39;,&#39;</span> -f cov19.awk
+</span></span><span style="display:flex;"><span>----------  ----------
+</span></span><span style="display:flex;"><span>   縣市     確定病例數
+</span></span><span style="display:flex;"><span>----------  ----------
+</span></span><span style="display:flex;"><span>屏東縣              <span style="color:#ae81ff">48</span>
+</span></span><span style="display:flex;"><span>高雄市              <span style="color:#ae81ff">94</span>
+</span></span><span style="display:flex;"><span>連江縣               <span style="color:#ae81ff">4</span>
+</span></span><span style="display:flex;"><span>嘉義市              <span style="color:#ae81ff">10</span>
+</span></span><span style="display:flex;"><span>宜蘭縣              <span style="color:#ae81ff">99</span>
+</span></span><span style="display:flex;"><span>台東縣              <span style="color:#ae81ff">22</span>
+</span></span><span style="display:flex;"><span>台中市             <span style="color:#ae81ff">207</span>
+</span></span><span style="display:flex;"><span>新竹市              <span style="color:#ae81ff">43</span>
+</span></span><span style="display:flex;"><span>桃園市             <span style="color:#ae81ff">891</span>
+</span></span><span style="display:flex;"><span>基隆市             <span style="color:#ae81ff">320</span>
+</span></span><span style="display:flex;"><span>彰化縣             <span style="color:#ae81ff">274</span>
+</span></span><span style="display:flex;"><span>嘉義縣              <span style="color:#ae81ff">32</span>
+</span></span><span style="display:flex;"><span>花蓮縣              <span style="color:#ae81ff">68</span>
+</span></span><span style="display:flex;"><span>台北市            <span style="color:#ae81ff">4879</span>
+</span></span><span style="display:flex;"><span>新北市            <span style="color:#ae81ff">6943</span>
+</span></span><span style="display:flex;"><span>境外　            <span style="color:#ae81ff">3223</span>
+</span></span><span style="display:flex;"><span>新竹縣             <span style="color:#ae81ff">112</span>
+</span></span><span style="display:flex;"><span>南投縣              <span style="color:#ae81ff">38</span>
+</span></span><span style="display:flex;"><span>苗栗縣             <span style="color:#ae81ff">549</span>
+</span></span><span style="display:flex;"><span>澎湖縣               <span style="color:#ae81ff">5</span>
+</span></span><span style="display:flex;"><span>雲林縣              <span style="color:#ae81ff">22</span>
+</span></span><span style="display:flex;"><span>台南市              <span style="color:#ae81ff">50</span>
+</span></span><span style="display:flex;"><span>----------  ----------
+</span></span><span style="display:flex;"><span>   總計          <span style="color:#ae81ff">17933</span>
+</span></span><span style="display:flex;"><span>----------  ----------
+</span></span></code></pre></div><table>
+<thead>
+<tr>
+<th>練習2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>同上表，但改為以「年齡層」欄位來做彙總 (不須排序)。<br><a href="#%E7%B7%B4%E7%BF%922(%E8%A7%A3%E7%AD%94)">練習2(解答)</a></td>
+</tr>
+</tbody>
+</table>
+<h3 id="3-彙總計算-aggregation" >(3). 彙總計算 (Aggregation)
+<span>
+    <a href="#3-%e5%bd%99%e7%b8%bd%e8%a8%88%e7%ae%97-aggregation">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><ul>
+<li>count：取筆數
+<ul>
+<li>全部：<code>awk '{cnt++} END {print cnt}'</code></li>
+<li>群組：<code>awk '{cnt[${主鍵}]++} END {for(key in cnt) print key, cnt[key]}'</code></li>
+</ul>
+</li>
+<li>sum：取合計
+<ul>
+<li>全部：<code>awk '{sum += ${欄位}} END {print sum}'</code></li>
+<li>群組：<code>awk '{sum[${主鍵}] += ${欄位}} END {for(key in sum) print key, sum[key]}'</code></li>
+</ul>
+</li>
+<li>min：取最小值
+<ul>
+<li>全部：<code>awk '{if(NR == 1 || ${欄位} &lt; min) min = ${欄位}} END {print min}'</code></li>
+<li>群組：<code>awk '{if(init[${主鍵}] == 0 || ${欄位} &lt; min[${主鍵}]) min[${主鍵}] = ${欄位}; init[${主鍵}] = 1;} END {for(key in min) print key, min[key]}'</code></li>
+</ul>
+</li>
+<li>max：取最大值
+<ul>
+<li>全部：<code>awk '{if(NR == 1 || ${欄位} &gt; max) max = ${欄位}} END {print max}'</code></li>
+<li>群組：<code>awk '{if(init[${主鍵}] == 0 || ${欄位} &gt; max[${主鍵}]) max[${主鍵}] = ${欄位}; init[${主鍵}] = 1;} END {for(key in max) print key, max[key]}'</code></li>
+</ul>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># 範例：通話紀錄的彙總 (CDR，Call Detail Record)</span>
+</span></span><span style="display:flex;"><span>$ cat cdr.txt
+</span></span><span style="display:flex;"><span>受話號碼,通話日期,通話長度,通話費
+</span></span><span style="display:flex;"><span>0911111111,2022/01/01,100,8
+</span></span><span style="display:flex;"><span>0922222222,2022/01/02,200,16
+</span></span><span style="display:flex;"><span>0933333333,2022/01/03,300,24
+</span></span><span style="display:flex;"><span>0911111111,2022/01/04,400,32
+</span></span><span style="display:flex;"><span>0922222222,2022/01/05,500,40
+</span></span><span style="display:flex;"><span>0933333333,2022/01/06,600,48
+</span></span><span style="display:flex;"><span>0911111111,2022/01/07,700,56
+</span></span><span style="display:flex;"><span>0911111111,2022/01/08,800,64
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 全部筆數</span>
+</span></span><span style="display:flex;"><span>$ tail -n+2 cdr.txt | awk -F <span style="color:#e6db74">&#39;,&#39;</span> <span style="color:#e6db74">&#39;{cnt++} END {print cnt}&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">8</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 以受話號碼彙總筆數</span>
+</span></span><span style="display:flex;"><span>$ tail -n+2 cdr.txt | awk -F <span style="color:#e6db74">&#39;,&#39;</span> <span style="color:#e6db74">&#39;{cnt[$1]++} END {for(key in cnt) print key, cnt[key]}&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0933333333</span> <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0911111111</span> <span style="color:#ae81ff">4</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0922222222</span> <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 全部通話費</span>
+</span></span><span style="display:flex;"><span>$ tail -n+2 cdr.txt | awk -F <span style="color:#e6db74">&#39;,&#39;</span> <span style="color:#e6db74">&#39;{sum += $4} END {print sum}&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">288</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 以受話號碼彙總通話費</span>
+</span></span><span style="display:flex;"><span>$ tail -n+2 cdr.txt | awk -F <span style="color:#e6db74">&#39;,&#39;</span> <span style="color:#e6db74">&#39;{sum[$1] += $4} END {for(key in sum) print key, sum[key]}&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0933333333</span> <span style="color:#ae81ff">72</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0911111111</span> <span style="color:#ae81ff">160</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0922222222</span> <span style="color:#ae81ff">56</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 全部通話費的最小值</span>
+</span></span><span style="display:flex;"><span>$ tail -n+2 cdr.txt | awk -F <span style="color:#e6db74">&#39;,&#39;</span> <span style="color:#e6db74">&#39;{if(NR == 1 || $4 &lt; min) min = $4} END {print min}&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">8</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 以受話號碼彙總通話費的最小值</span>
+</span></span><span style="display:flex;"><span>$ tail -n+2 cdr.txt | awk -F <span style="color:#e6db74">&#39;,&#39;</span> <span style="color:#e6db74">&#39;{if(init[$1] == 0 || $4 &lt; min[$1]) min[$1] = $4; init[$1] = 1;} END {for(key in min) print key, min[key]}&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0933333333</span> <span style="color:#ae81ff">24</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0911111111</span> <span style="color:#ae81ff">8</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0922222222</span> <span style="color:#ae81ff">16</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 全部通話費的最大值</span>
+</span></span><span style="display:flex;"><span>$ tail -n+2 cdr.txt | awk -F <span style="color:#e6db74">&#39;,&#39;</span> <span style="color:#e6db74">&#39;{if(NR == 1 || $4 &gt; max) max = $4} END {print max}&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">64</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 以受話號碼彙總通話費的最大值</span>
+</span></span><span style="display:flex;"><span>$ tail -n+2 cdr.txt | awk -F <span style="color:#e6db74">&#39;,&#39;</span> <span style="color:#e6db74">&#39;{if(init[$1] == 0 || $4 &gt; max[$1]) max[$1] = $4; init[$1] = 1;} END {for(key in max) print key, max[key]}&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0933333333</span> <span style="color:#ae81ff">48</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0911111111</span> <span style="color:#ae81ff">64</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0922222222</span> <span style="color:#ae81ff">40</span>
+</span></span></code></pre></div><table>
+<thead>
+<tr>
+<th>練習3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>利用上述的 cdr.txt 計算：<br>一、全部平均通話長度。<br>二、以受話號碼彙總平均通話長度。<br><a href="#%E7%B7%B4%E7%BF%923(%E8%A7%A3%E7%AD%94)">練習3(解答)</a></td>
+</tr>
+</tbody>
+</table>
+<h3 id="4-參照其他資料-referencejoin" >(4). 參照其他資料 (reference/join)
+<span>
+    <a href="#4-%e5%8f%83%e7%85%a7%e5%85%b6%e4%bb%96%e8%b3%87%e6%96%99-referencejoin">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># 範例：印出各商圈的所屬郵遞區號</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>$ cat mart.txt
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">1</span> 新北投溫泉<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span> 北投區 新北投站 以溫泉業、餐飲業為主
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">2</span> 行義路溫泉美食<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span> 北投區 石牌站 溫泉、餐飲
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">3</span> 石牌捷運<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span> 北投區 石牌站 餐飲、日常生活用品
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">4</span> 士林捷運站周邊 士林區 士林站 餐飲、服飾、日用品、家飾、喜餅
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">5</span> 士林觀光夜市<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span> 士林區 劍潭站 以餐飲小吃、服飾為主
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">6</span> 天母<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span> 士林區 芝山站 餐飲、手工創意商品、百貨
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>$ cat zip.txt
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">100</span> 中正區
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">103</span> 大同區
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">104</span> 中山區
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">105</span> 松山區
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">106</span> 大安區
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">108</span> 萬華區
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">110</span> 信義區
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">111</span> 士林區
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">112</span> 北投區
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">114</span> 內湖區
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">115</span> 南港區
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">116</span> 文山區
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 方法一：直接於 shell 執行</span>
+</span></span><span style="display:flex;"><span>$ awk <span style="color:#e6db74">&#39;{if(FILENAME == &#34;zip.txt&#34;) zip[$2] = $1; else print $2&#34;: &#34;zip[$3];}&#39;</span> zip.txt mart.txt
+</span></span><span style="display:flex;"><span>新北投溫泉<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span>: <span style="color:#ae81ff">112</span>
+</span></span><span style="display:flex;"><span>行義路溫泉美食<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span>: <span style="color:#ae81ff">112</span>
+</span></span><span style="display:flex;"><span>石牌捷運<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span>: <span style="color:#ae81ff">112</span>
+</span></span><span style="display:flex;"><span>士林捷運站周邊: <span style="color:#ae81ff">111</span>
+</span></span><span style="display:flex;"><span>士林觀光夜市<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span>: <span style="color:#ae81ff">111</span>
+</span></span><span style="display:flex;"><span>天母<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span>: <span style="color:#ae81ff">111</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 方法二：寫為 awk script 執行</span>
+</span></span><span style="display:flex;"><span>$ cat zip.awk
+</span></span><span style="display:flex;"><span><span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>FILENAME <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;zip.txt&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    zip<span style="color:#f92672">[</span>$2<span style="color:#f92672">]</span> <span style="color:#f92672">=</span> $1;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>    print $2<span style="color:#e6db74">&#34;: &#34;</span>zip<span style="color:#f92672">[</span>$3<span style="color:#f92672">]</span>;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>$ awk -f zip.awk zip.txt mart.txt
+</span></span><span style="display:flex;"><span>新北投溫泉<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span>: <span style="color:#ae81ff">112</span>
+</span></span><span style="display:flex;"><span>行義路溫泉美食<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span>: <span style="color:#ae81ff">112</span>
+</span></span><span style="display:flex;"><span>石牌捷運<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span>: <span style="color:#ae81ff">112</span>
+</span></span><span style="display:flex;"><span>士林捷運站周邊: <span style="color:#ae81ff">111</span>
+</span></span><span style="display:flex;"><span>士林觀光夜市<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span>: <span style="color:#ae81ff">111</span>
+</span></span><span style="display:flex;"><span>天母<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span>: <span style="color:#ae81ff">111</span>
+</span></span></code></pre></div><table>
+<thead>
+<tr>
+<th>練習4</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>個人身分證號的第一碼英文，通常是代表第一次辦理戶籍的所在縣市。<br>若有下列兩個檔案：<br><br>$ cat id.txt  # 姓名, 身分證號<br>陳ＯＯ,M111111111<br>林ＯＯ,D222222222<br>黃ＯＯ,F123456789<br>張ＯＯ,K246813579<br>李ＯＯ,A135792468<br><br>$ cat id_city.txt  # 身分證號第一碼與縣市對應<br>A,臺北市<br>B,臺中市<br>C,基隆市<br>D,臺南市<br>E,高雄市<br>F,新北市<br>G,宜蘭縣<br>H,桃園市<br>I,嘉義市<br>J,新竹縣<br>K,苗栗縣<br>M,南投縣<br>N,彰化縣<br>O,新竹市<br>P,雲林縣<br>Q,嘉義縣<br>T,屏東縣<br>U,花蓮縣<br>V,臺東縣<br>W,金門縣<br>X,澎湖縣<br>Z,連江縣<br>L,臺中縣<br>R,臺南縣<br>S,高雄縣<br>Y,陽明山管理局<br><br>問題：請問如何利用 awk script 產生以下的結果？<br>陳ＯＯ M111111111 南投縣<br>林ＯＯ D222222222 臺南市<br>黃ＯＯ F123456789 新北市<br>張ＯＯ K246813579 苗栗縣<br>李ＯＯ A135792468 臺北市<br><br><a href="#%E7%B7%B4%E7%BF%924(%E8%A7%A3%E7%AD%94)">練習4(解答)</a></td>
+</tr>
+</tbody>
+</table>
+<h3 id="5-由-sdm-文件產生各表格的-pk" >(5). 由 SDM 文件產生各表格的 PK
+<span>
+    <a href="#5-%e7%94%b1-sdm-%e6%96%87%e4%bb%b6%e7%94%a2%e7%94%9f%e5%90%84%e8%a1%a8%e6%a0%bc%e7%9a%84-pk">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><p>假設有一份SDM文件，其內容如下表：</p>
+<table>
+<thead>
+<tr>
+<th>資料表名稱</th>
+<th>資料欄位名稱</th>
+<th>資料型態</th>
+<th>主鍵</th>
+<th>不為空值</th>
+<th>序號</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>table1</td>
+<td>column1</td>
+<td>int</td>
+<td>P</td>
+<td>Y</td>
+<td>1</td>
+</tr>
+<tr>
+<td>table1</td>
+<td>column2</td>
+<td>varchar(10)</td>
+<td>P</td>
+<td>Y</td>
+<td>2</td>
+</tr>
+<tr>
+<td>table1</td>
+<td>column3</td>
+<td>decimal(10,2)</td>
+<td></td>
+<td></td>
+<td>3</td>
+</tr>
+<tr>
+<td>table2</td>
+<td>column1</td>
+<td>varchar(5)</td>
+<td>P</td>
+<td>Y</td>
+<td>1</td>
+</tr>
+<tr>
+<td>table2</td>
+<td>column2</td>
+<td>text</td>
+<td></td>
+<td></td>
+<td>2</td>
+</tr>
+<tr>
+<td>table3</td>
+<td>column1</td>
+<td>char(5)</td>
+<td></td>
+<td></td>
+<td>1</td>
+</tr>
+<tr>
+<td>table3</td>
+<td>column2</td>
+<td>date</td>
+<td></td>
+<td></td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+<p>由上述 SDM 中，若欲輸出每張表的 PK，例如：</p>
+<pre tabindex="0"><code>table1: column1, column2
+table2: column1
+table3:
+</code></pre><ul>
+<li>設計原則：
+<ul>
+<li>每「讀取完」同一段的「資料表名稱」再輸出 PK。</li>
+<li>「讀取完」的定義：當前列的「資料表名稱」不等於前一列。</li>
+<li>特殊情況：
+<ul>
+<li>表頭：須排除 (NR 為 1)</li>
+<li>資料第一列：雖然滿足上述「讀取完」的定義，但尚不須輸出 (可利用 flag 變數來避免)。</li>
+<li>資料最後一列：awk 讀取至最後一列就會結束，此時會來不及輸出最後一張表格的 PK (利用 END{} 來輸出)。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://i.imgur.com/7PJURzK.jpg" alt=""></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># ------------------------------ #</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 範例1：輸入檔有表頭</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ------------------------------ #</span>
+</span></span><span style="display:flex;"><span>$ cat detail.txt
+</span></span><span style="display:flex;"><span>資料表名稱	資料欄位名稱	資料型態	主鍵	不為空值	序號
+</span></span><span style="display:flex;"><span>table1	column1	int	P	Y	<span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>table1	column2	varchar<span style="color:#f92672">(</span>10<span style="color:#f92672">)</span>	P	Y	<span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>table1	column3	decimal<span style="color:#f92672">(</span>10,2<span style="color:#f92672">)</span>			<span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span>table2	column1	varchar<span style="color:#f92672">(</span>5<span style="color:#f92672">)</span>	P	Y	<span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>table2	column2	text			<span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>table3	column1	char<span style="color:#f92672">(</span>5<span style="color:#f92672">)</span>			<span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>table3	column2	date			<span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>$ cat detail.awk
+</span></span><span style="display:flex;"><span>BEGIN <span style="color:#f92672">{</span>flag <span style="color:#f92672">=</span> 0; last_table <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>; pk <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>;<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>NR !<span style="color:#f92672">=</span> 1<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>$1 !<span style="color:#f92672">=</span> last_table <span style="color:#f92672">&amp;&amp;</span> flag !<span style="color:#f92672">=</span> 0<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>      print last_table<span style="color:#e6db74">&#34;: &#34;</span>pk;
+</span></span><span style="display:flex;"><span>      pk <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>;  <span style="color:#75715e"># 輸出後將PK重置</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    flag <span style="color:#f92672">=</span> 1;  <span style="color:#75715e"># 經過資料第一列之後就開啟</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>$4 <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;P&#34;</span> <span style="color:#f92672">&amp;&amp;</span> pk <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>      pk <span style="color:#f92672">=</span> $2;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>$4 <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;P&#34;</span> <span style="color:#f92672">&amp;&amp;</span> pk !<span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>      pk <span style="color:#f92672">=</span> pk<span style="color:#e6db74">&#34;, &#34;</span>$2;
+</span></span><span style="display:flex;"><span>    last_table <span style="color:#f92672">=</span> $1;  <span style="color:#75715e"># 記錄上一列的資料表名稱</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>END <span style="color:#f92672">{</span>print last_table<span style="color:#e6db74">&#34;: &#34;</span>pk;<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>$ awk -F <span style="color:#e6db74">&#39;\t&#39;</span> -f detail.awk detail.txt
+</span></span><span style="display:flex;"><span>table1: column1, column2
+</span></span><span style="display:flex;"><span>table2: column1
+</span></span><span style="display:flex;"><span>table3:
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># ------------------------------ #</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 範例2：輸入檔有表頭 (利用 next 跳過第一列)</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ------------------------------ #</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 不要用「if(NR != 1) {...}」的寫法，改成用「if(NR == 1) next;」，減少程式碼層次。</span>
+</span></span><span style="display:flex;"><span>$ cat detail2.awk
+</span></span><span style="display:flex;"><span>BEGIN <span style="color:#f92672">{</span>flag <span style="color:#f92672">=</span> 0; last_table <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>; pk <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>;<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>NR <span style="color:#f92672">==</span> 1<span style="color:#f92672">)</span> next;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>$1 !<span style="color:#f92672">=</span> last_table <span style="color:#f92672">&amp;&amp;</span> flag !<span style="color:#f92672">=</span> 0<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    print last_table<span style="color:#e6db74">&#34;: &#34;</span>pk;
+</span></span><span style="display:flex;"><span>    pk <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>;  <span style="color:#75715e"># 輸出後將PK重置</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>  flag <span style="color:#f92672">=</span> 1;  <span style="color:#75715e"># 經過資料第一列之後就開啟</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>$4 <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;P&#34;</span> <span style="color:#f92672">&amp;&amp;</span> pk <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    pk <span style="color:#f92672">=</span> $2;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>$4 <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;P&#34;</span> <span style="color:#f92672">&amp;&amp;</span> pk !<span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    pk <span style="color:#f92672">=</span> pk<span style="color:#e6db74">&#34;, &#34;</span>$2;
+</span></span><span style="display:flex;"><span>  last_table <span style="color:#f92672">=</span> $1;  <span style="color:#75715e"># 記錄上一列的資料表名稱</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>END <span style="color:#f92672">{</span>print last_table<span style="color:#e6db74">&#34;: &#34;</span>pk;<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>$ awk -F <span style="color:#e6db74">&#39;\t&#39;</span> -f detail2.awk detail.txt
+</span></span><span style="display:flex;"><span>table1: column1, column2
+</span></span><span style="display:flex;"><span>table2: column1
+</span></span><span style="display:flex;"><span>table3:
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># ------------------------------ #</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 範例3：輸入檔沒有表頭</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ------------------------------ #</span>
+</span></span><span style="display:flex;"><span>$ cat detail_notitle.txt
+</span></span><span style="display:flex;"><span>table1	column1	int	P	Y	<span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>table1	column2	varchar<span style="color:#f92672">(</span>10<span style="color:#f92672">)</span>	P	Y	<span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>table1	column3	decimal<span style="color:#f92672">(</span>10,2<span style="color:#f92672">)</span>			<span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span>table2	column1	varchar<span style="color:#f92672">(</span>5<span style="color:#f92672">)</span>	P	Y	<span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>table2	column2	text			<span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>table3	column1	char<span style="color:#f92672">(</span>5<span style="color:#f92672">)</span>			<span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>table3	column2	date			<span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>$ cat detail_notitle.awk
+</span></span><span style="display:flex;"><span>BEGIN <span style="color:#f92672">{</span>flag <span style="color:#f92672">=</span> 0; last_table <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>; pk <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>;<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>$1 !<span style="color:#f92672">=</span> last_table <span style="color:#f92672">&amp;&amp;</span> flag !<span style="color:#f92672">=</span> 0<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    print last_table<span style="color:#e6db74">&#34;: &#34;</span>pk;
+</span></span><span style="display:flex;"><span>    pk <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>;  <span style="color:#75715e"># 輸出後將PK重置</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>  flag <span style="color:#f92672">=</span> 1;  <span style="color:#75715e"># 經過資料第一列之後就開啟</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>$4 <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;P&#34;</span> <span style="color:#f92672">&amp;&amp;</span> pk <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    pk <span style="color:#f92672">=</span> $2;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>$4 <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;P&#34;</span> <span style="color:#f92672">&amp;&amp;</span> pk !<span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    pk <span style="color:#f92672">=</span> pk<span style="color:#e6db74">&#34;, &#34;</span>$2;
+</span></span><span style="display:flex;"><span>  last_table <span style="color:#f92672">=</span> $1;  <span style="color:#75715e"># 記錄上一列的資料表名稱</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>END <span style="color:#f92672">{</span>print last_table<span style="color:#e6db74">&#34;: &#34;</span>pk;<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>$ awk -F <span style="color:#e6db74">&#39;\t&#39;</span> -f detail_notitle.awk detail_notitle.txt
+</span></span><span style="display:flex;"><span>table1: column1, column2
+</span></span><span style="display:flex;"><span>table2: column1
+</span></span><span style="display:flex;"><span>table3:
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># ------------------------------ #</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 範例4：利用陣列變數儲存各表格的PK：</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ------------------------------ #</span>
+</span></span><span style="display:flex;"><span>$ cat detail_reverse.txt
+</span></span><span style="display:flex;"><span>資料表名稱	資料欄位名稱	資料型態	主鍵	不為空值	序號
+</span></span><span style="display:flex;"><span>table3	column1	char<span style="color:#f92672">(</span>5<span style="color:#f92672">)</span>			<span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>table3	column2	date			<span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>table2	column1	varchar<span style="color:#f92672">(</span>5<span style="color:#f92672">)</span>	P	Y	<span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>table2	column2	text			<span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>table1	column1	int	P	Y	<span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>table1	column2	varchar<span style="color:#f92672">(</span>10<span style="color:#f92672">)</span>	P	Y	<span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>table1	column3	decimal<span style="color:#f92672">(</span>10,2<span style="color:#f92672">)</span>			<span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>$ cat detail_reverse.awk
+</span></span><span style="display:flex;"><span><span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>NR <span style="color:#f92672">==</span> 1<span style="color:#f92672">)</span> next;
+</span></span><span style="display:flex;"><span>  pk<span style="color:#f92672">[</span>$1<span style="color:#f92672">]</span> <span style="color:#f92672">=</span> pk<span style="color:#f92672">[</span>$1<span style="color:#f92672">]</span>;  <span style="color:#75715e"># 為各表格的PK做初始化 (如果不加，無PK之表格無法輸出)</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>$4 <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;P&#34;</span> <span style="color:#f92672">&amp;&amp;</span> pk<span style="color:#f92672">[</span>$1<span style="color:#f92672">]</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    pk<span style="color:#f92672">[</span>$1<span style="color:#f92672">]</span> <span style="color:#f92672">=</span> $2;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>$4 <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;P&#34;</span> <span style="color:#f92672">&amp;&amp;</span> pk<span style="color:#f92672">[</span>$1<span style="color:#f92672">]</span> !<span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    pk<span style="color:#f92672">[</span>$1<span style="color:#f92672">]</span> <span style="color:#f92672">=</span> pk<span style="color:#f92672">[</span>$1<span style="color:#f92672">]</span><span style="color:#e6db74">&#34;, &#34;</span>$2;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>END <span style="color:#f92672">{</span><span style="color:#66d9ef">for</span><span style="color:#f92672">(</span>table in pk<span style="color:#f92672">)</span> print table<span style="color:#e6db74">&#34;: &#34;</span>pk<span style="color:#f92672">[</span>table<span style="color:#f92672">]</span>;<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>$ awk -F <span style="color:#e6db74">&#39;\t&#39;</span> -f detail_reverse.awk detail_reverse.txt
+</span></span><span style="display:flex;"><span>table1: column1, column2
+</span></span><span style="display:flex;"><span>table2: column1
+</span></span><span style="display:flex;"><span>table3:
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 注意：輸入與輸出順序不相同 (須視情況使用)</span>
+</span></span></code></pre></div><table>
+<thead>
+<tr>
+<th>練習5</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>請以上述範例2為基礎，寫出 awk script，以計算每張表格的PK數量。<br>輸出的格式為：<br>table1: 2<br>table2: 1<br>table3: 0<br><br><a href="#%E7%B7%B4%E7%BF%925(%E8%A7%A3%E7%AD%94)">練習5(解答)</a></td>
+</tr>
+</tbody>
+</table>
+<h3 id="6-由-sdm-文件產生-ddl-ddl-generator-簡易版" >(6). 由 SDM 文件產生 DDL (DDL Generator ，簡易版)
+<span>
+    <a href="#6-%e7%94%b1-sdm-%e6%96%87%e4%bb%b6%e7%94%a2%e7%94%9f-ddl-ddl-generator-%e7%b0%a1%e6%98%93%e7%89%88">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ cat detail.txt
+</span></span><span style="display:flex;"><span>資料表名稱	資料欄位名稱	資料型態	主鍵	不為空值	序號
+</span></span><span style="display:flex;"><span>table1	column1	int	P	Y	<span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>table1	column2	varchar<span style="color:#f92672">(</span>10<span style="color:#f92672">)</span>	P	Y	<span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>table1	column3	decimal<span style="color:#f92672">(</span>10,2<span style="color:#f92672">)</span>			<span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span>table2	column1	varchar<span style="color:#f92672">(</span>5<span style="color:#f92672">)</span>	P	Y	<span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>table2	column2	text			<span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>table3	column1	char<span style="color:#f92672">(</span>5<span style="color:#f92672">)</span>			<span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>table3	column2	date			<span style="color:#ae81ff">2</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ cat ddl_generator.awk
+</span></span></code></pre></div><pre tabindex="0"><code class="language-shellscript=" data-lang="shellscript=">BEGIN {flag = 0; last_table = &#34;&#34;; pk = &#34;&#34;; col_cnt = 0;}
+{
+  if(NR == 1) next;
+  if($1 != last_table &amp;&amp; flag != 0) {
+    printf(&#34;CREATE TABLE %s.%s (\n&#34;, SCH, last_table);
+    for(i = 1; i &lt;= col_cnt; i++) {
+      if(i != col_cnt) printf(&#34;  %s %s %s,\n&#34;, col_name[i], col_type[i], not_null[i]);
+      else printf(&#34;  %s %s %s\n&#34;, col_name[i], col_type[i], not_null[i]);
+    }
+    printf(&#34;);\n&#34;);
+    if(pk != &#34;&#34;) printf(&#34;ALTER TABLE %s.%s ADD CONSTRAINT %s_PK PRIMARY KEY (%s);\n&#34;, SCH, last_table, toupper(last_table), pk);
+    pk = &#34;&#34;;  # 輸出後將PK重置
+    col_cnt = 0;  # 欄位數重置
+  }
+  flag = 1;  # 經過資料第一列之後就開啟
+  col_cnt++;  # 第幾欄
+  col_name[col_cnt] = $2;  # 資料欄位名稱
+  col_type[col_cnt] = $3;  # 資料型態
+  if($5 == &#34;Y&#34;) not_null[col_cnt] = &#34;NOT NULL&#34;;  # 不為空值
+  else not_null[col_cnt] = &#34;&#34;;
+  if($4 == &#34;P&#34; &amp;&amp; pk == &#34;&#34;)
+    pk = $2;
+  else if($4 == &#34;P&#34; &amp;&amp; pk != &#34;&#34;)
+    pk = pk&#34;, &#34;$2;
+  last_table = $1;  # 記錄上一列的資料表名稱
+}
+END {
+  printf(&#34;CREATE TABLE %s.%s (\n&#34;, SCH, last_table);
+  for(i = 1; i &lt;= col_cnt; i++) {
+    if(i != col_cnt) printf(&#34;  %s %s %s,\n&#34;, col_name[i], col_type[i], not_null[i]);
+    else printf(&#34;  %s %s %s\n&#34;, col_name[i], col_type[i], not_null[i]);
+  }
+  printf(&#34;);\n&#34;);
+  if(pk != &#34;&#34;) printf(&#34;ALTER TABLE %s.%s ADD CONSTRAINT %s_PK PRIMARY KEY (%s);\n&#34;, SCH, last_table, toupper(last_table), pk);
+}
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># schema 作為外部參數(SCH)輸入</span>
+</span></span><span style="display:flex;"><span>$ awk -F <span style="color:#e6db74">&#39;\t&#39;</span> -f ddl_generator.awk -v SCH<span style="color:#f92672">=</span>base detail.txt
+</span></span><span style="display:flex;"><span>CREATE TABLE base.table1 <span style="color:#f92672">(</span>
+</span></span><span style="display:flex;"><span>  column1 int NOT NULL,
+</span></span><span style="display:flex;"><span>  column2 varchar<span style="color:#f92672">(</span>10<span style="color:#f92672">)</span> NOT NULL,
+</span></span><span style="display:flex;"><span>  column3 decimal<span style="color:#f92672">(</span>10,2<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">)</span>;
+</span></span><span style="display:flex;"><span>ALTER TABLE base.table1 ADD CONSTRAINT TABLE1_PK PRIMARY KEY <span style="color:#f92672">(</span>column1, column2<span style="color:#f92672">)</span>;
+</span></span><span style="display:flex;"><span>CREATE TABLE base.table2 <span style="color:#f92672">(</span>
+</span></span><span style="display:flex;"><span>  column1 varchar<span style="color:#f92672">(</span>5<span style="color:#f92672">)</span> NOT NULL,
+</span></span><span style="display:flex;"><span>  column2 text
+</span></span><span style="display:flex;"><span><span style="color:#f92672">)</span>;
+</span></span><span style="display:flex;"><span>ALTER TABLE base.table2 ADD CONSTRAINT TABLE2_PK PRIMARY KEY <span style="color:#f92672">(</span>column1<span style="color:#f92672">)</span>;
+</span></span><span style="display:flex;"><span>CREATE TABLE base.table3 <span style="color:#f92672">(</span>
+</span></span><span style="display:flex;"><span>  column1 char<span style="color:#f92672">(</span>5<span style="color:#f92672">)</span> ,
+</span></span><span style="display:flex;"><span>  column2 date
+</span></span><span style="display:flex;"><span><span style="color:#f92672">)</span>;
+</span></span></code></pre></div><table>
+<thead>
+<tr>
+<th>練習6</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>請依據上述的 DDL Generator，再新增以下的功能：<br>(1). 請在每張表格的DDL最前段，加入「DROP TABLE IF EXISTS [SCH].[表格名稱];」。<br>(2). 請在每張表格的DDL最後段，加入「ALTER TABLE [SCH].[表格名稱] OWNER TO user;」。<br><a href="#%E7%B7%B4%E7%BF%926(%E8%A7%A3%E7%AD%94)">練習6(解答)</a></td>
+</tr>
+</tbody>
+</table>
+<pre tabindex="0"><code>※ 提示：產生的結果應為：
+
+DROP TABLE IF EXISTS base.table1;
+CREATE TABLE base.table1 (
+  column1 int NOT NULL,
+  column2 varchar(10) NOT NULL,
+  column3 decimal(10,2)
+);
+ALTER TABLE base.table1 ADD CONSTRAINT TABLE1_PK PRIMARY KEY (column1, column2);
+ALTER TABLE base.table1 OWNER TO user;
+DROP TABLE IF EXISTS base.table2;
+CREATE TABLE base.table2 (
+  column1 varchar(5) NOT NULL,
+  column2 text
+);
+ALTER TABLE base.table2 ADD CONSTRAINT TABLE2_PK PRIMARY KEY (column1);
+ALTER TABLE base.table2 OWNER TO user;
+DROP TABLE IF EXISTS base.table3;
+CREATE TABLE base.table3 (
+  column1 char(5) ,
+  column2 date
+);
+ALTER TABLE base.table3 OWNER TO user;
+</code></pre><h3 id="7-由-sdm-文件產生測試資料-insert-sql" >(7). 由 SDM 文件產生測試資料 (insert SQL)
+<span>
+    <a href="#7-%e7%94%b1-sdm-%e6%96%87%e4%bb%b6%e7%94%a2%e7%94%9f%e6%b8%ac%e8%a9%a6%e8%b3%87%e6%96%99-insert-sql">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ cat detail.txt
+</span></span><span style="display:flex;"><span>資料表名稱	資料欄位名稱	資料型態	主鍵	不為空值	序號
+</span></span><span style="display:flex;"><span>table1	column1	int	P	Y	<span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>table1	column2	varchar<span style="color:#f92672">(</span>10<span style="color:#f92672">)</span>	P	Y	<span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>table1	column3	decimal<span style="color:#f92672">(</span>10,2<span style="color:#f92672">)</span>			<span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span>table2	column1	varchar<span style="color:#f92672">(</span>5<span style="color:#f92672">)</span>	P	Y	<span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>table2	column2	text			<span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>table3	column1	char<span style="color:#f92672">(</span>5<span style="color:#f92672">)</span>			<span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>table3	column2	date			<span style="color:#ae81ff">2</span>
+</span></span></code></pre></div><ul>
+<li>產製規則： (每張表格產製一筆測試資料)
+<ul>
+<li>int：填 1。</li>
+<li>varchar(X)、char(X)：填 X 個 &lsquo;A&rsquo; (例如：varchar(3) 填 &lsquo;AAA&rsquo;)。</li>
+<li>text：固定填 &lsquo;ZZZZZZZZZZ&rsquo;。</li>
+<li>decimal(X,Y)：整數填 X-Y 個 1，小數填 Y 個 1 (例如：decimal(5,2) 填 111.11)。</li>
+<li>decimal(X)：整數填 X 個 (例如：decimal(5) 填 11111)。</li>
+<li>date：填 2022-01-01。</li>
+<li>timestamp：填 2022-01-01 00:00:00。</li>
+</ul>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ cat insert.awk
+</span></span></code></pre></div><pre tabindex="0"><code class="language-shellscript=" data-lang="shellscript=">BEGIN {flag = 0; last_table = &#34;&#34;; col_cnt = 0;}
+{
+  if(NR == 1) next;
+  if($1 != last_table &amp;&amp; flag != 0) {
+    printf(&#34;insert into %s.%s values (&#34;, SCH, last_table);
+    val = &#34;&#34;;
+    for(i = 1; i &lt;= col_cnt; i++) {
+      split(col_type[i], temp1, &#34;(&#34;);  # temp1[1]: 資料型態
+      split(temp1[2], temp2, &#34;,&#34;);     # temp2[1]: X    temp2[2]: Y
+      if(tolower(temp1[1]) == &#34;int&#34;)
+        val = val&#34;1&#34;;
+      else if(tolower(temp1[1]) == &#34;varchar&#34; || tolower(temp1[1]) == &#34;char&#34;) {
+        val = val&#34;&#39;&#34;;
+        for(j = 1; j &lt;= int(temp2[1]); j++) val = val&#34;A&#34;;
+        val = val&#34;&#39;&#34;;
+      }
+      else if(tolower(temp1[1]) == &#34;text&#34;)
+        val = val&#34;&#39;ZZZZZZZZZZ&#39;&#34;;
+      else if(tolower(temp1[1]) == &#34;decimal&#34;) {
+        for(j = 0; j &lt; int(temp2[1]) - int(temp2[2]); j++) val = val&#34;1&#34;;
+        if(int(temp2[2]) != 0) {
+          val = val&#34;.&#34;;
+          for(j = 0; j &lt; int(temp2[2]); j++) val = val&#34;1&#34;;
+        }
+      }
+      else if(tolower(temp1[1]) == &#34;date&#34;)
+        val = val&#34;&#39;2022-01-01&#39;&#34;;
+      else if(tolower(temp1[1]) == &#34;timestamp&#34;)
+        val = val&#34;&#39;2022-01-01 00:00:00&#39;&#34;;
+      if(i == col_cnt) val = val&#34;);&#34;;  # 最後一欄
+      else val = val&#34;, &#34;;  # 非最後一欄
+    }
+    print val;
+    col_cnt = 0;  # 欄位數重置
+  }
+  flag = 1;  # 經過資料第一列之後就開啟
+  col_cnt++;  # 第幾欄
+  col_type[col_cnt] = $3;  # 資料型態
+  last_table = $1;  # 記錄上一列的資料表名稱
+}
+END {
+    printf(&#34;insert into %s.%s values (&#34;, SCH, last_table);
+    val = &#34;&#34;;
+    for(i = 1; i &lt;= col_cnt; i++) {
+      split(col_type[i], temp1, &#34;(&#34;);  # temp1[1]: 資料型態
+      split(temp1[2], temp2, &#34;,&#34;);     # temp2[1]: X    temp2[2]: Y
+      if(tolower(temp1[1]) == &#34;int&#34;)
+        val = val&#34;1&#34;;
+      else if(tolower(temp1[1]) == &#34;varchar&#34; || tolower(temp1[1]) == &#34;char&#34;) {
+        val = val&#34;&#39;&#34;;
+        for(j = 1; j &lt;= int(temp2[1]); j++) val = val&#34;A&#34;;
+        val = val&#34;&#39;&#34;;
+      }
+      else if(tolower(temp1[1]) == &#34;text&#34;)
+        val = val&#34;&#39;ZZZZZZZZZZ&#39;&#34;;
+      else if(tolower(temp1[1]) == &#34;decimal&#34;) {
+        for(j = 0; j &lt; int(temp2[1]) - int(temp2[2]); j++) val = val&#34;1&#34;;
+        if(int(temp2[2]) != 0) {
+          val = val&#34;.&#34;;
+          for(j = 0; j &lt; int(temp2[2]); j++) val = val&#34;1&#34;;
+        }
+      }
+      else if(tolower(temp1[1]) == &#34;date&#34;)
+        val = val&#34;&#39;2022-01-01&#39;&#34;;
+      else if(tolower(temp1[1]) == &#34;timestamp&#34;)
+        val = val&#34;&#39;2022-01-01 00:00:00&#39;&#34;;
+      if(i == col_cnt) val = val&#34;);&#34;;  # 最後一欄
+      else val = val&#34;, &#34;;  # 非最後一欄
+    }
+    print val;
+}
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ awk -F <span style="color:#e6db74">&#39;\t&#39;</span> -f insert.awk -v SCH<span style="color:#f92672">=</span>base detail.txt
+</span></span><span style="display:flex;"><span>insert into base.table1 values <span style="color:#f92672">(</span>1, <span style="color:#e6db74">&#39;AAAAAAAAAA&#39;</span>, 11111111.11<span style="color:#f92672">)</span>;
+</span></span><span style="display:flex;"><span>insert into base.table2 values <span style="color:#f92672">(</span><span style="color:#e6db74">&#39;AAAAA&#39;</span>, <span style="color:#e6db74">&#39;ZZZZZZZZZZ&#39;</span><span style="color:#f92672">)</span>;
+</span></span><span style="display:flex;"><span>insert into base.table3 values <span style="color:#f92672">(</span><span style="color:#e6db74">&#39;AAAAA&#39;</span>, <span style="color:#e6db74">&#39;2022-01-01&#39;</span><span style="color:#f92672">)</span>;
+</span></span></code></pre></div><h3 id="-上述-567-的共同點" >※ 上述 (5).(6).(7). 的共同點：
+<span>
+    <a href="#-%e4%b8%8a%e8%bf%b0-567-%e7%9a%84%e5%85%b1%e5%90%8c%e9%bb%9e">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><p>上述 (5).(6).(7). 程式碼的格式其實都很類似：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>BEGIN <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  flag <span style="color:#f92672">=</span> 0; last_table <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">### 段落A：相關變數初始值的宣告 (也可不寫) ###</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>NR <span style="color:#f92672">==</span> 1<span style="color:#f92672">)</span> next;  <span style="color:#75715e"># 如果沒有表頭就不用加這一列</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>$1 !<span style="color:#f92672">=</span> last_table <span style="color:#f92672">&amp;&amp;</span> flag !<span style="color:#f92672">=</span> 0<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">### 段落B：上一群組讀取完之後的輸出動作 ###</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">### 段落C：相關變數重置 ###</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>  flag <span style="color:#f92672">=</span> 1;  <span style="color:#75715e"># 經過資料第一列之後就開啟</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">#### 段落D：讀取每列的相關變數，並進行必要處理 ###</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  last_table <span style="color:#f92672">=</span> $1;  <span style="color:#75715e"># 記錄上一列的資料表名稱</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>END <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">### 段落B：上一群組讀取完之後的輸出動作 ###</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><h3 id="8-成品展示由-sdm-文件產生-trinity-部分原始碼" >(8). 成品展示：由 SDM 文件產生 Trinity 部分原始碼
+<span>
+    <a href="#8-%e6%88%90%e5%93%81%e5%b1%95%e7%a4%ba%e7%94%b1-sdm-%e6%96%87%e4%bb%b6%e7%94%a2%e7%94%9f-trinity-%e9%83%a8%e5%88%86%e5%8e%9f%e5%a7%8b%e7%a2%bc">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><p>(課堂說明)</p>
+<ul>
+<li>
+<p><strong>模式一：由開發者依據 SDM 與樣板撰寫程式：</strong>
+<img src="https://i.imgur.com/Zxm1rCW.png" alt=""></p>
+</li>
+<li>
+<p><strong>模式二：由開發者複製貼上程式碼：</strong>
+<img src="https://i.imgur.com/Ab5sVl4.png" alt=""></p>
+<ul>
+<li>適用於：程式數量多、處理規則固定的開發情境。</li>
+<li>優點：利用程式來產生程式，正確、速度快。</li>
+<li>缺點：(1).開發者無腦複製貼上，較難學習到東西。 (2).若程式碼內容一開始就寫錯，後面的開發者會全錯。 (3).若程式數量不多，採用本方法會浪費時間成本。</li>
+</ul>
+</li>
+</ul>
+<h3 id="9-成品展示實際的-ddl-generator-與其規則" >(9). 成品展示：實際的 DDL Generator 與其規則
+<span>
+    <a href="#9-%e6%88%90%e5%93%81%e5%b1%95%e7%a4%ba%e5%af%a6%e9%9a%9b%e7%9a%84-ddl-generator-%e8%88%87%e5%85%b6%e8%a6%8f%e5%89%87">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><p>(課堂說明)
+![](<a href="https://i.imgur.com/EjZ7zaY.png">https://i.imgur.com/EjZ7zaY.png</a> =70%x70%)</p>
+<hr>
+<h2 id="補充去除所有本地化的設定lc_allc" >補充：去除所有本地化的設定：<code>LC_ALL=C</code>
+<span>
+    <a href="#%e8%a3%9c%e5%85%85%e5%8e%bb%e9%99%a4%e6%89%80%e6%9c%89%e6%9c%ac%e5%9c%b0%e5%8c%96%e7%9a%84%e8%a8%ad%e5%ae%9alc_allc">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h2><p>範例：(下載下面兩個範例檔案)
+<a href="https://drive.google.com/file/d/1S8QrPYvV3srNI8-BZxJgM-e5be94SyV1/view?usp=sharing">mart_utf8.txt</a>
+<a href="https://drive.google.com/file/d/1y803bGuza2QgGa6Z2xZAmgB2QFyLEcTr/view?usp=sharing">mart_big5.txt</a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># 將 git bash 終端機畫面調整為 UTF-8 編碼</span>
+</span></span><span style="display:flex;"><span>$ awk <span style="color:#e6db74">&#39;{print $2, length($2)}&#39;</span> mart_utf8.txt
+</span></span><span style="display:flex;"><span>新北投溫泉<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span> <span style="color:#ae81ff">9</span>
+</span></span><span style="display:flex;"><span>行義路溫泉美食<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span> <span style="color:#ae81ff">11</span>
+</span></span><span style="display:flex;"><span>石牌捷運<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span> <span style="color:#ae81ff">8</span>
+</span></span><span style="display:flex;"><span>士林捷運站周邊 <span style="color:#ae81ff">7</span>
+</span></span><span style="display:flex;"><span>士林觀光夜市<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span> <span style="color:#ae81ff">10</span>
+</span></span><span style="display:flex;"><span>天母<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span> <span style="color:#ae81ff">6</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>$ LC_ALL<span style="color:#f92672">=</span>C awk <span style="color:#e6db74">&#39;{print $2, length($2)}&#39;</span> mart_utf8.txt
+</span></span><span style="display:flex;"><span>新北投溫泉<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span> <span style="color:#ae81ff">23</span>
+</span></span><span style="display:flex;"><span>行義路溫泉美食<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span> <span style="color:#ae81ff">29</span>
+</span></span><span style="display:flex;"><span>石牌捷運<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span> <span style="color:#ae81ff">20</span>
+</span></span><span style="display:flex;"><span>士林捷運站周邊 <span style="color:#ae81ff">21</span>
+</span></span><span style="display:flex;"><span>士林觀光夜市<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span> <span style="color:#ae81ff">26</span>
+</span></span><span style="display:flex;"><span>天母<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span> <span style="color:#ae81ff">14</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 將 git bash 終端機畫面調整為 BIG-5 編碼</span>
+</span></span><span style="display:flex;"><span>$ awk <span style="color:#e6db74">&#39;{print $2, length($2)}&#39;</span> mart_big5.txt
+</span></span><span style="display:flex;"><span>新北投溫泉<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span> <span style="color:#ae81ff">9</span>
+</span></span><span style="display:flex;"><span>行義路溫泉美食<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span> <span style="color:#ae81ff">11</span>
+</span></span><span style="display:flex;"><span>石牌捷運<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span> <span style="color:#ae81ff">8</span>
+</span></span><span style="display:flex;"><span>士林捷運站周邊 <span style="color:#ae81ff">7</span>
+</span></span><span style="display:flex;"><span>士林觀光夜市<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span> <span style="color:#ae81ff">10</span>
+</span></span><span style="display:flex;"><span>天母<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span> <span style="color:#ae81ff">6</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>$ LC_ALL<span style="color:#f92672">=</span>C awk <span style="color:#e6db74">&#39;{print $2, length($2)}&#39;</span> mart_big5.txt
+</span></span><span style="display:flex;"><span>新北投溫泉<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span> <span style="color:#ae81ff">16</span>
+</span></span><span style="display:flex;"><span>行義路溫泉美食<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span> <span style="color:#ae81ff">20</span>
+</span></span><span style="display:flex;"><span>石牌捷運<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span> <span style="color:#ae81ff">14</span>
+</span></span><span style="display:flex;"><span>士林捷運站周邊 <span style="color:#ae81ff">14</span>
+</span></span><span style="display:flex;"><span>士林觀光夜市<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span> <span style="color:#ae81ff">18</span>
+</span></span><span style="display:flex;"><span>天母<span style="color:#f92672">(</span>商圈<span style="color:#f92672">)</span> <span style="color:#ae81ff">10</span>
+</span></span></code></pre></div><hr>
+<h2 id="作業五" >作業五：
+<span>
+    <a href="#%e4%bd%9c%e6%a5%ad%e4%ba%94">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h2><ul>
+<li><strong>作業檢討時間：預定於 2022/02/18 (五)。</strong></li>
+</ul>
+<p>利用 BASE SDM 文件，以 awk script 完成下列工作：
+(非財稅案，但想要交作業的人也可以嘗試使用自己專案的SDM文件來開發 DDL generator)</p>
+<h4 id="一base-表的-ddl-generator輸出base-表-ddl且每張表格各自輸出一個-sql-檔" >一、BASE 表的 DDL generator：(輸出：BASE 表 DDL，且每張表格各自輸出一個 sql 檔)
+<span>
+    <a href="#%e4%b8%80base-%e8%a1%a8%e7%9a%84-ddl-generator%e8%bc%b8%e5%87%babase-%e8%a1%a8-ddl%e4%b8%94%e6%af%8f%e5%bc%b5%e8%a1%a8%e6%a0%bc%e5%90%84%e8%87%aa%e8%bc%b8%e5%87%ba%e4%b8%80%e5%80%8b-sql-%e6%aa%94">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h4><p><img src="https://i.imgur.com/fIKAt0L.png" alt=""></p>
+<ol>
+<li>輸入頁籤：
+<ul>
+<li>總表 (另存為純文字檔(以 tab 分隔)，檔名為： summary.txt)</li>
+<li>base detail表 (另存為純文字檔(以 tab 分隔)，檔名為：base_detail.txt)</li>
+</ul>
+</li>
+<li>執行方式：
+<code>awk -F '\t' -v SCH=base -f homework5-1.awk summary.txt base_detail.txt</code></li>
+<li>從SDM匯出頁籤時的注意事項：
+<ul>
+<li>表頭、所有欄位、所有紀錄一律全部匯出，不可篩選之後才匯出。</li>
+<li>為避免SDM中有斷行字元影響處理，匯出時請先刪除所有斷行字元 (整頁複製到新檔案(純文字) &gt; 按 ctrl-H &gt; 尋找目標按「ctrl-J」&gt; 全部取代 &gt; 另存為以 tab 分隔之純文字檔)。</li>
+</ul>
+</li>
+<li>不須處理的部分：
+<ul>
+<li>總表與detail表的表頭都不須處理。</li>
+<li>總表的「Table追蹤註記」若為「X」，則該表格不產製。</li>
+<li>detail表的「Column追蹤註記」($19)若為「X」，則該欄位不產製。</li>
+</ul>
+</li>
+<li>DDL的內容必須包含下列段落：</li>
+</ol>
+<ul>
+<li>DROP TABLE IF EXISTS &hellip;</li>
+<li>CREATE TABLE &hellip;</li>
+<li>資料儲存方式
+<ul>
+<li>總表的「資料儲存方式」若為「Append」，印出「WITH (APPENDONLY=true, COMPRESSLEVEL=1, COMPRESSTYPE=quicklz, OIDS=FALSE)」</li>
+<li>總表的「資料儲存方式」若為「AO/CO」，印出「WITH (APPENDONLY=true, ORIENTATION=column, COMPRESSLEVEL=1, COMPRESSTYPE=quicklz, OIDS=FALSE)」</li>
+</ul>
+</li>
+<li>TABLESPACE sbd</li>
+<li>分佈鍵
+<ul>
+<li>若有「分佈鍵」($5)為「Y」的欄位，印出「DISTRIBUTED BY (&hellip;)」</li>
+<li>若有「分佈鍵」($5)為「R」的欄位，印出「DISTRIBUTED RANDOMLY」</li>
+</ul>
+</li>
+<li>ALTER TABLE &hellip; OWNER TO ap_sbd;</li>
+<li>PK/UK
+<ul>
+<li>若該表有PK，則印出：ALTER TABLE &hellip; ADD CONSTRAINT XXX_PK PRIMARY KEY (&hellip;);</li>
+<li>若該表有UK，則印出：ALTER TABLE &hellip; ADD CONSTRAINT XXX_UK UNIQUE (&hellip;);</li>
+</ul>
+</li>
+</ul>
+<p><strong>※ 補充：</strong></p>
+<ul>
+<li><strong>註解、分割鍵不用寫</strong></li>
+<li>若有題意不清的地方，隨時可以詢問，或是參考正式的 DDL Generator。</li>
+<li>參考用的正式版 DDL：
+<ul>
+<li><em>&lt;連結已移除&gt;</em> (分佈鍵為 Y)</li>
+<li><em>&lt;連結已移除&gt;</em> (分佈鍵為 R)</li>
+<li><em>&lt;連結已移除&gt;</em> (資料儲存方式為 Append)</li>
+<li><em>&lt;連結已移除&gt;</em> (資料儲存方式為 AO/CO)</li>
+</ul>
+</li>
+<li>參考用的正式版 DDL Generator：
+<ul>
+<li><a href="https://drive.google.com/file/d/1qBhAu7sXpOV44dRba0ZSMIAyavd4I7PA/view?usp=sharing">ddlgen_init.awk</a></li>
+<li><a href="https://drive.google.com/file/d/1kCc3ErZAbrTNOCQV0QjbiqfHFmUjvvK8/view?usp=sharing">ddlgen_base.awk</a></li>
+</ul>
+</li>
+</ul>
+<h4 id="二stage-表的測試資料輸出stage-表-insert-sql" >二、STAGE 表的測試資料：(輸出：STAGE 表 insert SQL)
+<span>
+    <a href="#%e4%ba%8cstage-%e8%a1%a8%e7%9a%84%e6%b8%ac%e8%a9%a6%e8%b3%87%e6%96%99%e8%bc%b8%e5%87%bastage-%e8%a1%a8-insert-sql">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h4><p><img src="https://i.imgur.com/INHFi3B.png" alt=""></p>
+<p><strong>產製規則： (每張表格產製 10 筆測試資料)</strong></p>
+<ol>
+<li>輸入頁籤：
+<ul>
+<li>stage detail表 (另存為純文字檔(以 tab 分隔)，檔名為：stage_detail.txt)</li>
+</ul>
+</li>
+<li>執行方式：
+<code>awk -F '\t' -v SCH=stage -f homework5-2.awk stage_detail.txt</code></li>
+<li>從SDM匯出頁籤時的注意事項：
+<ul>
+<li>表頭、所有欄位、所有紀錄一律全部匯出，不可篩選之後才匯出。</li>
+<li>為避免SDM中有斷行字元影響處理，匯出時請先刪除所有斷行字元 (整頁複製到新檔案(純文字) &gt; 按 ctrl-H &gt; 尋找目標按「ctrl-J」&gt; 全部取代 &gt; 另存為以 tab 分隔之純文字檔)。</li>
+</ul>
+</li>
+<li>不須處理的部分：
+<ul>
+<li>總表與detail表的表頭都不須處理。</li>
+<li>總表的「Table追蹤註記」若為「X」，則該表格不產製。</li>
+<li>detail表的「Column追蹤註記」($19)若為「X」，則該欄位不產製。</li>
+</ul>
+</li>
+<li>產製規則：</li>
+</ol>
+<ul>
+<li>
+<p>第 1~9 筆：</p>
+<ul>
+<li>int：填 1 ~ 9。</li>
+<li>varchar(X)、char(X)：填 X 個 &lsquo;A&rsquo; ~ &lsquo;I&rsquo; (例如：varchar(3) 填 &lsquo;AAA&rsquo;, &lsquo;BBB&rsquo;, &hellip;, &lsquo;III&rsquo;)。</li>
+<li>text：固定填 ‘ZZZZZZZZZZ’。</li>
+<li>decimal(X,Y)：整數填 X-Y 個 1 ~ 9，小數填 Y 個 1 ~ 9 (例如：decimal(5,2) 填 111.11, 222.22, &hellip;, 999.99)。</li>
+<li>decimal(X)：整數填 X 個 (例如：decimal(5) 填 11111, 22222, &hellip;, 99999)。</li>
+<li>date：填 2021-01-01, 2021-02-01, &hellip;, 2021-09-01。</li>
+<li>timestamp：填 2021-01-01 00:00:00, 2021-02-01 00:00:00, &hellip;, 2021-09-01 00:00:00。</li>
+</ul>
+</li>
+<li>
+<p>第 10 筆：</p>
+<ul>
+<li>若該欄位允許null：無論任何資料類型都填 null。</li>
+<li>若該欄位不允許null：
+<ul>
+<li>int：填 0。</li>
+<li>varchar(X)、char(X)：填 X 個 &lsquo;J&rsquo; (例如：varchar(3) 填 &lsquo;JJJ&rsquo;)。</li>
+<li>text：固定填 ‘ZZZZZZZZZZ’。</li>
+<li>decimal(X,Y)：填 0。</li>
+<li>decimal(X)：填 0。</li>
+<li>date：填 2021-10-01。</li>
+<li>timestamp：填 2021-10-01 00:00:00。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="練習解答" >練習解答：
+<span>
+    <a href="#%e7%b7%b4%e7%bf%92%e8%a7%a3%e7%ad%94">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h2><h3 id="練習1解答" >練習1(解答)
+<span>
+    <a href="#%e7%b7%b4%e7%bf%921%e8%a7%a3%e7%ad%94">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><p>題目：請篩選出於 2022 年內，桃園市中壢區的所有資料，並去除「確定病名」、「是否為境外移入」兩個欄位。
+說明：請用上述兩種 awk 方法來作答 (在 shell 中執行，以及寫在檔案執行)，而不要用 grep 方法。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># 1.在 shell 中執行</span>
+</span></span><span style="display:flex;"><span>$ awk -F <span style="color:#e6db74">&#39;,&#39;</span> <span style="color:#e6db74">&#39;{if(substr($2,1,4) == 2022 &amp;&amp; $3 == &#34;桃園市&#34; &amp;&amp; $4 == &#34;中壢區&#34;) print $2,$3,$4,$5,$7,$8}&#39;</span> cov19.csv
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 2.寫在檔案執行</span>
+</span></span><span style="display:flex;"><span>$ cat practice1.awk
+</span></span><span style="display:flex;"><span><span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>substr<span style="color:#f92672">(</span>$2,1,4<span style="color:#f92672">)</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">2022</span> <span style="color:#f92672">&amp;&amp;</span> $3 <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;桃園市&#34;</span> <span style="color:#f92672">&amp;&amp;</span> $4 <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;中壢區&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    print $2,$3,$4,$5,$7,$8;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>$ awk -F <span style="color:#e6db74">&#39;,&#39;</span> -f practice1.awk cov19.csv
+</span></span></code></pre></div><h3 id="練習2解答" >練習2(解答)
+<span>
+    <a href="#%e7%b7%b4%e7%bf%922%e8%a7%a3%e7%ad%94">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><p>同上表，但改為以「年齡層」欄位來做彙總 (不須排序)。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ cat practice2.awk
+</span></span><span style="display:flex;"><span>BEGIN <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  print <span style="color:#e6db74">&#34;----------  ----------&#34;</span>;
+</span></span><span style="display:flex;"><span>  print <span style="color:#e6db74">&#34;  年齡層    確定病例數&#34;</span>;
+</span></span><span style="display:flex;"><span>  print <span style="color:#e6db74">&#34;----------  ----------&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  sum<span style="color:#f92672">[</span>$7<span style="color:#f92672">]</span> +<span style="color:#f92672">=</span> $8;  <span style="color:#75715e"># 年齡層小計</span>
+</span></span><span style="display:flex;"><span>  total <span style="color:#f92672">+=</span> $8;    <span style="color:#75715e"># 總計</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>END <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">for</span><span style="color:#f92672">(</span>key in sum<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    printf<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;%-10s  %10d\n&#34;</span>, key, sum<span style="color:#f92672">[</span>key<span style="color:#f92672">])</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>  print <span style="color:#e6db74">&#34;----------  ----------&#34;</span>;
+</span></span><span style="display:flex;"><span>  printf<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;   總計     %10d\n&#34;</span>, total<span style="color:#f92672">)</span>;
+</span></span><span style="display:flex;"><span>  print <span style="color:#e6db74">&#34;----------  ----------&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>$ tail -n+2 cov19.csv | awk -F <span style="color:#e6db74">&#39;,&#39;</span> -f practice2.awk
+</span></span><span style="display:flex;"><span>----------  ----------
+</span></span><span style="display:flex;"><span>  年齡層    確定病例數
+</span></span><span style="display:flex;"><span>----------  ----------
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">4</span>                   <span style="color:#ae81ff">67</span>
+</span></span><span style="display:flex;"><span>15-19              <span style="color:#ae81ff">508</span>
+</span></span><span style="display:flex;"><span>50-54             <span style="color:#ae81ff">1406</span>
+</span></span><span style="display:flex;"><span>70+               <span style="color:#ae81ff">2097</span>
+</span></span><span style="display:flex;"><span>5-9                <span style="color:#ae81ff">286</span>
+</span></span><span style="display:flex;"><span>65-69             <span style="color:#ae81ff">1541</span>
+</span></span><span style="display:flex;"><span>35-39             <span style="color:#ae81ff">1544</span>
+</span></span><span style="display:flex;"><span>20-24             <span style="color:#ae81ff">1132</span>
+</span></span><span style="display:flex;"><span>40-44             <span style="color:#ae81ff">1498</span>
+</span></span><span style="display:flex;"><span>55-59             <span style="color:#ae81ff">1650</span>
+</span></span><span style="display:flex;"><span>10-14              <span style="color:#ae81ff">281</span>
+</span></span><span style="display:flex;"><span>25-29             <span style="color:#ae81ff">1590</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0</span>                   <span style="color:#ae81ff">66</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">1</span>                   <span style="color:#ae81ff">75</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">2</span>                   <span style="color:#ae81ff">51</span>
+</span></span><span style="display:flex;"><span>60-64             <span style="color:#ae81ff">1600</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">3</span>                   <span style="color:#ae81ff">65</span>
+</span></span><span style="display:flex;"><span>30-34             <span style="color:#ae81ff">1603</span>
+</span></span><span style="display:flex;"><span>45-49             <span style="color:#ae81ff">1304</span>
+</span></span><span style="display:flex;"><span>----------  ----------
+</span></span><span style="display:flex;"><span>   總計          <span style="color:#ae81ff">18364</span>
+</span></span><span style="display:flex;"><span>----------  ----------
+</span></span></code></pre></div><h3 id="練習3解答" >練習3(解答)
+<span>
+    <a href="#%e7%b7%b4%e7%bf%923%e8%a7%a3%e7%ad%94">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><p>利用上述的 cdr.txt 計算：
+一、全部平均通話長度。
+二、以受話號碼彙總平均通話長度。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># 全部平均通話長度</span>
+</span></span><span style="display:flex;"><span>$ tail -n+2 cdr.txt | awk -F <span style="color:#e6db74">&#39;,&#39;</span> <span style="color:#e6db74">&#39;{cnt++; sum += $3;} END {print sum/cnt}&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">450</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 以受話號碼彙總平均通話長度</span>
+</span></span><span style="display:flex;"><span>$ tail -n+2 cdr.txt | awk -F <span style="color:#e6db74">&#39;,&#39;</span> <span style="color:#e6db74">&#39;{cnt[$1]++; sum[$1] += $3;} END {for(key in sum) print key, sum[key]/cnt[key]}&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0933333333</span> <span style="color:#ae81ff">450</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0911111111</span> <span style="color:#ae81ff">500</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0922222222</span> <span style="color:#ae81ff">350</span>
+</span></span></code></pre></div><h3 id="練習4解答" >練習4(解答)
+<span>
+    <a href="#%e7%b7%b4%e7%bf%924%e8%a7%a3%e7%ad%94">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><p>請問如何利用 awk script 產生以下的結果？
+陳ＯＯ M111111111 南投縣
+林ＯＯ D222222222 臺南市
+黃ＯＯ F123456789 新北市
+張ＯＯ K246813579 苗栗縣
+李ＯＯ A135792468 臺北市</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ awk -F <span style="color:#e6db74">&#39;,&#39;</span> <span style="color:#e6db74">&#39;{if(FILENAME == &#34;id_city.txt&#34;) city[$1] = $2; else print $1, $2, city[substr($2,1,1)]}&#39;</span> id_city.txt id.txt
+</span></span><span style="display:flex;"><span>陳ＯＯ M111111111 南投縣
+</span></span><span style="display:flex;"><span>林ＯＯ D222222222 臺南市
+</span></span><span style="display:flex;"><span>黃ＯＯ F123456789 新北市
+</span></span><span style="display:flex;"><span>張ＯＯ K246813579 苗栗縣
+</span></span><span style="display:flex;"><span>李ＯＯ A135792468 臺北市
+</span></span></code></pre></div><p>※ 補充：如果兩個檔案改為不同的分隔字元應如何處理？</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ cat id2.txt  <span style="color:#75715e"># 將原來 id.txt 的分隔字元改為空格</span>
+</span></span><span style="display:flex;"><span>陳ＯＯ M111111111
+</span></span><span style="display:flex;"><span>林ＯＯ D222222222
+</span></span><span style="display:flex;"><span>黃ＯＯ F123456789
+</span></span><span style="display:flex;"><span>張ＯＯ K246813579
+</span></span><span style="display:flex;"><span>李ＯＯ A135792468
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 利用 -F 指定分隔字元為空格或逗號</span>
+</span></span><span style="display:flex;"><span>$ awk -F <span style="color:#e6db74">&#39;[ ,]&#39;</span> <span style="color:#e6db74">&#39;{if(FILENAME == &#34;id_city.txt&#34;) city[$1] = $2; else print $1, $2, city[substr($2,1,1)]}&#39;</span> id_city.txt id2.txt
+</span></span><span style="display:flex;"><span>陳ＯＯ M111111111 南投縣
+</span></span><span style="display:flex;"><span>林ＯＯ D222222222 臺南市
+</span></span><span style="display:flex;"><span>黃ＯＯ F123456789 新北市
+</span></span><span style="display:flex;"><span>張ＯＯ K246813579 苗栗縣
+</span></span><span style="display:flex;"><span>李ＯＯ A135792468 臺北市
+</span></span></code></pre></div><h3 id="練習5解答" >練習5(解答)
+<span>
+    <a href="#%e7%b7%b4%e7%bf%925%e8%a7%a3%e7%ad%94">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><p>請以上述範例2為基礎，寫出 awk script，以計算每張表格的PK數量。
+輸出的格式為：
+table1: 2
+table2: 1
+table3: 0</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ cat practice5.awk
+</span></span><span style="display:flex;"><span>BEGIN <span style="color:#f92672">{</span>flag <span style="color:#f92672">=</span> 0; last_table <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>; pk_cnt <span style="color:#f92672">=</span> 0;<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>NR <span style="color:#f92672">==</span> 1<span style="color:#f92672">)</span> next;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>$1 !<span style="color:#f92672">=</span> last_table <span style="color:#f92672">&amp;&amp;</span> flag !<span style="color:#f92672">=</span> 0<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    print last_table<span style="color:#e6db74">&#34;: &#34;</span>pk_cnt;
+</span></span><span style="display:flex;"><span>    pk_cnt <span style="color:#f92672">=</span> 0;  <span style="color:#75715e"># 重置</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>  flag <span style="color:#f92672">=</span> 1;  <span style="color:#75715e"># 經過資料第一列之後就開啟</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>$4 <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;P&#34;</span><span style="color:#f92672">)</span> pk_cnt++;
+</span></span><span style="display:flex;"><span>  last_table <span style="color:#f92672">=</span> $1;  <span style="color:#75715e"># 記錄上一列的資料表名稱</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>END <span style="color:#f92672">{</span>print last_table<span style="color:#e6db74">&#34;: &#34;</span>pk_cnt;<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>$ awk -F <span style="color:#e6db74">&#39;\t&#39;</span> -f practice5.awk detail.txt
+</span></span><span style="display:flex;"><span>table1: <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>table2: <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>table3: <span style="color:#ae81ff">0</span>
+</span></span></code></pre></div><h3 id="練習6解答" >練習6(解答)
+<span>
+    <a href="#%e7%b7%b4%e7%bf%926%e8%a7%a3%e7%ad%94">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><p>請依據上述的 DDL Generator，再新增以下的功能：
+(1). 請在每張表格的DDL最前段，加入「DROP TABLE IF EXISTS [SCH].[表格名稱];」。
+(2). 請在每張表格的DDL最後段，加入「ALTER TABLE [SCH].[表格名稱] OWNER TO user;」。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ cat practice6.awk
+</span></span><span style="display:flex;"><span>BEGIN <span style="color:#f92672">{</span>flag <span style="color:#f92672">=</span> 0; last_table <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>; pk <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>; col_cnt <span style="color:#f92672">=</span> 0;<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>NR <span style="color:#f92672">==</span> 1<span style="color:#f92672">)</span> next;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>$1 !<span style="color:#f92672">=</span> last_table <span style="color:#f92672">&amp;&amp;</span> flag !<span style="color:#f92672">=</span> 0<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    printf<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;DROP TABLE IF EXISTS %s.%s;\n&#34;</span>, SCH, last_table<span style="color:#f92672">)</span>;
+</span></span><span style="display:flex;"><span>    printf<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;CREATE TABLE %s.%s (\n&#34;</span>, SCH, last_table<span style="color:#f92672">)</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span><span style="color:#f92672">(</span>i <span style="color:#f92672">=</span> 1; i &lt;<span style="color:#f92672">=</span> col_cnt; i++<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>i !<span style="color:#f92672">=</span> col_cnt<span style="color:#f92672">)</span> printf<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;  %s %s %s,\n&#34;</span>, col_name<span style="color:#f92672">[</span>i<span style="color:#f92672">]</span>, col_type<span style="color:#f92672">[</span>i<span style="color:#f92672">]</span>, not_null<span style="color:#f92672">[</span>i<span style="color:#f92672">])</span>;
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">else</span> printf<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;  %s %s %s\n&#34;</span>, col_name<span style="color:#f92672">[</span>i<span style="color:#f92672">]</span>, col_type<span style="color:#f92672">[</span>i<span style="color:#f92672">]</span>, not_null<span style="color:#f92672">[</span>i<span style="color:#f92672">])</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    printf<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;);\n&#34;</span><span style="color:#f92672">)</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>pk !<span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">)</span> printf<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;ALTER TABLE %s.%s ADD CONSTRAINT %s_PK PRIMARY KEY (%s);\n&#34;</span>, SCH, last_table, toupper<span style="color:#f92672">(</span>last_table<span style="color:#f92672">)</span>, pk<span style="color:#f92672">)</span>;
+</span></span><span style="display:flex;"><span>    printf<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;ALTER TABLE %s.%s OWNER TO user;\n&#34;</span>, SCH, last_table<span style="color:#f92672">)</span>;
+</span></span><span style="display:flex;"><span>    pk <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>;  <span style="color:#75715e"># 輸出後將PK重置</span>
+</span></span><span style="display:flex;"><span>    col_cnt <span style="color:#f92672">=</span> 0;  <span style="color:#75715e"># 欄位數重置</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>  flag <span style="color:#f92672">=</span> 1;  <span style="color:#75715e"># 經過資料第一列之後就開啟</span>
+</span></span><span style="display:flex;"><span>  col_cnt++;  <span style="color:#75715e"># 第幾欄</span>
+</span></span><span style="display:flex;"><span>  col_name<span style="color:#f92672">[</span>col_cnt<span style="color:#f92672">]</span> <span style="color:#f92672">=</span> $2;  <span style="color:#75715e"># 資料欄位名稱</span>
+</span></span><span style="display:flex;"><span>  col_type<span style="color:#f92672">[</span>col_cnt<span style="color:#f92672">]</span> <span style="color:#f92672">=</span> $3;  <span style="color:#75715e"># 資料型態</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>$5 <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;Y&#34;</span><span style="color:#f92672">)</span> not_null<span style="color:#f92672">[</span>col_cnt<span style="color:#f92672">]</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;NOT NULL&#34;</span>;  <span style="color:#75715e"># 不為空值</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">else</span> not_null<span style="color:#f92672">[</span>col_cnt<span style="color:#f92672">]</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>$4 <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;P&#34;</span> <span style="color:#f92672">&amp;&amp;</span> pk <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    pk <span style="color:#f92672">=</span> $2;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>$4 <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;P&#34;</span> <span style="color:#f92672">&amp;&amp;</span> pk !<span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    pk <span style="color:#f92672">=</span> pk<span style="color:#e6db74">&#34;, &#34;</span>$2;
+</span></span><span style="display:flex;"><span>  last_table <span style="color:#f92672">=</span> $1;  <span style="color:#75715e"># 記錄上一列的資料表名稱</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>END <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  printf<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;DROP TABLE IF EXISTS %s.%s;\n&#34;</span>, SCH, last_table<span style="color:#f92672">)</span>;
+</span></span><span style="display:flex;"><span>  printf<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;CREATE TABLE %s.%s (\n&#34;</span>, SCH, last_table<span style="color:#f92672">)</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">for</span><span style="color:#f92672">(</span>i <span style="color:#f92672">=</span> 1; i &lt;<span style="color:#f92672">=</span> col_cnt; i++<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>i !<span style="color:#f92672">=</span> col_cnt<span style="color:#f92672">)</span> printf<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;  %s %s %s,\n&#34;</span>, col_name<span style="color:#f92672">[</span>i<span style="color:#f92672">]</span>, col_type<span style="color:#f92672">[</span>i<span style="color:#f92672">]</span>, not_null<span style="color:#f92672">[</span>i<span style="color:#f92672">])</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span> printf<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;  %s %s %s\n&#34;</span>, col_name<span style="color:#f92672">[</span>i<span style="color:#f92672">]</span>, col_type<span style="color:#f92672">[</span>i<span style="color:#f92672">]</span>, not_null<span style="color:#f92672">[</span>i<span style="color:#f92672">])</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>  printf<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;);\n&#34;</span><span style="color:#f92672">)</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>pk !<span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">)</span> printf<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;ALTER TABLE %s.%s ADD CONSTRAINT %s_PK PRIMARY KEY (%s);\n&#34;</span>, SCH, last_table, toupper<span style="color:#f92672">(</span>last_table<span style="color:#f92672">)</span>, pk<span style="color:#f92672">)</span>;
+</span></span><span style="display:flex;"><span>  printf<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;ALTER TABLE %s.%s OWNER TO user;\n&#34;</span>, SCH, last_table<span style="color:#f92672">)</span>;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>$ awk -F <span style="color:#e6db74">&#39;\t&#39;</span> -f practice6.awk -v SCH<span style="color:#f92672">=</span>base detail.txt
+</span></span><span style="display:flex;"><span>DROP TABLE IF EXISTS base.table1;
+</span></span><span style="display:flex;"><span>CREATE TABLE base.table1 <span style="color:#f92672">(</span>
+</span></span><span style="display:flex;"><span>  column1 int NOT NULL,
+</span></span><span style="display:flex;"><span>  column2 varchar<span style="color:#f92672">(</span>10<span style="color:#f92672">)</span> NOT NULL,
+</span></span><span style="display:flex;"><span>  column3 decimal<span style="color:#f92672">(</span>10,2<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">)</span>;
+</span></span><span style="display:flex;"><span>ALTER TABLE base.table1 ADD CONSTRAINT TABLE1_PK PRIMARY KEY <span style="color:#f92672">(</span>column1, column2<span style="color:#f92672">)</span>;
+</span></span><span style="display:flex;"><span>ALTER TABLE base.table1 OWNER TO user;
+</span></span><span style="display:flex;"><span>DROP TABLE IF EXISTS base.table2;
+</span></span><span style="display:flex;"><span>CREATE TABLE base.table2 <span style="color:#f92672">(</span>
+</span></span><span style="display:flex;"><span>  column1 varchar<span style="color:#f92672">(</span>5<span style="color:#f92672">)</span> NOT NULL,
+</span></span><span style="display:flex;"><span>  column2 text
+</span></span><span style="display:flex;"><span><span style="color:#f92672">)</span>;
+</span></span><span style="display:flex;"><span>ALTER TABLE base.table2 ADD CONSTRAINT TABLE2_PK PRIMARY KEY <span style="color:#f92672">(</span>column1<span style="color:#f92672">)</span>;
+</span></span><span style="display:flex;"><span>ALTER TABLE base.table2 OWNER TO user;
+</span></span><span style="display:flex;"><span>DROP TABLE IF EXISTS base.table3;
+</span></span><span style="display:flex;"><span>CREATE TABLE base.table3 <span style="color:#f92672">(</span>
+</span></span><span style="display:flex;"><span>  column1 char<span style="color:#f92672">(</span>5<span style="color:#f92672">)</span> ,
+</span></span><span style="display:flex;"><span>  column2 date
+</span></span><span style="display:flex;"><span><span style="color:#f92672">)</span>;
+</span></span><span style="display:flex;"><span>ALTER TABLE base.table3 OWNER TO user;
+</span></span></code></pre></div><hr>
+<h2 id="補充" >補充：
+<span>
+    <a href="#%e8%a3%9c%e5%85%85">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h2><h3 id="1-日期相關函式" >1. 日期相關函式
+<span>
+    <a href="#1-%e6%97%a5%e6%9c%9f%e7%9b%b8%e9%97%9c%e5%87%bd%e5%bc%8f">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># 目前時間 (整數格式)</span>
+</span></span><span style="display:flex;"><span>$ awk <span style="color:#e6db74">&#39;BEGIN{print systime()}&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">1644378045</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 特定時間 (整數格式)</span>
+</span></span><span style="display:flex;"><span>$ awk <span style="color:#e6db74">&#39;BEGIN{print mktime(&#34;2022 01 01 00 00 00&#34;)}&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">1640966400</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 目前時間 (日期時間格式)</span>
+</span></span><span style="display:flex;"><span>$ awk <span style="color:#e6db74">&#39;BEGIN{print strftime(&#34;%Y/%m/%d %H:%M:%S&#34;, systime())}&#39;</span>
+</span></span><span style="display:flex;"><span>2022/02/09 11:45:33
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 特定時間 (日期時間格式)</span>
+</span></span><span style="display:flex;"><span>$ awk <span style="color:#e6db74">&#39;BEGIN{print strftime(&#34;%Y/%m/%d %H:%M:%S&#34;, mktime(&#34;2022 01 01 00 00 00&#34;))}&#39;</span>
+</span></span><span style="display:flex;"><span>2022/01/01 00:00:00
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 取得目前年份</span>
+</span></span><span style="display:flex;"><span>$ awk <span style="color:#e6db74">&#39;BEGIN{print strftime(&#34;%Y&#34;, systime())}&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">2022</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 取得去年年份</span>
+</span></span><span style="display:flex;"><span>$ awk <span style="color:#e6db74">&#39;BEGIN{print strftime(&#34;%Y&#34;, systime())-1}&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">2021</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 取得目前時間 (整數 --&gt; 日期時間 --&gt; 整數格式)</span>
+</span></span><span style="display:flex;"><span>$ awk <span style="color:#e6db74">&#39;BEGIN{print mktime(strftime(&#34;%Y %m %d %H %M %S&#34;, systime()))}&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">1644379037</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 取得目前年份1月1日 (整數格式)</span>
+</span></span><span style="display:flex;"><span>$ awk <span style="color:#e6db74">&#39;BEGIN{print mktime(strftime(&#34;%Y&#34;, systime())&#34; 01 01 00 00 00&#34;)}&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">1640966400</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 取得去年年份1月1日 (整數格式)</span>
+</span></span><span style="display:flex;"><span>$ awk <span style="color:#e6db74">&#39;BEGIN{print mktime(strftime(&#34;%Y&#34;, systime())-1&#34; 01 01 00 00 00&#34;)}&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">1609430400</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 給定固定起始日期(2022/02/01)與長度(31日)，產生範圍內之萬年曆。</span>
+</span></span><span style="display:flex;"><span>$ awk <span style="color:#e6db74">&#39;BEGIN{for(i=0;i&lt;31;i++) print strftime(&#34;%Y%m%d&#34;, mktime(&#34;2022 02 01 00 00 00&#34;) + i * 24 * 60 * 60)}&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 給定固定起始日期(目前年份1月1日)與長度(10日)，產生範圍內之萬年曆。</span>
+</span></span><span style="display:flex;"><span>$ awk <span style="color:#e6db74">&#39;BEGIN {for(i=0;i&lt;10;i++) print strftime(&#34;%Y%m%d&#34;, mktime(strftime(&#34;%Y&#34;, systime())&#34; 01 01 00 00 00&#34;) + i * 24 * 60 * 60)}&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 給定固定起始日期(目前年份1月1日)與結束日期(目前年份1月31日)，產生範圍內之萬年曆。</span>
+</span></span><span style="display:flex;"><span>$ awk <span style="color:#e6db74">&#39;BEGIN {for(i=0;mktime(strftime(&#34;%Y&#34;, systime())&#34; 01 01 00 00 00&#34;) + i * 24 * 60 * 60 &lt;= mktime(strftime(&#34;%Y&#34;, systime())&#34; 01 31 00 00 00&#34;);i++) print strftime(&#34;%Y%m%d&#34;, mktime(strftime(&#34;%Y&#34;, systime())&#34; 01 01 00 00 00&#34;) + i * 24 * 60 * 60)}&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 給定固定起始日期(去年年份1月1日)與結束日期(目前年份12月31日)，產生範圍內之萬年曆。</span>
+</span></span><span style="display:flex;"><span>$ awk <span style="color:#e6db74">&#39;BEGIN {for(i=0;mktime(strftime(&#34;%Y&#34;, systime())-1&#34; 01 01 00 00 00&#34;) + i * 24 * 60 * 60 &lt;= mktime(strftime(&#34;%Y&#34;, systime())&#34; 12 31 00 00 00&#34;);i++) print strftime(&#34;%Y%m%d&#34;, mktime(strftime(&#34;%Y&#34;, systime())-1&#34; 01 01 00 00 00&#34;) + i * 24 * 60 * 60)}&#39;</span>
+</span></span></code></pre></div><h3 id="2-getline-函式" >2. getline 函式
+<span>
+    <a href="#2-getline-%e5%87%bd%e5%bc%8f">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><p>參考網址：https://www.itread01.com/p/200141.html</p>
+<p>範例：<strong>Trinity Decoder</strong>
+<img src="https://i.imgur.com/fVjMdAM.png" alt=""></p>
+<p><a href="https://drive.google.com/file/d/1Evq8Mg2mgTut995D-qU4E8ukf_YyOIUc/view?usp=sharing">trinity_decoder.awk</a>
+<a href="https://drive.google.com/file/d/1pnPQldlc1hSxqCBZAccjjSeFbFXuTOMM/view?usp=sharing">trinity_decoder.c</a>
+Trinity原始碼範例 (密文)：<a href="https://drive.google.com/file/d/1mOTU-231o7hjphm-xWMzGbkQSFisRjKz/view?usp=sharing">09-SBD_BASE_INIT_SBD_BAMT001_G0001_INIT.xdl</a>
+Trinity原始碼範例 (明文)：<a href="https://drive.google.com/file/d/1jRDGXnFsPfrFDxm6t-5eW-AT04VRwlWq/view?usp=sharing">09-SBD_BASE_INIT_SBD_BAMT001_G0001_INIT.xdl.xml</a></p>
+<h3 id="3-graphviz-補充說明" >3. graphviz 補充說明
+<span>
+    <a href="#3-graphviz-%e8%a3%9c%e5%85%85%e8%aa%aa%e6%98%8e">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><p><strong>問題：如何找出彙總表作業相依性總圖之中，每一層的作業清單與數量？</strong>
+(2022/5/31 補充)</p>
+<ol>
+<li>
+<p>使用指令介紹：
+graphviz 的 dot 指令 (<code>dot -Tdot</code>) 可以協助顯示所有物件的詳細屬性 (例如：寬度、高度、位置)。下文利用位置屬性 (pos) 來盤點哪些作業節點位於哪一層。
+參考網址：https://graphviz.org/docs/outputs/canon/</p>
+</li>
+<li>
+<p>假設有一個彙總表作業相依性總圖原始碼 test.gv，內容如下：</p>
+</li>
+</ol>
+<pre tabindex="0"><code>$ cat test.gv
+digraph test {
+node [shape=box, style=filled, color=skyblue];
+&#34;[XXX]  (0001)  sts\nSBD_TEST_G0001&#34;;
+&#34;[XXX]  (0002)  sts\nSBD_TEST_G0002&#34;;
+&#34;[XXX]  (0003)  sts\nSBD_TEST_G0003&#34;;
+&#34;[XXX]  (0004)  sts\nSBD_TEST_G0004&#34;;
+&#34;[XXX]  (0005)  sts\nSBD_TEST_G0005&#34;;
+&#34;[XXX]  (0006)  sts\nSBD_TEST_G0006&#34;;
+
+node [shape=box, style=none, color=black];
+&#34;[XXX]  (0001)  sts\nSBD_TEST_G0001&#34; -&gt; &#34;[XXX]  (0004)  sts\nSBD_TEST_G0004&#34;;
+&#34;[XXX]  (0002)  sts\nSBD_TEST_G0002&#34; -&gt; &#34;[XXX]  (0004)  sts\nSBD_TEST_G0004&#34;;
+&#34;[XXX]  (0002)  sts\nSBD_TEST_G0002&#34; -&gt; &#34;[XXX]  (0005)  sts\nSBD_TEST_G0005&#34;;
+&#34;[XXX]  (0003)  sts\nSBD_TEST_G0003&#34; -&gt; &#34;[XXX]  (0005)  sts\nSBD_TEST_G0005&#34;;
+&#34;[XXX]  (0004)  sts\nSBD_TEST_G0004&#34; -&gt; &#34;[XXX]  (0006)  sts\nSBD_TEST_G0006&#34;;
+&#34;[XXX]  (0005)  sts\nSBD_TEST_G0005&#34; -&gt; &#34;[XXX]  (0006)  sts\nSBD_TEST_G0006&#34;;
+}
+</code></pre><p>其流程圖如下：</p>
+<pre tabindex="0"><code class="language-graphviz" data-lang="graphviz">digraph test {
+node [shape=box, style=filled, color=skyblue];
+&#34;[XXX]  (0001)  sts\nSBD_TEST_G0001&#34;;
+&#34;[XXX]  (0002)  sts\nSBD_TEST_G0002&#34;;
+&#34;[XXX]  (0003)  sts\nSBD_TEST_G0003&#34;;
+&#34;[XXX]  (0004)  sts\nSBD_TEST_G0004&#34;;
+&#34;[XXX]  (0005)  sts\nSBD_TEST_G0005&#34;;
+&#34;[XXX]  (0006)  sts\nSBD_TEST_G0006&#34;;
+
+node [shape=box, style=none, color=black];
+&#34;[XXX]  (0001)  sts\nSBD_TEST_G0001&#34; -&gt; &#34;[XXX]  (0004)  sts\nSBD_TEST_G0004&#34;;
+&#34;[XXX]  (0002)  sts\nSBD_TEST_G0002&#34; -&gt; &#34;[XXX]  (0004)  sts\nSBD_TEST_G0004&#34;;
+&#34;[XXX]  (0002)  sts\nSBD_TEST_G0002&#34; -&gt; &#34;[XXX]  (0005)  sts\nSBD_TEST_G0005&#34;;
+&#34;[XXX]  (0003)  sts\nSBD_TEST_G0003&#34; -&gt; &#34;[XXX]  (0005)  sts\nSBD_TEST_G0005&#34;;
+&#34;[XXX]  (0004)  sts\nSBD_TEST_G0004&#34; -&gt; &#34;[XXX]  (0006)  sts\nSBD_TEST_G0006&#34;;
+&#34;[XXX]  (0005)  sts\nSBD_TEST_G0005&#34; -&gt; &#34;[XXX]  (0006)  sts\nSBD_TEST_G0006&#34;;
+}
+</code></pre><p>執行指令<code>dot -Tdot test.gv</code> 之後就會顯示：
+<img src="https://i.imgur.com/Z4xGync.png" alt="">
+網址：https://i.imgur.com/Z4xGync.png</p>
+<ol start="3">
+<li>詳細說明：
+(1). 上圖中，每個節點的 <strong>pos 屬性的第 2 個數字就是我們需要的資訊，代表該節點的 Y 軸座標</strong> (第 1 個數字是該節點的 X 軸座標，但目前不需要)。
+(2). Y 軸座標數字越大，代表在流程圖中的位置越高。所以彙總表作業第一層的數字最大，第二層其次&hellip;最後一層的數字最小。
+(3). 同一層的 Y 軸座標數字會相同，因為都在相同的水平位置。
+(4). 根據以上的性質，可以找出彙總表作業總圖每一層的作業清單，指令如下：
+<code>dot -Tdot test.gv | grep -P -B 2 --no-group-separator &quot;^\t\tpos&quot; | grep -Pv &quot;^\t\theight&quot; | grep -Pv &quot;^\t\twidth&quot; | awk -F '&quot;' '{if(NR%2!=0) printf(&quot;\&quot;%s\&quot;&quot;, $2); else{split($2, x, &quot;,&quot;); printf(&quot;%10s\n&quot;, x[2]);}}' | sort -nr -k4</code>
+輸出結果：
+<img src="https://i.imgur.com/LY2QaQb.png" alt="">
+網址：https://i.imgur.com/LY2QaQb.png
+(5). 當然也可以用來盤點每一層的作業數量：
+<code>dot -Tdot test.gv | grep -P -B 2 --no-group-separator &quot;^\t\tpos&quot; | grep -Pv &quot;^\t\theight&quot; | grep -Pv &quot;^\t\twidth&quot; | awk -F '&quot;' '{if(NR%2==0) {split($2, x, &quot;,&quot;); printf(&quot;%s\n&quot;, x[2]);}}' | sort -nr | uniq -c</code>
+輸出結果：
+<img src="https://i.imgur.com/Ix52S2P.png" alt="">
+網址：https://i.imgur.com/Ix52S2P.png
+(6). 補充：以上的方法，無法區分出第一層之中哪些作業有無相依性，但其實應該沒有關係，因為不管有無相依性，只要在第一層都可以一起跑。</li>
+</ol>
+<hr>
+
+        </div>
+        
+
+    
+
+
+<div class="post-info">
+    
+        <div class="post-date dt-published">2022-01-01</div>
+    
+
+    <a class="post-hidden-url u-url" href="/posts/handout_03_awk_introduction/">/posts/handout_03_awk_introduction/</a>
+    <a href="" class="p-name p-author post-hidden-author h-card" rel="me">Alfred Chen</a>
+
+
+    <div class="post-taxonomies">
+        
+            <ul class="post-categories">
+                
+                    
+                    <li><a href="/categories/%E6%95%99%E5%AD%B8%E7%AD%86%E8%A8%98/">教學筆記</a></li>
+                
+            </ul>
+            
+            
+                <ul class="post-tags">
+                    
+                        
+                        <li><a href="/tags/linux/">#linux</a></li>
+                    
+                        
+                        <li><a href="/tags/shell/">#shell</a></li>
+                    
+                        
+                        <li><a href="/tags/awk/">#awk</a></li>
+                    
+                </ul>
+        
+    </div>
+</div>
+
+    </article>
+
+    
+
+    
+        
+    <div class="pagination post-pagination">
+        <div class="left pagination-item ">
+            
+                <a href="/posts/handout_02_linux_basic_introduction/">Alfred 的教學筆記 02 - Linux 指令介紹</a>
+            
+        </div>
+        <div class="right pagination-item ">
+            
+                <a href="/posts/handout_04_writing_document/">Alfred 的教學筆記 04 - 文件圖表表達方式的經驗分享</a>
+            
+        </div>
+    </div>
+
+
+
+
+    
+
+    
+        
+
+
+
+
+    
+
+
+
+
+
+<article class="post">
+<script
+    data-isso="https://comments.example.com/"
+    data-isso-id="thread-id"
+    data-isso-css="true"
+    data-isso-lang="tw"
+    data-isso-reply-to-self="true"
+    data-isso-require-author="true"
+    data-isso-require-email="true"
+    data-isso-avatar="true"
+    data-isso-avatar-bg="#f0f0f0"
+    data-isso-feed="false"
+    src="https://comments.example.com/js/embed.min.js">
+</script>
+<noscript>Please enable JavaScript to view the comments powered by <a href="https://posativ.org/isso/">Isso</a>.</noscript>
+<div>
+  <section id="isso-thread"></section>
+</div>
+</article>
+
+
+
+
+
+    
+
+        </main>
+        
+            <footer class="common-footer">
+    
+    
+
+    <div class="common-footer-bottom">
+        
+        <div class="copyright">
+            <p>© Alfred Chen, 2022<br>
+            Powered by <a target="_blank" rel="noopener noreferrer" href="https://gohugo.io/">Hugo</a>, theme <a target="_blank" rel="noopener noreferrer" href="https://github.com/mitrichius/hugo-theme-anubis">Anubis</a>.<br>
+            
+            </p>  
+        </div> 
+
+        
+
+    
+
+
+
+    <button class="theme-switcher">
+        Dark theme
+    </button>
+
+
+<script>
+const STORAGE_KEY = 'user-color-scheme'
+const defaultTheme = "dark"
+
+let currentTheme
+let switchButton
+let autoDefinedScheme = window.matchMedia('(prefers-color-scheme: dark)')
+
+const autoChangeScheme = e => {
+    currentTheme = e.matches ? 'dark' : 'light'
+    document.documentElement.setAttribute('data-theme', currentTheme)
+    changeButtonText()
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    switchButton = document.querySelector('.theme-switcher')
+    currentTheme = detectCurrentScheme()
+    if (currentTheme == 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark')
+    }
+    if (currentTheme == 'auto') {
+        autoChangeScheme(autoDefinedScheme);
+        autoDefinedScheme.addListener(autoChangeScheme);
+    }
+
+    if (switchButton) {
+        changeButtonText()
+        switchButton.addEventListener('click', switchTheme, false)
+    }
+  
+    showContent()
+})
+
+function detectCurrentScheme() {
+    if (localStorage.getItem(STORAGE_KEY)) {
+        return localStorage.getItem(STORAGE_KEY)
+    } 
+    if (defaultTheme) {
+        return defaultTheme
+    } 
+    if (!window.matchMedia) {
+        return 'light'
+    } 
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        return 'dark'
+    }
+    return 'light'
+}
+
+function changeButtonText()
+{   
+    if (switchButton) {
+        switchButton.textContent = currentTheme == 'dark' ?  "Light theme" : "Dark theme"
+    }
+}
+
+function switchTheme(e) {
+    if (currentTheme == 'dark') {
+        localStorage.setItem(STORAGE_KEY, 'light')
+        document.documentElement.setAttribute('data-theme', 'light')
+        currentTheme = 'light'
+    } else {
+        localStorage.setItem(STORAGE_KEY, 'dark')
+        document.documentElement.setAttribute('data-theme', 'dark')
+        currentTheme = 'dark'
+    }
+    changeButtonText()
+}
+
+function showContent() {
+    document.body.style.visibility = 'visible';
+    document.body.style.opacity = 1;
+}
+</script>   
+    </div>
+
+    <p class="h-card vcard">
+
+    <a href= class="p-name u-url url fn" rel="me">Alfred Chen</a> 
+
+     
+        /
+        <a class="p-email u-email email" rel="me" href="mailto:mail@example.org">mail@example.org</a>
+    
+
+     
+        <img class="u-photo" src="/images/me.png" />
+    
+</p> 
+</footer>
+
+        
+    </div>
+</body>
+</html>

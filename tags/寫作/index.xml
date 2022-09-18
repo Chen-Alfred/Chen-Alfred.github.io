@@ -1,0 +1,436 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>寫作 on Alfred Chen</title>
+    <link>/tags/%E5%AF%AB%E4%BD%9C/</link>
+    <description>Alfred Chen (寫作)</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-tw</language>
+    <lastBuildDate>Sat, 01 Jan 2022 00:00:00 +0000</lastBuildDate>
+    
+    <atom:link href="/tags/%E5%AF%AB%E4%BD%9C/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Alfred 的教學筆記 04 - 文件圖表表達方式的經驗分享</title>
+      <link>/posts/handout_04_writing_document/</link>
+      <pubDate>Sat, 01 Jan 2022 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/handout_04_writing_document/</guid>
+      <description>&lt;hr&gt;
+&lt;h3 id=&#34;一前言&#34; &gt;一、前言
+&lt;span&gt;
+    &lt;a href=&#34;#%e4%b8%80%e5%89%8d%e8%a8%80&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;圖優於表，表優於文字。&lt;/li&gt;
+&lt;li&gt;這裡要講的，並非資料視覺化 (資料 → 圖表 → 解釋現象 or 產生洞見(insight) → 幫助決策)，而是說明如何將自己本身的計畫、經驗、想法，以文件作為媒介傳達給其他人，而使用技巧的經驗分享。其目的通常是為了傳達自己的想法與規劃、客觀描述系統行為或程式規格、或說明並解決某些問題。&lt;/li&gt;
+&lt;li&gt;陳述制度、規範、流程時，「說」、「寫」、「做」要一致。&lt;/li&gt;
+&lt;li&gt;對於一份簡單的圖表，須考慮到：
+&lt;ul&gt;
+&lt;li&gt;目的 → 對象 → 選擇揭露資訊 → 選擇呈現方法/工具。&lt;/li&gt;
+&lt;li&gt;例如：流程圖 (說明流程，表達與時間/先後次序有關的概念)。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;撰寫一份更複雜的文件時，須使用較有條理的結構來論述，此時須使用更多的文字與圖表來協助，常用的結構包含下列幾個段落：
+&lt;ul&gt;
+&lt;li&gt;前言 (Why)：背景介紹、動機和目的 (源自於某些痛點、需求)。&lt;/li&gt;
+&lt;li&gt;方法 (How)：使用技術、方法或理論、架構與設計方式、規格或細節的描述。&lt;/li&gt;
+&lt;li&gt;結果：評估方式與標準、預估/計算產生的效益、改善前後的比較。&lt;/li&gt;
+&lt;li&gt;例如：專案改善文件。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;補充：對長者簡報時，字體可以大一點。&lt;/li&gt;
+&lt;li&gt;強調一下：撰寫文件是作為協助溝通的工具，而不是作為讓自己毋須與別人溝通的藉口。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;範例-1vi-編輯器的模式切換-from-鳥哥私房菜&#34; &gt;範例 1：vi 編輯器的模式切換 (from 鳥哥私房菜)
+&lt;span&gt;
+    &lt;a href=&#34;#%e7%af%84%e4%be%8b-1vi-%e7%b7%a8%e8%bc%af%e5%99%a8%e7%9a%84%e6%a8%a1%e5%bc%8f%e5%88%87%e6%8f%9b-from-%e9%b3%a5%e5%93%a5%e7%a7%81%e6%88%bf%e8%8f%9c&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h4&gt;&lt;ul&gt;
+&lt;li&gt;目的：理解 vi 編輯器的模式之間如何切換。&lt;/li&gt;
+&lt;li&gt;對象：一般學習者。&lt;/li&gt;
+&lt;li&gt;揭露資訊：模式的種類、預設的模式、如何彼此切換。
+&lt;img src=&#34;https://i.imgur.com/2wNs40m.gif&#34; alt=&#34;&#34;&gt;
+網址：https://i.imgur.com/2wNs40m.gif
+－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;範例-2乙測環境-trinity-原始碼備份工具-from-教學筆記-02作業四&#34; &gt;範例 2：乙測環境 Trinity 原始碼備份工具 (from 教學筆記 02－作業四)
+&lt;span&gt;
+    &lt;a href=&#34;#%e7%af%84%e4%be%8b-2%e4%b9%99%e6%b8%ac%e7%92%b0%e5%a2%83-trinity-%e5%8e%9f%e5%a7%8b%e7%a2%bc%e5%82%99%e4%bb%bd%e5%b7%a5%e5%85%b7-from-%e6%95%99%e5%ad%b8%e7%ad%86%e8%a8%98-02%e4%bd%9c%e6%a5%ad%e5%9b%9b&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h4&gt;&lt;ul&gt;
+&lt;li&gt;目的：說明作業的程式規格。&lt;/li&gt;
+&lt;li&gt;對象：本專案開發人員。&lt;/li&gt;
+&lt;li&gt;揭露資訊：程式規格 (使用方式、連線順序/方向、相關資訊)。&lt;/li&gt;
+&lt;li&gt;未揭露資訊：連線帳密、個人目錄名稱。&lt;/li&gt;
+&lt;li&gt;繪製工具：Visio。
+&lt;img src=&#34;https://i.imgur.com/dhfm9iG.png&#34; alt=&#34;&#34;&gt;
+網址：https://i.imgur.com/dhfm9iG.png
+－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;範例-3花東四天三夜出遊行程&#34; &gt;範例 3：花東四天三夜出遊行程
+&lt;span&gt;
+    &lt;a href=&#34;#%e7%af%84%e4%be%8b-3%e8%8a%b1%e6%9d%b1%e5%9b%9b%e5%a4%a9%e4%b8%89%e5%a4%9c%e5%87%ba%e9%81%8a%e8%a1%8c%e7%a8%8b&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h4&gt;&lt;ul&gt;
+&lt;li&gt;目的：說明出遊的行程。&lt;/li&gt;
+&lt;li&gt;對象：一起出遊的夥伴。&lt;/li&gt;
+&lt;li&gt;揭露資訊：每日行程順序、地理位置。&lt;/li&gt;
+&lt;li&gt;繪製工具：Visio。
+&lt;img src=&#34;https://i.imgur.com/Q1medjo.png&#34; alt=&#34;&#34;&gt;
+網址：https://i.imgur.com/Q1medjo.png
+－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;範例-4規劃演唱會當日行程表&#34; &gt;範例 4：規劃演唱會當日行程表
+&lt;span&gt;
+    &lt;a href=&#34;#%e7%af%84%e4%be%8b-4%e8%a6%8f%e5%8a%83%e6%bc%94%e5%94%b1%e6%9c%83%e7%95%b6%e6%97%a5%e8%a1%8c%e7%a8%8b%e8%a1%a8&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h4&gt;&lt;ul&gt;
+&lt;li&gt;目的：統籌集合、出發的時間地點，並說明行程。&lt;/li&gt;
+&lt;li&gt;對象：參加活動的夥伴。&lt;/li&gt;
+&lt;li&gt;揭露資訊：時間點、發生事件、參與人員、花費時間長度、相關資訊。&lt;/li&gt;
+&lt;li&gt;繪製工具：Excel。
+&lt;img src=&#34;https://i.imgur.com/8V56Xjl.jpg&#34; alt=&#34;&#34;&gt;
+網址：https://i.imgur.com/8V56Xjl.jpg&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;二常用工具&#34; &gt;二、常用工具
+&lt;span&gt;
+    &lt;a href=&#34;#%e4%ba%8c%e5%b8%b8%e7%94%a8%e5%b7%a5%e5%85%b7&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;螢幕截圖工具：
+&lt;ul&gt;
+&lt;li&gt;剪取工具&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Windows Office 軟體
+&lt;ul&gt;
+&lt;li&gt;Excel&lt;/li&gt;
+&lt;li&gt;Power Point
+&lt;ul&gt;
+&lt;li&gt;技巧1：播放投影片時「拉近顯示」&lt;/li&gt;
+&lt;li&gt;技巧2：附上圖片物件&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Visio&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;心智圖軟體
+&lt;ul&gt;
+&lt;li&gt;XMind：https://actsmind.com/blog/xmind/xmind3download&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Graphviz 繪圖軟體：https://graphviz.org/download/&lt;/li&gt;
+&lt;li&gt;Icon 網站，例如：https://www.flaticon.com/&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;三財稅案&#34; &gt;三、財稅案
+&lt;span&gt;
+    &lt;a href=&#34;#%e4%b8%89%e8%b2%a1%e7%a8%85%e6%a1%88&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h3&gt;&lt;p&gt;特性：由本組的角度而言，本專案以開發工作為主，討論如何一步一步地解決過程中遇到的每項問題(痛點)。因此所產生的文件會比較注重在解釋目前有什麼困難(議題)、議題的種類、利用什麼方法改進。&lt;/p&gt;
+&lt;h4 id=&#34;範例-1需求的分類&#34; &gt;範例 1：需求的分類
+&lt;span&gt;
+    &lt;a href=&#34;#%e7%af%84%e4%be%8b-1%e9%9c%80%e6%b1%82%e7%9a%84%e5%88%86%e9%a1%9e&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h4&gt;&lt;ul&gt;
+&lt;li&gt;目的：說明各種 ETL/UT 作業的開發需求來源。&lt;/li&gt;
+&lt;li&gt;對象：開發團隊本身。&lt;/li&gt;
+&lt;li&gt;揭露資訊：需求來源的種類、細項、處理方式、重要程度。&lt;/li&gt;
+&lt;li&gt;繪製工具：XMind。
+&lt;img src=&#34;https://i.imgur.com/hDlGWpR.png&#34; alt=&#34;&#34;&gt;
+網址：https://i.imgur.com/hDlGWpR.png&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－&lt;/p&gt;
+&lt;h4 id=&#34;範例-2開發一致性的維護&#34; &gt;範例 2：開發一致性的維護
+&lt;span&gt;
+    &lt;a href=&#34;#%e7%af%84%e4%be%8b-2%e9%96%8b%e7%99%bc%e4%b8%80%e8%87%b4%e6%80%a7%e7%9a%84%e7%b6%ad%e8%ad%b7&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h4&gt;&lt;ul&gt;
+&lt;li&gt;目的：說明 ETL/UT 作業的開發一致性的維護機制。&lt;/li&gt;
+&lt;li&gt;對象：開發團隊本身。&lt;/li&gt;
+&lt;li&gt;揭露資訊：開發一致性的各部份元件、流程順序(數字標號)、自動化的部分(紅色框)。&lt;/li&gt;
+&lt;li&gt;繪製工具：Visio。
+&lt;img src=&#34;https://i.imgur.com/izEZjpH.png&#34; alt=&#34;&#34;&gt;
+網址：https://i.imgur.com/izEZjpH.png&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－&lt;/p&gt;
+&lt;h4 id=&#34;範例-3ddl-generator-程式架構圖&#34; &gt;範例 3：DDL Generator 程式架構圖
+&lt;span&gt;
+    &lt;a href=&#34;#%e7%af%84%e4%be%8b-3ddl-generator-%e7%a8%8b%e5%bc%8f%e6%9e%b6%e6%a7%8b%e5%9c%96&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h4&gt;&lt;ul&gt;
+&lt;li&gt;目的：說明構成 DDL Generator 工具每個模組的結構。&lt;/li&gt;
+&lt;li&gt;對象：開發團隊本身。&lt;/li&gt;
+&lt;li&gt;揭露資訊：模組數量/功能、模組中所包含的程式階層、與乙測環境的連線協定、執行時間。&lt;/li&gt;
+&lt;li&gt;繪製工具：Visio。
+&lt;img src=&#34;https://i.imgur.com/RvzNuk8.png&#34; alt=&#34;&#34;&gt;
+網址：https://i.imgur.com/RvzNuk8.png&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;※ DDL Generator 外觀：
+&lt;img src=&#34;https://i.imgur.com/ibUQxRh.png&#34; alt=&#34;&#34;&gt;
+網址：https://i.imgur.com/ibUQxRh.png&lt;/p&gt;
+&lt;p&gt;－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－&lt;/p&gt;
+&lt;h4 id=&#34;範例-4利用-graphviz-繪製彙總表流程圖&#34; &gt;範例 4：利用 Graphviz 繪製彙總表流程圖
+&lt;span&gt;
+    &lt;a href=&#34;#%e7%af%84%e4%be%8b-4%e5%88%a9%e7%94%a8-graphviz-%e7%b9%aa%e8%a3%bd%e5%bd%99%e7%b8%bd%e8%a1%a8%e6%b5%81%e7%a8%8b%e5%9c%96&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h4&gt;&lt;ul&gt;
+&lt;li&gt;目的：描述彙總表作業彼此間的相依性關係。&lt;/li&gt;
+&lt;li&gt;對象：開發團隊本身。&lt;/li&gt;
+&lt;li&gt;揭露資訊：
+&lt;ul&gt;
+&lt;li&gt;總圖：彙總表所有作業間的相依性。
+&lt;ul&gt;
+&lt;li&gt;範例1：彙總表相依性總圖(ALL)：&lt;a href=&#34;https://drive.google.com/file/d/1FNdPlL1mbklrPDmQKXYvbdGlwL9g_Ney/view?usp=sharing&#34;&gt;gen_sum_graph_v0.16_all.svg&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;範例2：彙總表相依性總圖(非營業稅)：&lt;a href=&#34;https://drive.google.com/file/d/1R8pJR2z7A3SoDJ_-Sjpmt0Qv4WGKsl3s/view?usp=sharing&#34;&gt;gen_sum_graph_v0.16_nobbi.svg&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;子圖：以單一作業為視角，描述其上下游的相依性作業。
+&lt;img src=&#34;https://i.imgur.com/3043gc4.jpg&#34; alt=&#34;&#34;&gt;
+網址：https://i.imgur.com/3043gc4.jpg
+&lt;ul&gt;
+&lt;li&gt;範例1：與 SBD_VAT_INQ_EXPORT_Y_SUMY_G0001 相關的上下游作業
+![](&lt;a href=&#34;https://i.imgur.com/xjcXN92.png&#34;&gt;https://i.imgur.com/xjcXN92.png&lt;/a&gt; =75%x75%)
+網址：https://i.imgur.com/xjcXN92.png&lt;/li&gt;
+&lt;li&gt;範例2：與三等親作業相關之上下游作業
+&lt;img src=&#34;https://i.imgur.com/0tAvOUN.png&#34; alt=&#34;&#34;&gt;
+網址：https://i.imgur.com/0tAvOUN.png&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;繪製工具：Graphviz + awk&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－&lt;/p&gt;
+&lt;h4 id=&#34;範例-5trinity-decoder-使用方式&#34; &gt;範例 5：Trinity Decoder 使用方式
+&lt;span&gt;
+    &lt;a href=&#34;#%e7%af%84%e4%be%8b-5trinity-decoder-%e4%bd%bf%e7%94%a8%e6%96%b9%e5%bc%8f&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h4&gt;&lt;ul&gt;
+&lt;li&gt;目的：說明 Trinity Decoder 工具的功能。&lt;/li&gt;
+&lt;li&gt;對象：開發團隊本身。&lt;/li&gt;
+&lt;li&gt;揭露資訊：Trinity Decoder 工具的程式結構、密文轉為明文的過程。&lt;/li&gt;
+&lt;li&gt;繪製工具：Visio。
+&lt;img src=&#34;https://i.imgur.com/x62vg70.png&#34; alt=&#34;&#34;&gt;
+網址：https://i.imgur.com/x62vg70.png&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－&lt;/p&gt;
+&lt;h4 id=&#34;範例-6etl作業開發方式比較-教學筆記-03&#34; &gt;範例 6：ETL作業開發方式比較 (教學筆記 03)
+&lt;span&gt;
+    &lt;a href=&#34;#%e7%af%84%e4%be%8b-6etl%e4%bd%9c%e6%a5%ad%e9%96%8b%e7%99%bc%e6%96%b9%e5%bc%8f%e6%af%94%e8%bc%83-%e6%95%99%e5%ad%b8%e7%ad%86%e8%a8%98-03&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h4&gt;&lt;ul&gt;
+&lt;li&gt;目的：比較傳統與利用awk自動產生程式碼的ETL作業開發方式&lt;/li&gt;
+&lt;li&gt;對象：開發團隊本身。&lt;/li&gt;
+&lt;li&gt;揭露資訊：兩種開發方式的比較、每個STEP在開發時的動作分解圖示(類似科學管理)。&lt;/li&gt;
+&lt;li&gt;繪製工具：網站抓圖 + Visio。
+&lt;img src=&#34;https://i.imgur.com/Zxm1rCW.png&#34; alt=&#34;&#34;&gt;
+網址：https://i.imgur.com/Zxm1rCW.png&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/Ab5sVl4.png&#34; alt=&#34;&#34;&gt;
+網址：https://i.imgur.com/Ab5sVl4.png&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;四中油案&#34; &gt;四、中油案
+&lt;span&gt;
+    &lt;a href=&#34;#%e5%9b%9b%e4%b8%ad%e6%b2%b9%e6%a1%88&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h3&gt;&lt;p&gt;特性：本案傾向於解決專題性的問題。例如：建立責任中心資料超市，以計算會計毛利，使會計人員易於查詢與使用。
+對象：中油各單位長官與專業人員。
+功能：解釋資料來龍去脈、計算邏輯。
+下載：&lt;em&gt;&amp;lt;連結已移除&amp;gt;&lt;/em&gt;&lt;/p&gt;
+&lt;h4 id=&#34;範例-1動機分析原因解決方案&#34; &gt;範例 1：動機、分析原因、解決方案：
+&lt;span&gt;
+    &lt;a href=&#34;#%e7%af%84%e4%be%8b-1%e5%8b%95%e6%a9%9f%e5%88%86%e6%9e%90%e5%8e%9f%e5%9b%a0%e8%a7%a3%e6%b1%ba%e6%96%b9%e6%a1%88&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h4&gt;&lt;ul&gt;
+&lt;li&gt;繪製工具：Visio。
+&lt;img src=&#34;https://i.imgur.com/JKoud9g.png&#34; alt=&#34;&#34;&gt;
+網址：https://i.imgur.com/JKoud9g.png
+－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;範例-2資料關係說明部分階層從屬&#34; &gt;範例 2：資料關係說明：部分/階層/從屬
+&lt;span&gt;
+    &lt;a href=&#34;#%e7%af%84%e4%be%8b-2%e8%b3%87%e6%96%99%e9%97%9c%e4%bf%82%e8%aa%aa%e6%98%8e%e9%83%a8%e5%88%86%e9%9a%8e%e5%b1%a4%e5%be%9e%e5%b1%ac&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h4&gt;&lt;ul&gt;
+&lt;li&gt;繪製工具：(不是我畫的)。
+&lt;img src=&#34;https://i.imgur.com/lhia8wc.png&#34; alt=&#34;&#34;&gt;
+網址：https://i.imgur.com/lhia8wc.png
+－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;範例-3資料流程--資料分類-粗略&#34; &gt;範例 3：資料流程 &amp;amp; 資料分類 (粗略)
+&lt;span&gt;
+    &lt;a href=&#34;#%e7%af%84%e4%be%8b-3%e8%b3%87%e6%96%99%e6%b5%81%e7%a8%8b--%e8%b3%87%e6%96%99%e5%88%86%e9%a1%9e-%e7%b2%97%e7%95%a5&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h4&gt;&lt;ul&gt;
+&lt;li&gt;繪製工具：Visio。
+&lt;img src=&#34;https://i.imgur.com/j0VOXBF.jpg&#34; alt=&#34;&#34;&gt;
+網址：https://i.imgur.com/j0VOXBF.jpg
+－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;範例-4er-model--資料分類-細部&#34; &gt;範例 4：ER Model &amp;amp; 資料分類 (細部)
+&lt;span&gt;
+    &lt;a href=&#34;#%e7%af%84%e4%be%8b-4er-model--%e8%b3%87%e6%96%99%e5%88%86%e9%a1%9e-%e7%b4%b0%e9%83%a8&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h4&gt;&lt;ul&gt;
+&lt;li&gt;繪製工具：Visio。
+&lt;img src=&#34;https://i.imgur.com/ejjCOC0.jpg&#34; alt=&#34;&#34;&gt;
+網址：https://i.imgur.com/ejjCOC0.jpg
+－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;範例-51資料超市的計算邏輯-下游欄位如何根據上游而計算出來&#34; &gt;範例 5.1：資料超市的計算邏輯 (下游欄位如何根據上游而計算出來)
+&lt;span&gt;
+    &lt;a href=&#34;#%e7%af%84%e4%be%8b-51%e8%b3%87%e6%96%99%e8%b6%85%e5%b8%82%e7%9a%84%e8%a8%88%e7%ae%97%e9%82%8f%e8%bc%af-%e4%b8%8b%e6%b8%b8%e6%ac%84%e4%bd%8d%e5%a6%82%e4%bd%95%e6%a0%b9%e6%93%9a%e4%b8%8a%e6%b8%b8%e8%80%8c%e8%a8%88%e7%ae%97%e5%87%ba%e4%be%86&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h4&gt;&lt;ul&gt;
+&lt;li&gt;繪製工具：Excel。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;※ 使用Power Point 小技巧：&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;圖片太大難以說明 ==&amp;gt; 「拉近顯示」功能。&lt;/li&gt;
+&lt;li&gt;沒有「拉近顯示」功能 ==&amp;gt; 插入物件。&lt;/li&gt;
+&lt;li&gt;過多的附加資訊 ==&amp;gt; 利用超連結至附件。
+&lt;img src=&#34;https://i.imgur.com/vne8EaA.jpg&#34; alt=&#34;&#34;&gt;
+網址：https://i.imgur.com/vne8EaA.jpg
+－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4 id=&#34;範例-52資料超市的計算範例&#34; &gt;範例 5.2：資料超市的計算範例
+&lt;span&gt;
+    &lt;a href=&#34;#%e7%af%84%e4%be%8b-52%e8%b3%87%e6%96%99%e8%b6%85%e5%b8%82%e7%9a%84%e8%a8%88%e7%ae%97%e7%af%84%e4%be%8b&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h4&gt;&lt;ul&gt;
+&lt;li&gt;繪製工具：Excel。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;※ 小技巧&lt;/strong&gt;：給予欄位編號 (A)、(B)、&amp;hellip; 使得計算易於理解
+&lt;img src=&#34;https://i.imgur.com/xyDJeb0.jpg&#34; alt=&#34;&#34;&gt;
+網址：https://i.imgur.com/xyDJeb0.jpg&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;五北分帳務處內案&#34; &gt;五、北分帳務處(內案)
+&lt;span&gt;
+    &lt;a href=&#34;#%e4%ba%94%e5%8c%97%e5%88%86%e5%b8%b3%e5%8b%99%e8%99%95%e5%85%a7%e6%a1%88&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h3&gt;&lt;p&gt;以下以 CPVSP 卡務管理系統的改善案件作為說明範例：
+下載：&lt;em&gt;&amp;lt;連結已移除&amp;gt;&lt;/em&gt;&lt;/p&gt;
+&lt;h4 id=&#34;範例-1cpvsp-卡務管理系統的改善專案&#34; &gt;範例 1：CPVSP 卡務管理系統的改善專案
+&lt;span&gt;
+    &lt;a href=&#34;#%e7%af%84%e4%be%8b-1cpvsp-%e5%8d%a1%e5%8b%99%e7%ae%a1%e7%90%86%e7%b3%bb%e7%b5%b1%e7%9a%84%e6%94%b9%e5%96%84%e5%b0%88%e6%a1%88&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h4&gt;&lt;ul&gt;
+&lt;li&gt;專案說明：改善系統偶爾發生遺漏處理客戶儲值行為的缺點。&lt;/li&gt;
+&lt;li&gt;揭露資訊：簡介、專案目的、改善方案、作業流程說明。&lt;/li&gt;
+&lt;li&gt;對象：程式開發單位、其他業務配合單位。&lt;/li&gt;
+&lt;li&gt;繪製工具：Visio + Excel + Power Point。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;現況說明：
+&lt;img src=&#34;https://i.imgur.com/bq5c2fq.png&#34; alt=&#34;&#34;&gt;
+網址：https://i.imgur.com/bq5c2fq.png&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;現有流程與待改善之處 → 產生痛點：
+&lt;img src=&#34;https://i.imgur.com/XpJRHqK.png&#34; alt=&#34;&#34;&gt;
+網址：https://i.imgur.com/XpJRHqK.png&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;提出改善方案：
+&lt;img src=&#34;https://i.imgur.com/3uzKhXE.png&#34; alt=&#34;&#34;&gt;
+網址：https://i.imgur.com/3uzKhXE.png&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;改善前後的案例說明：
+&lt;img src=&#34;https://i.imgur.com/ZEPwSRE.png&#34; alt=&#34;&#34;&gt;
+網址：https://i.imgur.com/ZEPwSRE.png&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/pet174F.png&#34; alt=&#34;&#34;&gt;
+網址：https://i.imgur.com/pet174F.png&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;六大數據處內案&#34; &gt;六、大數據處(內案)
+&lt;span&gt;
+    &lt;a href=&#34;#%e5%85%ad%e5%a4%a7%e6%95%b8%e6%93%9a%e8%99%95%e5%85%a7%e6%a1%88&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h3&gt;&lt;p&gt;大數據處內部存在許多待解決的技術性議題，以下列舉一些已解決的技術型任務來說明：&lt;/p&gt;
+&lt;h4 id=&#34;範例-1小工具小程式說明-去除尾筆--檢查筆數&#34; &gt;範例 1：小工具/小程式說明 (去除尾筆 + 檢查筆數)
+&lt;span&gt;
+    &lt;a href=&#34;#%e7%af%84%e4%be%8b-1%e5%b0%8f%e5%b7%a5%e5%85%b7%e5%b0%8f%e7%a8%8b%e5%bc%8f%e8%aa%aa%e6%98%8e-%e5%8e%bb%e9%99%a4%e5%b0%be%e7%ad%86--%e6%aa%a2%e6%9f%a5%e7%ad%86%e6%95%b8&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h4&gt;&lt;ul&gt;
+&lt;li&gt;目的：撰寫工具程式說明文件。&lt;/li&gt;
+&lt;li&gt;對象：該工具之所有使用者。&lt;/li&gt;
+&lt;li&gt;揭露資訊：輸出與輸入、參數說明。&lt;/li&gt;
+&lt;li&gt;繪製工具：Visio + Excel。
+下載：&lt;em&gt;&amp;lt;連結已移除&amp;gt;&lt;/em&gt;
+&lt;img src=&#34;https://i.imgur.com/0Xb42qW.png&#34; alt=&#34;&#34;&gt;
+網址：https://i.imgur.com/0Xb42qW.png&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;範例-2網格資料套疊機制開發&#34; &gt;範例 2：網格資料套疊機制開發
+&lt;span&gt;
+    &lt;a href=&#34;#%e7%af%84%e4%be%8b-2%e7%b6%b2%e6%a0%bc%e8%b3%87%e6%96%99%e5%a5%97%e7%96%8a%e6%a9%9f%e5%88%b6%e9%96%8b%e7%99%bc&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h4&gt;&lt;ul&gt;
+&lt;li&gt;目的：解決地圖網格搜尋效能不佳的問題。&lt;/li&gt;
+&lt;li&gt;對象：使用地圖網格之行銷/資料分析人員。&lt;/li&gt;
+&lt;li&gt;揭露資訊：緣由、解釋現有的搜尋方式為何效能不彰、解決方式：新的搜尋演算法、實驗結果。&lt;/li&gt;
+&lt;li&gt;繪製工具：Visio + Excel + Power Point。
+下載：&lt;a href=&#34;https://docs.google.com/presentation/d/1fIg7orfcHXaOndr66ldh0OghrdQ2atko/edit?usp=sharing&amp;amp;ouid=117823989132736366554&amp;amp;rtpof=true&amp;amp;sd=true&#34;&gt;網格資料套疊機制開發.pptx&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

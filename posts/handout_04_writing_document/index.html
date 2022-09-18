@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+
+
+<html lang="zh-tw" data-theme="">
+<head>
+    
+        
+<meta charset="utf-8">
+<meta name="HandheldFriendly" content="True">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="no-referrer-when-downgrade">
+
+<title>Alfred 的教學筆記 04 - 文件圖表表達方式的經驗分享 - Alfred Chen</title>
+
+<meta name="description" content="內容：文件圖表表達方式的經驗分享">
+
+
+
+
+
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="apple-touch-icon-precomposed" href="favicon.png">
+
+
+<style>
+  body {
+    visibility: hidden;
+    opacity: 0;
+  }
+</style>
+
+<noscript>
+  <style>
+    body {
+      visibility: visible;
+      opacity: 1;
+    }
+  </style>
+</noscript>
+
+
+
+    
+
+
+
+
+
+    
+    
+        
+    
+    
+
+    
+        <link rel="stylesheet" href="/css/style.min.65a6fe530f7f8ef21128f582fec92c4cf1e7ba18ed6aad0eadf7b1bb42f2d616.css" integrity="sha256-Zab&#43;Uw9/jvIRKPWC/sksTPHnuhjtaq0Orfexu0Ly1hY=">
+    
+
+
+
+
+
+    
+
+    
+
+
+
+
+
+    
+    
+        
+    
+    
+
+    
+        <script src="/js/script.min.74bf1a3fcf1af396efa4acf3e660e876b61a2153ab9cbe1893ac24ea6d4f94ee.js" type="text/javascript" charset="utf-8" integrity="sha256-dL8aP88a85bvpKzz5mDodrYaIVOrnL4Yk6wk6m1PlO4="></script>
+    
+
+
+
+
+
+
+
+<meta property="og:title" content="Alfred 的教學筆記 04 - 文件圖表表達方式的經驗分享" />
+<meta property="og:description" content="內容：文件圖表表達方式的經驗分享" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/handout_04_writing_document/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-01-01T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-01-01T00:00:00+00:00" />
+
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Alfred 的教學筆記 04 - 文件圖表表達方式的經驗分享"/>
+<meta name="twitter:description" content="內容：文件圖表表達方式的經驗分享"/>
+
+
+
+    
+        <link rel="webmention" href="https://webmention.io/hugo-theme-anubis/webmention" />
+        
+            <link rel="pingback" href="https://webmention.io/hugo-theme-anubis/xmlrpc" />
+        
+    
+    
+        <link rel="webmention" href="https://yourdomain.com/webemntions/receive" />
+    
+
+
+
+
+
+
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-12345"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-12345', { 'anonymize_ip': false });
+}
+</script>
+
+
+
+
+
+    
+</head>
+<body>
+    <a class="skip-main" href="#main">Skip to main content</a>
+    <div class="container">
+        <header class="common-header"> 
+            
+                <div class="header-top">
+    <h1 class="site-title">
+    <a href="/">Alfred Chen</a>
+</h1>
+    <ul class="social-icons">
+
+
+    
+        <li>
+            <a href="https://Chen-Alfred.github.io/" title="Github" rel="me">
+            <span class="inline-svg" >
+
+
+
+
+    
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+
+</span>
+
+            </a>
+        </li>
+    
+
+    
+        
+        
+        <li>
+            <a href="mailto:achieve0616@gmail.com" title="Email" rel="me">
+            <span class="inline-svg" >
+
+
+
+
+    
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M464 64H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm0 48v40.805c-22.422 18.259-58.168 46.651-134.587 106.49-16.841 13.247-50.201 45.072-73.413 44.701-23.208.375-56.579-31.459-73.413-44.701C106.18 199.465 70.425 171.067 48 152.805V112h416zM48 400V214.398c22.914 18.251 55.409 43.862 104.938 82.646 21.857 17.205 60.134 55.186 103.062 54.955 42.717.231 80.509-37.199 103.053-54.947 49.528-38.783 82.032-64.401 104.947-82.653V400H48z"/></svg>
+
+</span>
+
+            </a>
+        </li>
+    
+
+    
+        <li>
+            <a href="https://www.facebook.com/ciphero0616" title="Facebook" rel="me">
+            <span class="inline-svg" >
+
+
+
+
+    
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M504 256C504 119 393 8 256 8S8 119 8 256c0 123.78 90.69 226.38 209.25 245V327.69h-63V256h63v-54.64c0-62.15 37-96.48 93.67-96.48 27.14 0 55.52 4.84 55.52 4.84v61h-31.28c-30.8 0-40.41 19.12-40.41 38.73V256h68.78l-11 71.69h-57.78V501C413.31 482.38 504 379.78 504 256z"/></svg>
+
+</span>
+
+            </a>
+        </li>
+    
+
+
+
+
+</ul>
+</div>
+
+    <nav>
+        
+        
+        <a class="" href="/about/" title="about">About</a>
+        
+        <a class="" href="/posts/" title="posts">Posts</a>
+        
+        <a class="" href="/tags/" title="tags">Tags</a>
+        
+        <a class="" href="/categories/" title="categories">Categories</a>
+        
+    </nav>
+
+
+
+
+
+
+            
+        </header>
+        <main id="main" tabindex="-1"> 
+            
+    
+
+    <article class="post h-entry">
+        <div class="post-header">
+            <header>
+                <h1 class="p-name post-title">Alfred 的教學筆記 04 - 文件圖表表達方式的經驗分享</h1>
+
+                
+            </header>
+        </div>
+        <div class="content e-content">
+            <hr>
+<h3 id="一前言" >一、前言
+<span>
+    <a href="#%e4%b8%80%e5%89%8d%e8%a8%80">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><ul>
+<li>圖優於表，表優於文字。</li>
+<li>這裡要講的，並非資料視覺化 (資料 → 圖表 → 解釋現象 or 產生洞見(insight) → 幫助決策)，而是說明如何將自己本身的計畫、經驗、想法，以文件作為媒介傳達給其他人，而使用技巧的經驗分享。其目的通常是為了傳達自己的想法與規劃、客觀描述系統行為或程式規格、或說明並解決某些問題。</li>
+<li>陳述制度、規範、流程時，「說」、「寫」、「做」要一致。</li>
+<li>對於一份簡單的圖表，須考慮到：
+<ul>
+<li>目的 → 對象 → 選擇揭露資訊 → 選擇呈現方法/工具。</li>
+<li>例如：流程圖 (說明流程，表達與時間/先後次序有關的概念)。</li>
+</ul>
+</li>
+<li>撰寫一份更複雜的文件時，須使用較有條理的結構來論述，此時須使用更多的文字與圖表來協助，常用的結構包含下列幾個段落：
+<ul>
+<li>前言 (Why)：背景介紹、動機和目的 (源自於某些痛點、需求)。</li>
+<li>方法 (How)：使用技術、方法或理論、架構與設計方式、規格或細節的描述。</li>
+<li>結果：評估方式與標準、預估/計算產生的效益、改善前後的比較。</li>
+<li>例如：專案改善文件。</li>
+</ul>
+</li>
+<li>補充：對長者簡報時，字體可以大一點。</li>
+<li>強調一下：撰寫文件是作為協助溝通的工具，而不是作為讓自己毋須與別人溝通的藉口。</li>
+</ul>
+<h4 id="範例-1vi-編輯器的模式切換-from-鳥哥私房菜" >範例 1：vi 編輯器的模式切換 (from 鳥哥私房菜)
+<span>
+    <a href="#%e7%af%84%e4%be%8b-1vi-%e7%b7%a8%e8%bc%af%e5%99%a8%e7%9a%84%e6%a8%a1%e5%bc%8f%e5%88%87%e6%8f%9b-from-%e9%b3%a5%e5%93%a5%e7%a7%81%e6%88%bf%e8%8f%9c">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h4><ul>
+<li>目的：理解 vi 編輯器的模式之間如何切換。</li>
+<li>對象：一般學習者。</li>
+<li>揭露資訊：模式的種類、預設的模式、如何彼此切換。
+<img src="https://i.imgur.com/2wNs40m.gif" alt="">
+網址：https://i.imgur.com/2wNs40m.gif
+－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－</li>
+</ul>
+<h4 id="範例-2乙測環境-trinity-原始碼備份工具-from-教學筆記-02作業四" >範例 2：乙測環境 Trinity 原始碼備份工具 (from 教學筆記 02－作業四)
+<span>
+    <a href="#%e7%af%84%e4%be%8b-2%e4%b9%99%e6%b8%ac%e7%92%b0%e5%a2%83-trinity-%e5%8e%9f%e5%a7%8b%e7%a2%bc%e5%82%99%e4%bb%bd%e5%b7%a5%e5%85%b7-from-%e6%95%99%e5%ad%b8%e7%ad%86%e8%a8%98-02%e4%bd%9c%e6%a5%ad%e5%9b%9b">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h4><ul>
+<li>目的：說明作業的程式規格。</li>
+<li>對象：本專案開發人員。</li>
+<li>揭露資訊：程式規格 (使用方式、連線順序/方向、相關資訊)。</li>
+<li>未揭露資訊：連線帳密、個人目錄名稱。</li>
+<li>繪製工具：Visio。
+<img src="https://i.imgur.com/dhfm9iG.png" alt="">
+網址：https://i.imgur.com/dhfm9iG.png
+－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－</li>
+</ul>
+<h4 id="範例-3花東四天三夜出遊行程" >範例 3：花東四天三夜出遊行程
+<span>
+    <a href="#%e7%af%84%e4%be%8b-3%e8%8a%b1%e6%9d%b1%e5%9b%9b%e5%a4%a9%e4%b8%89%e5%a4%9c%e5%87%ba%e9%81%8a%e8%a1%8c%e7%a8%8b">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h4><ul>
+<li>目的：說明出遊的行程。</li>
+<li>對象：一起出遊的夥伴。</li>
+<li>揭露資訊：每日行程順序、地理位置。</li>
+<li>繪製工具：Visio。
+<img src="https://i.imgur.com/Q1medjo.png" alt="">
+網址：https://i.imgur.com/Q1medjo.png
+－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－</li>
+</ul>
+<h4 id="範例-4規劃演唱會當日行程表" >範例 4：規劃演唱會當日行程表
+<span>
+    <a href="#%e7%af%84%e4%be%8b-4%e8%a6%8f%e5%8a%83%e6%bc%94%e5%94%b1%e6%9c%83%e7%95%b6%e6%97%a5%e8%a1%8c%e7%a8%8b%e8%a1%a8">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h4><ul>
+<li>目的：統籌集合、出發的時間地點，並說明行程。</li>
+<li>對象：參加活動的夥伴。</li>
+<li>揭露資訊：時間點、發生事件、參與人員、花費時間長度、相關資訊。</li>
+<li>繪製工具：Excel。
+<img src="https://i.imgur.com/8V56Xjl.jpg" alt="">
+網址：https://i.imgur.com/8V56Xjl.jpg</li>
+</ul>
+<hr>
+<h3 id="二常用工具" >二、常用工具
+<span>
+    <a href="#%e4%ba%8c%e5%b8%b8%e7%94%a8%e5%b7%a5%e5%85%b7">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><ul>
+<li>螢幕截圖工具：
+<ul>
+<li>剪取工具</li>
+</ul>
+</li>
+<li>Windows Office 軟體
+<ul>
+<li>Excel</li>
+<li>Power Point
+<ul>
+<li>技巧1：播放投影片時「拉近顯示」</li>
+<li>技巧2：附上圖片物件</li>
+</ul>
+</li>
+<li>Visio</li>
+</ul>
+</li>
+<li>心智圖軟體
+<ul>
+<li>XMind：https://actsmind.com/blog/xmind/xmind3download</li>
+</ul>
+</li>
+<li>Graphviz 繪圖軟體：https://graphviz.org/download/</li>
+<li>Icon 網站，例如：https://www.flaticon.com/</li>
+</ul>
+<hr>
+<h3 id="三財稅案" >三、財稅案
+<span>
+    <a href="#%e4%b8%89%e8%b2%a1%e7%a8%85%e6%a1%88">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><p>特性：由本組的角度而言，本專案以開發工作為主，討論如何一步一步地解決過程中遇到的每項問題(痛點)。因此所產生的文件會比較注重在解釋目前有什麼困難(議題)、議題的種類、利用什麼方法改進。</p>
+<h4 id="範例-1需求的分類" >範例 1：需求的分類
+<span>
+    <a href="#%e7%af%84%e4%be%8b-1%e9%9c%80%e6%b1%82%e7%9a%84%e5%88%86%e9%a1%9e">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h4><ul>
+<li>目的：說明各種 ETL/UT 作業的開發需求來源。</li>
+<li>對象：開發團隊本身。</li>
+<li>揭露資訊：需求來源的種類、細項、處理方式、重要程度。</li>
+<li>繪製工具：XMind。
+<img src="https://i.imgur.com/hDlGWpR.png" alt="">
+網址：https://i.imgur.com/hDlGWpR.png</li>
+</ul>
+<p>－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－</p>
+<h4 id="範例-2開發一致性的維護" >範例 2：開發一致性的維護
+<span>
+    <a href="#%e7%af%84%e4%be%8b-2%e9%96%8b%e7%99%bc%e4%b8%80%e8%87%b4%e6%80%a7%e7%9a%84%e7%b6%ad%e8%ad%b7">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h4><ul>
+<li>目的：說明 ETL/UT 作業的開發一致性的維護機制。</li>
+<li>對象：開發團隊本身。</li>
+<li>揭露資訊：開發一致性的各部份元件、流程順序(數字標號)、自動化的部分(紅色框)。</li>
+<li>繪製工具：Visio。
+<img src="https://i.imgur.com/izEZjpH.png" alt="">
+網址：https://i.imgur.com/izEZjpH.png</li>
+</ul>
+<p>－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－</p>
+<h4 id="範例-3ddl-generator-程式架構圖" >範例 3：DDL Generator 程式架構圖
+<span>
+    <a href="#%e7%af%84%e4%be%8b-3ddl-generator-%e7%a8%8b%e5%bc%8f%e6%9e%b6%e6%a7%8b%e5%9c%96">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h4><ul>
+<li>目的：說明構成 DDL Generator 工具每個模組的結構。</li>
+<li>對象：開發團隊本身。</li>
+<li>揭露資訊：模組數量/功能、模組中所包含的程式階層、與乙測環境的連線協定、執行時間。</li>
+<li>繪製工具：Visio。
+<img src="https://i.imgur.com/RvzNuk8.png" alt="">
+網址：https://i.imgur.com/RvzNuk8.png</li>
+</ul>
+<p>※ DDL Generator 外觀：
+<img src="https://i.imgur.com/ibUQxRh.png" alt="">
+網址：https://i.imgur.com/ibUQxRh.png</p>
+<p>－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－</p>
+<h4 id="範例-4利用-graphviz-繪製彙總表流程圖" >範例 4：利用 Graphviz 繪製彙總表流程圖
+<span>
+    <a href="#%e7%af%84%e4%be%8b-4%e5%88%a9%e7%94%a8-graphviz-%e7%b9%aa%e8%a3%bd%e5%bd%99%e7%b8%bd%e8%a1%a8%e6%b5%81%e7%a8%8b%e5%9c%96">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h4><ul>
+<li>目的：描述彙總表作業彼此間的相依性關係。</li>
+<li>對象：開發團隊本身。</li>
+<li>揭露資訊：
+<ul>
+<li>總圖：彙總表所有作業間的相依性。
+<ul>
+<li>範例1：彙總表相依性總圖(ALL)：<a href="https://drive.google.com/file/d/1FNdPlL1mbklrPDmQKXYvbdGlwL9g_Ney/view?usp=sharing">gen_sum_graph_v0.16_all.svg</a></li>
+<li>範例2：彙總表相依性總圖(非營業稅)：<a href="https://drive.google.com/file/d/1R8pJR2z7A3SoDJ_-Sjpmt0Qv4WGKsl3s/view?usp=sharing">gen_sum_graph_v0.16_nobbi.svg</a></li>
+</ul>
+</li>
+<li>子圖：以單一作業為視角，描述其上下游的相依性作業。
+<img src="https://i.imgur.com/3043gc4.jpg" alt="">
+網址：https://i.imgur.com/3043gc4.jpg
+<ul>
+<li>範例1：與 SBD_VAT_INQ_EXPORT_Y_SUMY_G0001 相關的上下游作業
+![](<a href="https://i.imgur.com/xjcXN92.png">https://i.imgur.com/xjcXN92.png</a> =75%x75%)
+網址：https://i.imgur.com/xjcXN92.png</li>
+<li>範例2：與三等親作業相關之上下游作業
+<img src="https://i.imgur.com/0tAvOUN.png" alt="">
+網址：https://i.imgur.com/0tAvOUN.png</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>繪製工具：Graphviz + awk</li>
+</ul>
+<p>－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－</p>
+<h4 id="範例-5trinity-decoder-使用方式" >範例 5：Trinity Decoder 使用方式
+<span>
+    <a href="#%e7%af%84%e4%be%8b-5trinity-decoder-%e4%bd%bf%e7%94%a8%e6%96%b9%e5%bc%8f">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h4><ul>
+<li>目的：說明 Trinity Decoder 工具的功能。</li>
+<li>對象：開發團隊本身。</li>
+<li>揭露資訊：Trinity Decoder 工具的程式結構、密文轉為明文的過程。</li>
+<li>繪製工具：Visio。
+<img src="https://i.imgur.com/x62vg70.png" alt="">
+網址：https://i.imgur.com/x62vg70.png</li>
+</ul>
+<p>－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－</p>
+<h4 id="範例-6etl作業開發方式比較-教學筆記-03" >範例 6：ETL作業開發方式比較 (教學筆記 03)
+<span>
+    <a href="#%e7%af%84%e4%be%8b-6etl%e4%bd%9c%e6%a5%ad%e9%96%8b%e7%99%bc%e6%96%b9%e5%bc%8f%e6%af%94%e8%bc%83-%e6%95%99%e5%ad%b8%e7%ad%86%e8%a8%98-03">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h4><ul>
+<li>目的：比較傳統與利用awk自動產生程式碼的ETL作業開發方式</li>
+<li>對象：開發團隊本身。</li>
+<li>揭露資訊：兩種開發方式的比較、每個STEP在開發時的動作分解圖示(類似科學管理)。</li>
+<li>繪製工具：網站抓圖 + Visio。
+<img src="https://i.imgur.com/Zxm1rCW.png" alt="">
+網址：https://i.imgur.com/Zxm1rCW.png</li>
+</ul>
+<p><img src="https://i.imgur.com/Ab5sVl4.png" alt="">
+網址：https://i.imgur.com/Ab5sVl4.png</p>
+<hr>
+<h3 id="四中油案" >四、中油案
+<span>
+    <a href="#%e5%9b%9b%e4%b8%ad%e6%b2%b9%e6%a1%88">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><p>特性：本案傾向於解決專題性的問題。例如：建立責任中心資料超市，以計算會計毛利，使會計人員易於查詢與使用。
+對象：中油各單位長官與專業人員。
+功能：解釋資料來龍去脈、計算邏輯。
+下載：<em>&lt;連結已移除&gt;</em></p>
+<h4 id="範例-1動機分析原因解決方案" >範例 1：動機、分析原因、解決方案：
+<span>
+    <a href="#%e7%af%84%e4%be%8b-1%e5%8b%95%e6%a9%9f%e5%88%86%e6%9e%90%e5%8e%9f%e5%9b%a0%e8%a7%a3%e6%b1%ba%e6%96%b9%e6%a1%88">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h4><ul>
+<li>繪製工具：Visio。
+<img src="https://i.imgur.com/JKoud9g.png" alt="">
+網址：https://i.imgur.com/JKoud9g.png
+－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－</li>
+</ul>
+<h4 id="範例-2資料關係說明部分階層從屬" >範例 2：資料關係說明：部分/階層/從屬
+<span>
+    <a href="#%e7%af%84%e4%be%8b-2%e8%b3%87%e6%96%99%e9%97%9c%e4%bf%82%e8%aa%aa%e6%98%8e%e9%83%a8%e5%88%86%e9%9a%8e%e5%b1%a4%e5%be%9e%e5%b1%ac">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h4><ul>
+<li>繪製工具：(不是我畫的)。
+<img src="https://i.imgur.com/lhia8wc.png" alt="">
+網址：https://i.imgur.com/lhia8wc.png
+－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－</li>
+</ul>
+<h4 id="範例-3資料流程--資料分類-粗略" >範例 3：資料流程 &amp; 資料分類 (粗略)
+<span>
+    <a href="#%e7%af%84%e4%be%8b-3%e8%b3%87%e6%96%99%e6%b5%81%e7%a8%8b--%e8%b3%87%e6%96%99%e5%88%86%e9%a1%9e-%e7%b2%97%e7%95%a5">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h4><ul>
+<li>繪製工具：Visio。
+<img src="https://i.imgur.com/j0VOXBF.jpg" alt="">
+網址：https://i.imgur.com/j0VOXBF.jpg
+－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－</li>
+</ul>
+<h4 id="範例-4er-model--資料分類-細部" >範例 4：ER Model &amp; 資料分類 (細部)
+<span>
+    <a href="#%e7%af%84%e4%be%8b-4er-model--%e8%b3%87%e6%96%99%e5%88%86%e9%a1%9e-%e7%b4%b0%e9%83%a8">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h4><ul>
+<li>繪製工具：Visio。
+<img src="https://i.imgur.com/ejjCOC0.jpg" alt="">
+網址：https://i.imgur.com/ejjCOC0.jpg
+－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－</li>
+</ul>
+<h4 id="範例-51資料超市的計算邏輯-下游欄位如何根據上游而計算出來" >範例 5.1：資料超市的計算邏輯 (下游欄位如何根據上游而計算出來)
+<span>
+    <a href="#%e7%af%84%e4%be%8b-51%e8%b3%87%e6%96%99%e8%b6%85%e5%b8%82%e7%9a%84%e8%a8%88%e7%ae%97%e9%82%8f%e8%bc%af-%e4%b8%8b%e6%b8%b8%e6%ac%84%e4%bd%8d%e5%a6%82%e4%bd%95%e6%a0%b9%e6%93%9a%e4%b8%8a%e6%b8%b8%e8%80%8c%e8%a8%88%e7%ae%97%e5%87%ba%e4%be%86">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h4><ul>
+<li>繪製工具：Excel。</li>
+</ul>
+<p><strong>※ 使用Power Point 小技巧：</strong></p>
+<ol>
+<li>圖片太大難以說明 ==&gt; 「拉近顯示」功能。</li>
+<li>沒有「拉近顯示」功能 ==&gt; 插入物件。</li>
+<li>過多的附加資訊 ==&gt; 利用超連結至附件。
+<img src="https://i.imgur.com/vne8EaA.jpg" alt="">
+網址：https://i.imgur.com/vne8EaA.jpg
+－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－</li>
+</ol>
+<h4 id="範例-52資料超市的計算範例" >範例 5.2：資料超市的計算範例
+<span>
+    <a href="#%e7%af%84%e4%be%8b-52%e8%b3%87%e6%96%99%e8%b6%85%e5%b8%82%e7%9a%84%e8%a8%88%e7%ae%97%e7%af%84%e4%be%8b">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h4><ul>
+<li>繪製工具：Excel。</li>
+</ul>
+<p><strong>※ 小技巧</strong>：給予欄位編號 (A)、(B)、&hellip; 使得計算易於理解
+<img src="https://i.imgur.com/xyDJeb0.jpg" alt="">
+網址：https://i.imgur.com/xyDJeb0.jpg</p>
+<hr>
+<h3 id="五北分帳務處內案" >五、北分帳務處(內案)
+<span>
+    <a href="#%e4%ba%94%e5%8c%97%e5%88%86%e5%b8%b3%e5%8b%99%e8%99%95%e5%85%a7%e6%a1%88">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><p>以下以 CPVSP 卡務管理系統的改善案件作為說明範例：
+下載：<em>&lt;連結已移除&gt;</em></p>
+<h4 id="範例-1cpvsp-卡務管理系統的改善專案" >範例 1：CPVSP 卡務管理系統的改善專案
+<span>
+    <a href="#%e7%af%84%e4%be%8b-1cpvsp-%e5%8d%a1%e5%8b%99%e7%ae%a1%e7%90%86%e7%b3%bb%e7%b5%b1%e7%9a%84%e6%94%b9%e5%96%84%e5%b0%88%e6%a1%88">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h4><ul>
+<li>專案說明：改善系統偶爾發生遺漏處理客戶儲值行為的缺點。</li>
+<li>揭露資訊：簡介、專案目的、改善方案、作業流程說明。</li>
+<li>對象：程式開發單位、其他業務配合單位。</li>
+<li>繪製工具：Visio + Excel + Power Point。</li>
+</ul>
+<ol>
+<li>
+<p>現況說明：
+<img src="https://i.imgur.com/bq5c2fq.png" alt="">
+網址：https://i.imgur.com/bq5c2fq.png</p>
+</li>
+<li>
+<p>現有流程與待改善之處 → 產生痛點：
+<img src="https://i.imgur.com/XpJRHqK.png" alt="">
+網址：https://i.imgur.com/XpJRHqK.png</p>
+</li>
+<li>
+<p>提出改善方案：
+<img src="https://i.imgur.com/3uzKhXE.png" alt="">
+網址：https://i.imgur.com/3uzKhXE.png</p>
+</li>
+<li>
+<p>改善前後的案例說明：
+<img src="https://i.imgur.com/ZEPwSRE.png" alt="">
+網址：https://i.imgur.com/ZEPwSRE.png</p>
+</li>
+</ol>
+<p><img src="https://i.imgur.com/pet174F.png" alt="">
+網址：https://i.imgur.com/pet174F.png</p>
+<hr>
+<h3 id="六大數據處內案" >六、大數據處(內案)
+<span>
+    <a href="#%e5%85%ad%e5%a4%a7%e6%95%b8%e6%93%9a%e8%99%95%e5%85%a7%e6%a1%88">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h3><p>大數據處內部存在許多待解決的技術性議題，以下列舉一些已解決的技術型任務來說明：</p>
+<h4 id="範例-1小工具小程式說明-去除尾筆--檢查筆數" >範例 1：小工具/小程式說明 (去除尾筆 + 檢查筆數)
+<span>
+    <a href="#%e7%af%84%e4%be%8b-1%e5%b0%8f%e5%b7%a5%e5%85%b7%e5%b0%8f%e7%a8%8b%e5%bc%8f%e8%aa%aa%e6%98%8e-%e5%8e%bb%e9%99%a4%e5%b0%be%e7%ad%86--%e6%aa%a2%e6%9f%a5%e7%ad%86%e6%95%b8">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h4><ul>
+<li>目的：撰寫工具程式說明文件。</li>
+<li>對象：該工具之所有使用者。</li>
+<li>揭露資訊：輸出與輸入、參數說明。</li>
+<li>繪製工具：Visio + Excel。
+下載：<em>&lt;連結已移除&gt;</em>
+<img src="https://i.imgur.com/0Xb42qW.png" alt="">
+網址：https://i.imgur.com/0Xb42qW.png</li>
+</ul>
+<h4 id="範例-2網格資料套疊機制開發" >範例 2：網格資料套疊機制開發
+<span>
+    <a href="#%e7%af%84%e4%be%8b-2%e7%b6%b2%e6%a0%bc%e8%b3%87%e6%96%99%e5%a5%97%e7%96%8a%e6%a9%9f%e5%88%b6%e9%96%8b%e7%99%bc">
+        <svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+    </a>
+</span>
+</h4><ul>
+<li>目的：解決地圖網格搜尋效能不佳的問題。</li>
+<li>對象：使用地圖網格之行銷/資料分析人員。</li>
+<li>揭露資訊：緣由、解釋現有的搜尋方式為何效能不彰、解決方式：新的搜尋演算法、實驗結果。</li>
+<li>繪製工具：Visio + Excel + Power Point。
+下載：<a href="https://docs.google.com/presentation/d/1fIg7orfcHXaOndr66ldh0OghrdQ2atko/edit?usp=sharing&amp;ouid=117823989132736366554&amp;rtpof=true&amp;sd=true">網格資料套疊機制開發.pptx</a></li>
+</ul>
+<hr>
+
+        </div>
+        
+
+    
+
+
+<div class="post-info">
+    
+        <div class="post-date dt-published">2022-01-01</div>
+    
+
+    <a class="post-hidden-url u-url" href="/posts/handout_04_writing_document/">/posts/handout_04_writing_document/</a>
+    <a href="" class="p-name p-author post-hidden-author h-card" rel="me">Alfred Chen</a>
+
+
+    <div class="post-taxonomies">
+        
+            <ul class="post-categories">
+                
+                    
+                    <li><a href="/categories/%E6%95%99%E5%AD%B8%E7%AD%86%E8%A8%98/">教學筆記</a></li>
+                
+            </ul>
+            
+            
+                <ul class="post-tags">
+                    
+                        
+                        <li><a href="/tags/%E6%96%87%E4%BB%B6/">#文件</a></li>
+                    
+                        
+                        <li><a href="/tags/%E5%AF%AB%E4%BD%9C/">#寫作</a></li>
+                    
+                        
+                        <li><a href="/tags/%E7%B9%AA%E5%9C%96/">#繪圖</a></li>
+                    
+                </ul>
+        
+    </div>
+</div>
+
+    </article>
+
+    
+
+    
+        
+    <div class="pagination post-pagination">
+        <div class="left pagination-item ">
+            
+                <a href="/posts/handout_03_awk_introduction/">Alfred 的教學筆記 03 - awk 指令介紹</a>
+            
+        </div>
+        <div class="right pagination-item ">
+            
+                <a href="/posts/handout_05_ecpg_programming/">Alfred 的教學筆記 05 - 以 C 語言開發資料庫存取程式 (ECPG)</a>
+            
+        </div>
+    </div>
+
+
+
+
+    
+
+    
+        
+
+
+
+
+    
+
+
+
+
+
+<article class="post">
+<script
+    data-isso="https://comments.example.com/"
+    data-isso-id="thread-id"
+    data-isso-css="true"
+    data-isso-lang="tw"
+    data-isso-reply-to-self="true"
+    data-isso-require-author="true"
+    data-isso-require-email="true"
+    data-isso-avatar="true"
+    data-isso-avatar-bg="#f0f0f0"
+    data-isso-feed="false"
+    src="https://comments.example.com/js/embed.min.js">
+</script>
+<noscript>Please enable JavaScript to view the comments powered by <a href="https://posativ.org/isso/">Isso</a>.</noscript>
+<div>
+  <section id="isso-thread"></section>
+</div>
+</article>
+
+
+
+
+
+    
+
+        </main>
+        
+            <footer class="common-footer">
+    
+    
+
+    <div class="common-footer-bottom">
+        
+        <div class="copyright">
+            <p>© Alfred Chen, 2022<br>
+            Powered by <a target="_blank" rel="noopener noreferrer" href="https://gohugo.io/">Hugo</a>, theme <a target="_blank" rel="noopener noreferrer" href="https://github.com/mitrichius/hugo-theme-anubis">Anubis</a>.<br>
+            
+            </p>  
+        </div> 
+
+        
+
+    
+
+
+
+    <button class="theme-switcher">
+        Dark theme
+    </button>
+
+
+<script>
+const STORAGE_KEY = 'user-color-scheme'
+const defaultTheme = "dark"
+
+let currentTheme
+let switchButton
+let autoDefinedScheme = window.matchMedia('(prefers-color-scheme: dark)')
+
+const autoChangeScheme = e => {
+    currentTheme = e.matches ? 'dark' : 'light'
+    document.documentElement.setAttribute('data-theme', currentTheme)
+    changeButtonText()
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    switchButton = document.querySelector('.theme-switcher')
+    currentTheme = detectCurrentScheme()
+    if (currentTheme == 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark')
+    }
+    if (currentTheme == 'auto') {
+        autoChangeScheme(autoDefinedScheme);
+        autoDefinedScheme.addListener(autoChangeScheme);
+    }
+
+    if (switchButton) {
+        changeButtonText()
+        switchButton.addEventListener('click', switchTheme, false)
+    }
+  
+    showContent()
+})
+
+function detectCurrentScheme() {
+    if (localStorage.getItem(STORAGE_KEY)) {
+        return localStorage.getItem(STORAGE_KEY)
+    } 
+    if (defaultTheme) {
+        return defaultTheme
+    } 
+    if (!window.matchMedia) {
+        return 'light'
+    } 
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        return 'dark'
+    }
+    return 'light'
+}
+
+function changeButtonText()
+{   
+    if (switchButton) {
+        switchButton.textContent = currentTheme == 'dark' ?  "Light theme" : "Dark theme"
+    }
+}
+
+function switchTheme(e) {
+    if (currentTheme == 'dark') {
+        localStorage.setItem(STORAGE_KEY, 'light')
+        document.documentElement.setAttribute('data-theme', 'light')
+        currentTheme = 'light'
+    } else {
+        localStorage.setItem(STORAGE_KEY, 'dark')
+        document.documentElement.setAttribute('data-theme', 'dark')
+        currentTheme = 'dark'
+    }
+    changeButtonText()
+}
+
+function showContent() {
+    document.body.style.visibility = 'visible';
+    document.body.style.opacity = 1;
+}
+</script>   
+    </div>
+
+    <p class="h-card vcard">
+
+    <a href= class="p-name u-url url fn" rel="me">Alfred Chen</a> 
+
+     
+        /
+        <a class="p-email u-email email" rel="me" href="mailto:mail@example.org">mail@example.org</a>
+    
+
+     
+        <img class="u-photo" src="/images/me.png" />
+    
+</p> 
+</footer>
+
+        
+    </div>
+</body>
+</html>

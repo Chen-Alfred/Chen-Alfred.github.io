@@ -1,0 +1,1657 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>C on Alfred Chen</title>
+    <link>/tags/c/</link>
+    <description>Alfred Chen (C)</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-tw</language>
+    <lastBuildDate>Sat, 01 Jan 2022 00:00:00 +0000</lastBuildDate>
+    
+    <atom:link href="/tags/c/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Alfred 的教學筆記 05 - 以 C 語言開發資料庫存取程式 (ECPG)</title>
+      <link>/posts/handout_05_ecpg_programming/</link>
+      <pubDate>Sat, 01 Jan 2022 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/handout_05_ecpg_programming/</guid>
+      <description>&lt;hr&gt;
+&lt;h3 id=&#34;一embedded-sql&#34; &gt;一、Embedded SQL：
+&lt;span&gt;
+    &lt;a href=&#34;#%e4%b8%80embedded-sql&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://zh.wikipedia.org/wiki/%E5%B5%8C%E5%85%A5%E5%BC%8FSQL&#34;&gt;https://zh.wikipedia.org/wiki/%E5%B5%8C%E5%85%A5%E5%BC%8FSQL&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://en.wikipedia.org/wiki/Embedded_SQL&#34;&gt;https://en.wikipedia.org/wiki/Embedded_SQL&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;官網說明：https://www.postgresql.org/docs/9.6/ecpg.html&lt;/li&gt;
+&lt;li&gt;下載：
+&lt;ul&gt;
+&lt;li&gt;本教學所使用的全部範例：&lt;a href=&#34;https://drive.google.com/file/d/1SIt-8ws_6OxHXnoh8R67ObkdSVKKZ3qn/view?usp=sharing&#34;&gt;pgc_example.7z&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;很久以前寫的 esql 教學筆記：&lt;em&gt;&amp;lt;連結已移除&amp;gt;&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;編譯方式：&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-graphviz&#34; data-lang=&#34;graphviz&#34;&gt;digraph nodestyling {
+  node [color=lightblue2 style=filled]
+  rankdir=LR
+  &amp;#34;job.pgc&amp;#34; -&amp;gt; &amp;#34;job.c&amp;#34; [label = &amp;#34;ecpg&amp;#34;]
+  &amp;#34;job.c&amp;#34; -&amp;gt; &amp;#34;job&amp;#34; [label = &amp;#34;gcc -o&amp;#34;]
+  &amp;#34;job.c&amp;#34; -&amp;gt; &amp;#34;job.o&amp;#34; [label = &amp;#34;gcc -c&amp;#34;]
+  &amp;#34;job.o&amp;#34; -&amp;gt; &amp;#34;job&amp;#34; [label = &amp;#34;gcc -o&amp;#34;]
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;ol&gt;
+&lt;li&gt;編譯指令1：&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;ecpg job.pgc
+gcc -I[include_path] -L[library_path] -lecpg -o job job.c
+&lt;/code&gt;&lt;/pre&gt;&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;編譯指令2：&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;ecpg job.pgc
+gcc -I[include_path] -c job.c
+gcc -L[library_path] -lecpg -o job job.o
+&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
+&lt;h3 id=&#34;二資料集&#34; &gt;二、資料集：
+&lt;span&gt;
+    &lt;a href=&#34;#%e4%ba%8c%e8%b3%87%e6%96%99%e9%9b%86&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;資料集使用北風資料庫 (Northwind database for Postgres)，並來自於下列網址：https://github.com/pthom/northwind_psql&lt;/li&gt;
+&lt;li&gt;建立資料集使用之SQL：&lt;a href=&#34;https://drive.google.com/file/d/1E5P0JDRJ82RSxQrCqchkTPQdcb6joTBO/view?usp=sharing&#34;&gt;northwind.sql&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;ER model：
+&lt;img src=&#34;https://i.imgur.com/vSdQPgf.png&#34; alt=&#34;&#34;&gt;
+&lt;a href=&#34;https://i.imgur.com/vSdQPgf.png&#34;&gt;https://i.imgur.com/vSdQPgf.png&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;三開發環境&#34; &gt;三、開發環境：
+&lt;span&gt;
+    &lt;a href=&#34;#%e4%b8%89%e9%96%8b%e7%99%bc%e7%92%b0%e5%a2%83&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;開發環境準備：
+&lt;ul&gt;
+&lt;li&gt;OS：Linux 作業系統&lt;/li&gt;
+&lt;li&gt;DB：PostgreSQL 資料庫&lt;/li&gt;
+&lt;li&gt;程式語言：PostgreSQL Embedded SQL + C 語言&lt;/li&gt;
+&lt;li&gt;編譯器：ecpg preprocessor + gcc compiler&lt;/li&gt;
+&lt;li&gt;資料集：北風資料庫 (northwind)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;對於財稅案開發人員而言，可進入乙測環境 Greenplum 主機進行開發。 (北風資料庫已建立)&lt;/li&gt;
+&lt;li&gt;對於非本案開發人員，建議自行於 Linux 主機安裝 PostgreSQL 資料庫，並建立北風資料庫的資料集之後，再依據本教學範例來開發。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;範例1由表格輸出資料&#34; &gt;範例1：由表格輸出資料
+&lt;span&gt;
+    &lt;a href=&#34;#%e7%af%84%e4%be%8b1%e7%94%b1%e8%a1%a8%e6%a0%bc%e8%bc%b8%e5%87%ba%e8%b3%87%e6%96%99&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;參考：投影片講義 P.8&lt;/li&gt;
+&lt;li&gt;題目：請輸出表格 categories 中，category_id、category_name 兩個欄位的內容。&lt;/li&gt;
+&lt;li&gt;原始碼位置：/home/gpadmin/cfchen/ecpg/example01.ec&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-C=&#34; data-lang=&#34;C=&#34;&gt;#include &amp;lt;stdio.h&amp;gt;
+#include &amp;lt;stdlib.h&amp;gt;
+
+void main()
+{
+  exec sql begin declare section;
+    int category_id;                 /* host variable */
+    char category_name[16];          /* host variable */
+  exec sql end declare section;
+
+  exec sql connect to &amp;#39;postgres&amp;#39;;  /* 連接資料庫 postgres */
+
+  exec sql declare catCur cursor for
+    select category_id, category_name from northwind.categories;
+  exec sql open catCur;
+
+  for(;;) {
+    exec sql fetch catCur into :category_id, :category_name;
+    if(sqlca.sqlcode == 100) break;  /* 檢查是否已經無資料 */
+    printf(&amp;#34;category_id=%d, category_name=%s\n&amp;#34;, category_id, category_name);
+  }
+
+  exec sql close catCur;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
+&lt;li&gt;編譯指令：&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;ecpg example01.pgc
+gcc -I/usr/local/greenplum-db-6.13.0/include -L/usr/local/greenplum-db-6.13.0/lib -lecpg -o example01 example01.c
+或
+ecpg example01.pgc
+gcc -I/usr/local/greenplum-db-6.13.0/include -c example01.c
+gcc -L/usr/local/greenplum-db-6.13.0/lib -lecpg -o example01 example01.o
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;範例2由表格輸出資料-儲存至struct中再輸出&#34; &gt;範例2：由表格輸出資料 (儲存至struct中再輸出)
+&lt;span&gt;
+    &lt;a href=&#34;#%e7%af%84%e4%be%8b2%e7%94%b1%e8%a1%a8%e6%a0%bc%e8%bc%b8%e5%87%ba%e8%b3%87%e6%96%99-%e5%84%b2%e5%ad%98%e8%87%b3struct%e4%b8%ad%e5%86%8d%e8%bc%b8%e5%87%ba&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;參考：投影片講義 P.9 ~ 10&lt;/li&gt;
+&lt;li&gt;題目：與範例1相同，但先將資料儲存至struct中再輸出。&lt;/li&gt;
+&lt;li&gt;原始碼位置：/home/gpadmin/cfchen/ecpg/example02.ec&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-C=&#34; data-lang=&#34;C=&#34;&gt;#include &amp;lt;stdio.h&amp;gt;
+#include &amp;lt;stdlib.h&amp;gt;
+
+exec sql begin declare section;
+  struct _categories {
+    int category_id;                 /* host variable */
+    char category_name[16];          /* host variable */
+  };
+  typedef struct _categories CATEGORIES;
+  CATEGORIES *CATEGORIESs = NULL;    /* 起始位置 */
+  static int CATEGORIES_TOT = 0;     /* 資料筆數 */
+exec sql end declare section;
+
+void main()
+{
+  exec sql begin declare section;
+    CATEGORIES *cPt = NULL;          /* 走訪指標 */
+  exec sql end declare section;
+  int i;
+
+  exec sql connect to &amp;#39;postgres&amp;#39;;    /* 連接資料庫 postgres */
+
+  exec sql select count(*) into :CATEGORIES_TOT from northwind.categories;  /* 計算資料筆數 */
+  CATEGORIESs = calloc(CATEGORIES_TOT, sizeof(CATEGORIES));              /* 配置適當連續記憶體，且初始值為0 */
+  if(CATEGORIES_TOT != 0 &amp;amp;&amp;amp; CATEGORIESs == NULL) {printf(&amp;#34;calloc error!\n&amp;#34;); exit(1);}
+
+  /* 資料載入 */
+  exec sql declare catCur cursor for
+    select category_id, category_name from northwind.categories;
+  exec sql open catCur;
+  for(cPt = CATEGORIESs;;cPt++) {
+    exec sql fetch catCur into :cPt-&amp;gt;category_id, :cPt-&amp;gt;category_name;
+    if(sqlca.sqlcode == 100) break;  /* 檢查是否已經無資料 */
+  }
+  exec sql close catCur;
+
+  /* 資料走訪 */
+  for(i = 0, cPt = CATEGORIESs; i &amp;lt; CATEGORIES_TOT; i++, cPt++) {
+    printf(&amp;#34;category_id=%d, category_name=%s\n&amp;#34;, cPt-&amp;gt;category_id, cPt-&amp;gt;category_name);
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
+&lt;li&gt;編譯指令：&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;ecpg example02.pgc
+gcc -I/usr/local/greenplum-db-6.13.0/include -L/usr/local/greenplum-db-6.13.0/lib -lecpg -o example02 example02.c
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;範例3快速排序&#34; &gt;範例3：快速排序
+&lt;span&gt;
+    &lt;a href=&#34;#%e7%af%84%e4%be%8b3%e5%bf%ab%e9%80%9f%e6%8e%92%e5%ba%8f&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;參考：投影片講義 P.11&lt;/li&gt;
+&lt;li&gt;題目：請輸出表格 categories 中，category_id、category_name 兩個欄位的內容，並依據 category_id 排序 (請勿在 SQL 中加入 order by category_id)。&lt;/li&gt;
+&lt;li&gt;原始碼位置：/home/gpadmin/cfchen/ecpg/example03.ec&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-C=&#34; data-lang=&#34;C=&#34;&gt;#include &amp;lt;stdio.h&amp;gt;
+#include &amp;lt;stdlib.h&amp;gt;
+int comp_func(const void *, const void *);  /* 函式原型(function prototype) */
+
+exec sql begin declare section;
+  struct _categories {
+    int category_id;                 /* host variable */
+    char category_name[16];          /* host variable */
+  };
+  typedef struct _categories CATEGORIES;
+  CATEGORIES *CATEGORIESs = NULL;    /* 起始位置 */
+  static int CATEGORIES_TOT = 0;     /* 資料筆數 */
+exec sql end declare section;
+
+void main()
+{
+  exec sql begin declare section;
+    CATEGORIES *cPt = NULL;          /* 走訪指標 */
+  exec sql end declare section;
+  int i;
+
+  exec sql connect to &amp;#39;postgres&amp;#39;;    /* 連接資料庫 postgres */
+
+  exec sql select count(*) into :CATEGORIES_TOT from northwind.categories;  /* 計算資料筆數 */
+  CATEGORIESs = calloc(CATEGORIES_TOT, sizeof(CATEGORIES));              /* 配置適當連續記憶體，且初始值為0 */
+  if(CATEGORIES_TOT != 0 &amp;amp;&amp;amp; CATEGORIESs == NULL) {printf(&amp;#34;calloc error!\n&amp;#34;); exit(1);}
+
+  /* 資料載入 */
+  exec sql declare catCur cursor for
+    select category_id, category_name from northwind.categories;
+  exec sql open catCur;
+  for(cPt = CATEGORIESs;;cPt++) {
+    exec sql fetch catCur into :cPt-&amp;gt;category_id, :cPt-&amp;gt;category_name;
+    if(sqlca.sqlcode == 100) break;  /* 檢查是否已經無資料 */
+  }
+  exec sql close catCur;
+  qsort(CATEGORIESs, CATEGORIES_TOT, sizeof(CATEGORIES), comp_func);  /* 資料排序 */
+
+  /* 資料走訪 */
+  for(i = 0, cPt = CATEGORIESs; i &amp;lt; CATEGORIES_TOT; i++, cPt++) {
+    printf(&amp;#34;category_id=%d, category_name=%s\n&amp;#34;, cPt-&amp;gt;category_id, cPt-&amp;gt;category_name);
+  }
+}
+
+int comp_func(const void *val1, const void *val2)
+{
+  return (*(int *)val1 - *(int *)val2);
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
+&lt;li&gt;編譯指令：&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;ecpg example03.pgc
+gcc -I/usr/local/greenplum-db-6.13.0/include -L/usr/local/greenplum-db-6.13.0/lib -lecpg -o example03 example03.c
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;範例4二元搜尋&#34; &gt;範例4：二元搜尋
+&lt;span&gt;
+    &lt;a href=&#34;#%e7%af%84%e4%be%8b4%e4%ba%8c%e5%85%83%e6%90%9c%e5%b0%8b&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;參考：投影片講義 P.12&lt;/li&gt;
+&lt;li&gt;題目：請寫出下列查詢功能：
+&lt;ul&gt;
+&lt;li&gt;輸入：畫面中可輸入任意 category_id。&lt;/li&gt;
+&lt;li&gt;輸出：畫面中輸出所對應的 category_id、category_name。&lt;/li&gt;
+&lt;li&gt;條件：請使用二元搜尋(bsearch)。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;原始碼位置：/home/gpadmin/cfchen/ecpg/example04.ec&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-C=&#34; data-lang=&#34;C=&#34;&gt;#include &amp;lt;stdio.h&amp;gt;
+#include &amp;lt;stdlib.h&amp;gt;
+int comp_func(const void *, const void *);  /* 函式原型(function prototype) */
+
+exec sql begin declare section;
+  struct _categories {
+    int category_id;                 /* host variable */
+    char category_name[16];          /* host variable */
+  };
+  typedef struct _categories CATEGORIES;
+  CATEGORIES *CATEGORIESs = NULL;    /* 起始位置 */
+  static int CATEGORIES_TOT = 0;     /* 資料筆數 */
+exec sql end declare section;
+
+void main()
+{
+  exec sql begin declare section;
+    CATEGORIES *cPt = NULL;          /* 走訪指標 */
+  exec sql end declare section;
+  int category_id;
+
+  exec sql connect to &amp;#39;postgres&amp;#39;;   /* 連接資料庫 postgres */
+
+  exec sql select count(*) into :CATEGORIES_TOT from northwind.categories;  /* 計算資料筆數 */
+  CATEGORIESs = calloc(CATEGORIES_TOT, sizeof(CATEGORIES));              /* 配置適當連續記憶體，且初始值為0 */
+  if(CATEGORIES_TOT != 0 &amp;amp;&amp;amp; CATEGORIESs == NULL) {printf(&amp;#34;calloc error!\n&amp;#34;); exit(1);}
+
+  /* 資料載入 */
+  exec sql declare catCur cursor for
+    select category_id, category_name from northwind.categories;
+  exec sql open catCur;
+  for(cPt = CATEGORIESs;;cPt++) {
+    exec sql fetch catCur into :cPt-&amp;gt;category_id, :cPt-&amp;gt;category_name;
+    if(sqlca.sqlcode == 100) break;  /* 檢查是否已經無資料 */
+  }
+  exec sql close catCur;
+  qsort(CATEGORIESs, CATEGORIES_TOT, sizeof(CATEGORIES), comp_func);  /* 資料排序 */
+
+  /* 資料搜尋 */
+  printf(&amp;#34;請輸入欲查詢的 category_id：\n&amp;#34;);
+  scanf(&amp;#34;%d&amp;#34;, &amp;amp;category_id);
+  cPt = bsearch(&amp;amp;category_id, CATEGORIESs, CATEGORIES_TOT, sizeof(CATEGORIES), comp_func);  /* 資料搜尋 */
+  if(cPt == NULL) printf(&amp;#34;category_id 不存在！\n&amp;#34;);
+  else printf(&amp;#34;category_id=%d, category_name=%s\n&amp;#34;, cPt-&amp;gt;category_id, cPt-&amp;gt;category_name);
+}
+
+int comp_func(const void *val1, const void *val2)
+{
+  return (*(int *)val1 - *(int *)val2);
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
+&lt;li&gt;編譯指令：&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;ecpg example04.pgc
+gcc -I/usr/local/greenplum-db-6.13.0/include -L/usr/local/greenplum-db-6.13.0/lib -lecpg -o example04 example04.c
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;範例5資料串接&#34; &gt;範例5：資料串接
+&lt;span&gt;
+    &lt;a href=&#34;#%e7%af%84%e4%be%8b5%e8%b3%87%e6%96%99%e4%b8%b2%e6%8e%a5&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;參考：投影片講義 P.16 ~ 18&lt;/li&gt;
+&lt;li&gt;題目：請輸出表格 products 中，其所有 product_id、product_name，以及所對應的 category_id、category_name (請勿在 SQL 中將 products 與 categories 兩者 join)。&lt;/li&gt;
+&lt;li&gt;原始碼位置：/home/gpadmin/cfchen/ecpg/example05.ec&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-C=&#34; data-lang=&#34;C=&#34;&gt;#include &amp;lt;stdio.h&amp;gt;
+#include &amp;lt;stdlib.h&amp;gt;
+void categories_load();
+void products_load();
+int comp_func(const void *, const void *);
+
+exec sql begin declare section;
+  struct _categories {
+    int category_id;
+    char category_name[16];
+  };
+  typedef struct _categories CATEGORIES;
+  CATEGORIES *CATEGORIESs = NULL;
+  static int CATEGORIES_TOT = 0;
+
+  struct _products {
+    int product_id, category_id;
+    char product_name[41];
+	CATEGORIES *cPt;  /* 指向 CATEGORIES */
+  };
+  typedef struct _products PRODUCTS;
+  PRODUCTS *PRODUCTSs = NULL;
+  static int PRODUCTS_TOT = 0;
+exec sql end declare section;
+/*----------------------------------------------------------------------------*/
+void main()
+{
+  PRODUCTS *pPt = NULL;
+  int i;
+  exec sql connect to &amp;#39;postgres&amp;#39;;
+  categories_load(); /* 載入 categories */
+  products_load();   /* 載入 products */
+  for(i = 0, pPt = PRODUCTSs; i &amp;lt; PRODUCTS_TOT; i++, pPt++) {
+    printf(&amp;#34;product_id=%d, product_name=%s, category_id=%d, category_name=%s\n&amp;#34;, pPt-&amp;gt;product_id, pPt-&amp;gt;product_name, pPt-&amp;gt;cPt-&amp;gt;category_id, pPt-&amp;gt;cPt-&amp;gt;category_name);
+  }
+}
+/*----------------------------------------------------------------------------*/
+void categories_load()
+{
+  exec sql begin declare section;
+    CATEGORIES *cPt = NULL;
+  exec sql end declare section;
+
+  exec sql select count(*) into :CATEGORIES_TOT from northwind.categories;
+  CATEGORIESs = calloc(CATEGORIES_TOT, sizeof(CATEGORIES));
+  if(CATEGORIES_TOT != 0 &amp;amp;&amp;amp; CATEGORIESs == NULL) {printf(&amp;#34;categories_load() calloc error!\n&amp;#34;); exit(1);}
+
+  /* 資料載入 */
+  exec sql declare catCur cursor for
+    select category_id, category_name from northwind.categories;
+  exec sql open catCur;
+  for(cPt = CATEGORIESs;;cPt++) {
+    exec sql fetch catCur into :cPt-&amp;gt;category_id, :cPt-&amp;gt;category_name;
+    if(sqlca.sqlcode == 100) break;  /* 檢查是否已經無資料 */
+  }
+  exec sql close catCur;
+  qsort(CATEGORIESs, CATEGORIES_TOT, sizeof(CATEGORIES), comp_func);  /* 資料排序 */
+}
+/*----------------------------------------------------------------------------*/
+void products_load()
+{
+  exec sql begin declare section;
+    PRODUCTS *pPt = NULL;
+  exec sql end declare section;
+
+  exec sql select count(*) into :PRODUCTS_TOT from northwind.products;
+  PRODUCTSs = calloc(PRODUCTS_TOT, sizeof(PRODUCTS));
+  if(PRODUCTS_TOT != 0 &amp;amp;&amp;amp; PRODUCTSs == NULL) {printf(&amp;#34;products_load() calloc error!\n&amp;#34;); exit(1);}
+
+  exec sql declare prodCur cursor for
+    select product_id, product_name, category_id from northwind.products;
+  exec sql open prodCur;
+  for(pPt = PRODUCTSs;;pPt++) {
+    exec sql fetch prodCur into :pPt-&amp;gt;product_id, :pPt-&amp;gt;product_name, :pPt-&amp;gt;category_id;
+    if(sqlca.sqlcode == 100) break;
+    pPt-&amp;gt;cPt = bsearch(&amp;amp;pPt-&amp;gt;category_id, CATEGORIESs, CATEGORIES_TOT, sizeof(CATEGORIES), comp_func);  /* 資料搜尋 */
+    if(pPt-&amp;gt;cPt == NULL) {printf(&amp;#34;product_id=%d, category_id=%d no data!\n&amp;#34;, pPt-&amp;gt;product_id, pPt-&amp;gt;category_id); exit(1);}
+  }
+  exec sql close prodCur;
+}
+/*----------------------------------------------------------------------------*/
+int comp_func(const void *val1, const void *val2)
+{
+  return (*(int *)val1 - *(int *)val2);
+}
+/*----------------------------------------------------------------------------*/
+&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
+&lt;li&gt;編譯指令：&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;ecpg example05.pgc
+gcc -I/usr/local/greenplum-db-6.13.0/include -L/usr/local/greenplum-db-6.13.0/lib -lecpg -o example05 example05.c
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;範例6qsort-與-bsearch-的限制&#34; &gt;範例6：qsort 與 bsearch 的限制
+&lt;span&gt;
+    &lt;a href=&#34;#%e7%af%84%e4%be%8b6qsort-%e8%88%87-bsearch-%e7%9a%84%e9%99%90%e5%88%b6&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;參考：投影片講義 P.19 ~ 24&lt;/li&gt;
+&lt;li&gt;題目：請輸出表格 orders 中，取其 order_date &amp;gt;= 1998/05/01 的訂單資料，在表格 order_details 中的總訂單金額 (請勿在 SQL 中將 orders 與 order_details 兩者 join)。&lt;/li&gt;
+&lt;li&gt;原始碼位置：/home/gpadmin/cfchen/ecpg/example06.ec&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-C=&#34; data-lang=&#34;C=&#34;&gt;#include &amp;lt;stdio.h&amp;gt;
+#include &amp;lt;stdlib.h&amp;gt;
+void order_details_load();
+void orders_load(char *);
+int comp_func(const void *, const void *);
+
+exec sql begin declare section;
+  struct _order_details {
+    int order_id;
+    double unit_price, quantity;
+  };
+  typedef struct _order_details ORDER_DETAILS;
+  ORDER_DETAILS *ORDER_DETAILSs = NULL;
+  static int ORDER_DETAILS_TOT = 0;
+
+  struct _orders {
+    int order_id;
+    ORDER_DETAILS *odPt;
+  };
+  typedef struct _orders ORDERS;
+  ORDERS *ORDERSs = NULL;
+  static int ORDERS_TOT = 0;
+
+  char sqlStm[1000]; /* 用來產生自訂 SQL */
+exec sql end declare section;
+/*----------------------------------------------------------------------------*/
+void main()
+{
+  ORDER_DETAILS *odPt = NULL;
+  ORDERS *oPt = NULL;
+  double sum = 0;
+  int i;
+  exec sql connect to &amp;#39;postgres&amp;#39;;
+  order_details_load();
+  orders_load(&amp;#34;19980501&amp;#34;);  /* 限制 19980501 之後的訂單 */
+  for(i = 0, oPt = ORDERSs; i &amp;lt; ORDERS_TOT; i++, oPt++) {
+    odPt = bsearch(&amp;amp;oPt-&amp;gt;order_id, ORDER_DETAILSs, ORDER_DETAILS_TOT, sizeof(ORDER_DETAILS), comp_func);  /* 資料搜尋 (但不一定會搜尋到相同 order_id 的第一筆) */
+    if(odPt != NULL) {
+      while(oPt-&amp;gt;order_id == (odPt-1)-&amp;gt;order_id)
+        odPt--;
+      while(oPt-&amp;gt;order_id == odPt-&amp;gt;order_id) {
+        sum += odPt-&amp;gt;unit_price * odPt-&amp;gt;quantity;
+        odPt++;
+      }
+      printf(&amp;#34;order_id=%d, 金額總計=%f\n&amp;#34;, oPt-&amp;gt;order_id, sum);
+      sum = 0;
+    }
+  }
+}
+/*----------------------------------------------------------------------------*/
+void order_details_load()
+{
+  exec sql begin declare section;
+    ORDER_DETAILS *odPt = NULL;
+  exec sql end declare section;
+
+  sprintf(sqlStm, &amp;#34;select count(*) from northwind.order_details;&amp;#34;);
+  exec sql prepare odCnt from :sqlStm;
+  exec sql execute odCnt into :ORDER_DETAILS_TOT;
+  printf(&amp;#34;SQL=%s, ORDER_DETAILS_TOT=%d\n&amp;#34;, sqlStm, ORDER_DETAILS_TOT);
+
+  ORDER_DETAILSs = calloc(ORDER_DETAILS_TOT, sizeof(ORDER_DETAILS));
+  if(ORDER_DETAILS_TOT != 0 &amp;amp;&amp;amp; ORDER_DETAILSs == NULL) {printf(&amp;#34;calloc error!\n&amp;#34;); exit(1);}
+
+  sprintf(sqlStm, &amp;#34;select order_id, unit_price, quantity from northwind.order_details;&amp;#34;);
+  printf(&amp;#34;SQL=%s\n&amp;#34;, sqlStm);
+  exec sql prepare odQry from :sqlStm;
+  exec sql declare odCur cursor for odQry;
+  exec sql open odCur;
+  for(odPt = ORDER_DETAILSs;;odPt++) {
+    exec sql fetch odCur into :odPt-&amp;gt;order_id, :odPt-&amp;gt;unit_price, :odPt-&amp;gt;quantity;
+    if(sqlca.sqlcode == 100) break;
+  }
+  exec sql close odCur;
+  qsort(ORDER_DETAILSs, ORDER_DETAILS_TOT, sizeof(ORDER_DETAILS), comp_func);  /* 資料排序 */
+}
+/*----------------------------------------------------------------------------*/
+void orders_load(order_date)
+exec sql begin declare section;
+  char *order_date;
+exec sql end declare section;
+{
+  exec sql begin declare section;
+    ORDERS *oPt = NULL;
+  exec sql end declare section;
+
+  exec sql select count(*) into :ORDERS_TOT from northwind.orders where order_date &amp;gt;= :order_date;
+  ORDERSs = calloc(ORDERS_TOT, sizeof(ORDERS));
+  if(ORDERS_TOT != 0 &amp;amp;&amp;amp; ORDERSs == NULL) {printf(&amp;#34;calloc error!\n&amp;#34;); exit(1);}
+
+  exec sql declare oCur cursor for
+    select order_id from northwind.orders where order_date &amp;gt;= :order_date;
+  exec sql open oCur;
+  for(oPt = ORDERSs;;oPt++) {
+    exec sql fetch oCur into :oPt-&amp;gt;order_id;
+    if(sqlca.sqlcode == 100) break;
+  }
+  exec sql close oCur;
+}
+/*----------------------------------------------------------------------------*/
+int comp_func(const void *val1, const void *val2)
+{
+  return (*(int *)val1 - *(int *)val2);
+}
+/*----------------------------------------------------------------------------*/
+&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
+&lt;li&gt;編譯指令：&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;ecpg example06.pgc
+gcc -I/usr/local/greenplum-db-6.13.0/include -L/usr/local/greenplum-db-6.13.0/lib -lecpg -o example06 example06.c
+&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
+&lt;li&gt;範例6的缺點：
+&lt;ol&gt;
+&lt;li&gt;須自行比對資料，將走訪指標移動到適當位置&lt;/li&gt;
+&lt;li&gt;移動次數須自行計算&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;以上產生另一個想法：改寫 bsearch&lt;/li&gt;
+&lt;li&gt;bsearchFirst()：回傳相同key值的第一筆位置 (投影片講義 P.23)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-C=&#34; data-lang=&#34;C=&#34;&gt;/*---------------------------------------------------------------------------*/
+/*  bsearchFirst()：                                                         */
+/*  與 bsearch() 用法相同，但若尋找到多筆相同 key 值之紀錄時，               */
+/*  會傳回第一筆具有此 key 值之紀錄，若找不到則傳回 NULL                     */
+/*---------------------------------------------------------------------------*/
+void *bsearchFirst(const void *key, const void *base0, size_t nmemb, size_t size, int (*compar)(const void *, const void *))
+{
+  const char *base = base0;
+  int lim, cmp;
+  const char *p;
+  for (lim = nmemb; lim != 0; lim &amp;gt;&amp;gt;= 1) {
+    p = base + (lim &amp;gt;&amp;gt; 1) * size;
+    cmp = (*compar)(key, p);
+    if (cmp == 0) {
+      while(!(*compar)(key, p-size)) p-=size;
+      return ((void *)p);
+    }
+    if (cmp &amp;gt; 0) {  /* key &amp;gt; p: move right */
+      base = (char *)p + size;
+      lim--;
+    } /* else move left */
+  }
+  return (NULL);
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
+&lt;li&gt;bsearchRows()：回傳相同key值的筆數 (投影片講義 P.24)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-C=&#34; data-lang=&#34;C=&#34;&gt;/*---------------------------------------------------------------------------*/
+/*  bsearchRows()：                                                          */
+/*  以 bsearch() 方法尋找具有相同 key 值之紀錄的筆數，若找不到則傳回 0       */
+/*---------------------------------------------------------------------------*/
+int bsearchRows(const void *key, const void *base0, size_t nmemb, size_t size, int (*compar)(const void *, const void *))
+{
+  const char *base = base0;
+  int lim, cmp, cnt=1;
+  const char *p;
+  for (lim = nmemb; lim != 0; lim &amp;gt;&amp;gt;= 1) {
+    p = base + (lim &amp;gt;&amp;gt; 1) * size;
+    cmp = (*compar)(key, p);
+    if (cmp == 0) {
+      while(!(*compar)(key, p-size)) p-=size;
+      while(!(*compar)(key, p+size)) {p+=size; cnt++;}
+      return cnt;
+    }
+    if (cmp &amp;gt; 0) {  /* key &amp;gt; p: move right */
+      base = (char *)p + size;
+      lim--;
+    } /* else move left */
+  }
+  return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;範例7qsort-與-bsearch-的限制-以新方式改寫&#34; &gt;範例7：qsort 與 bsearch 的限制 (以新方式改寫)
+&lt;span&gt;
+    &lt;a href=&#34;#%e7%af%84%e4%be%8b7qsort-%e8%88%87-bsearch-%e7%9a%84%e9%99%90%e5%88%b6-%e4%bb%a5%e6%96%b0%e6%96%b9%e5%bc%8f%e6%94%b9%e5%af%ab&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;參考：投影片講義 P.25 ~ 26&lt;/li&gt;
+&lt;li&gt;題目：與範例6相同，但請使用 bsearchFirst()、bsearchRows() 方法完成。&lt;/li&gt;
+&lt;li&gt;原始碼位置：/home/gpadmin/cfchen/ecpg/example07.ec&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-C=&#34; data-lang=&#34;C=&#34;&gt;#include &amp;lt;stdio.h&amp;gt;
+#include &amp;lt;stdlib.h&amp;gt;
+void order_details_load();
+void orders_load(char *);
+int comp_func(const void *, const void *);
+void *bsearchFirst(const void *, const void *, size_t, size_t, int(*)(const void *, const void *));
+int bsearchRows(const void *, const void *, size_t, size_t, int (*)(const void *, const void *));
+
+exec sql begin declare section;
+  struct _order_details {
+    int order_id;
+    double unit_price, quantity;
+  };
+  typedef struct _order_details ORDER_DETAILS;
+  ORDER_DETAILS *ORDER_DETAILSs = NULL;
+  static int ORDER_DETAILS_TOT = 0;
+
+  struct _orders {
+    int order_id;
+    ORDER_DETAILS *odPt;
+  };
+  typedef struct _orders ORDERS;
+  ORDERS *ORDERSs = NULL;
+  static int ORDERS_TOT = 0;
+
+  char sqlStm[1000]; /* 用來產生自訂 SQL */
+exec sql end declare section;
+/*----------------------------------------------------------------------------*/
+void main()
+{
+  ORDER_DETAILS *odPt = NULL;
+  ORDERS *oPt = NULL;
+  double sum = 0;
+  int i, j, cnt;
+  exec sql connect to &amp;#39;postgres&amp;#39;;
+  order_details_load();
+  orders_load(&amp;#34;19980501&amp;#34;);  /* 限制 19980501 之後的訂單 */
+  for(i = 0, oPt = ORDERSs; i &amp;lt; ORDERS_TOT; i++, oPt++) {
+    odPt = bsearchFirst(&amp;amp;oPt-&amp;gt;order_id, ORDER_DETAILSs, ORDER_DETAILS_TOT, sizeof(ORDER_DETAILS), comp_func);  /* 資料搜尋 (會搜尋到相同 order_id 的第一筆) */
+    cnt = bsearchRows(&amp;amp;oPt-&amp;gt;order_id, ORDER_DETAILSs, ORDER_DETAILS_TOT, sizeof(ORDER_DETAILS), comp_func);  /* 計算相同 order_id 的筆數 */
+    if(odPt != NULL) {
+      for(j = 0; j &amp;lt; cnt; j++, odPt++)
+        sum += odPt-&amp;gt;unit_price * odPt-&amp;gt;quantity;
+      printf(&amp;#34;order_id=%d, 金額總計=%f\n&amp;#34;, oPt-&amp;gt;order_id, sum);
+      sum = 0;
+    }
+  }
+}
+/*----------------------------------------------------------------------------*/
+void order_details_load()
+{
+  exec sql begin declare section;
+    ORDER_DETAILS *odPt = NULL;
+  exec sql end declare section;
+
+  sprintf(sqlStm, &amp;#34;select count(*) from northwind.order_details;&amp;#34;);
+  exec sql prepare odCnt from :sqlStm;
+  exec sql execute odCnt into :ORDER_DETAILS_TOT;
+  printf(&amp;#34;SQL=%s, ORDER_DETAILS_TOT=%d\n&amp;#34;, sqlStm, ORDER_DETAILS_TOT);
+
+  ORDER_DETAILSs = calloc(ORDER_DETAILS_TOT, sizeof(ORDER_DETAILS));
+  if(ORDER_DETAILS_TOT != 0 &amp;amp;&amp;amp; ORDER_DETAILSs == NULL) {printf(&amp;#34;calloc error!\n&amp;#34;); exit(1);}
+
+  sprintf(sqlStm, &amp;#34;select order_id, unit_price, quantity from northwind.order_details;&amp;#34;);
+  printf(&amp;#34;SQL=%s\n&amp;#34;, sqlStm);
+  exec sql prepare odQry from :sqlStm;
+  exec sql declare odCur cursor for odQry;
+  exec sql open odCur;
+  for(odPt = ORDER_DETAILSs;;odPt++) {
+    exec sql fetch odCur into :odPt-&amp;gt;order_id, :odPt-&amp;gt;unit_price, :odPt-&amp;gt;quantity;
+    if(sqlca.sqlcode == 100) break;
+  }
+  exec sql close odCur;
+  qsort(ORDER_DETAILSs, ORDER_DETAILS_TOT, sizeof(ORDER_DETAILS), comp_func);  /* 資料排序 */
+}
+/*----------------------------------------------------------------------------*/
+void orders_load(order_date)
+exec sql begin declare section;
+  char *order_date;
+exec sql end declare section;
+{
+  exec sql begin declare section;
+    ORDERS *oPt = NULL;
+  exec sql end declare section;
+
+  exec sql select count(*) into :ORDERS_TOT from northwind.orders where order_date &amp;gt;= :order_date;
+  ORDERSs = calloc(ORDERS_TOT, sizeof(ORDERS));
+  if(ORDERS_TOT != 0 &amp;amp;&amp;amp; ORDERSs == NULL) {printf(&amp;#34;calloc error!\n&amp;#34;); exit(1);}
+
+  exec sql declare oCur cursor for
+    select order_id from northwind.orders where order_date &amp;gt;= :order_date;
+  exec sql open oCur;
+  for(oPt = ORDERSs;;oPt++) {
+    exec sql fetch oCur into :oPt-&amp;gt;order_id;
+    if(sqlca.sqlcode == 100) break;
+  }
+  exec sql close oCur;
+}
+/*----------------------------------------------------------------------------*/
+int comp_func(const void *val1, const void *val2)
+{
+  return (*(int *)val1 - *(int *)val2);
+}
+/*---------------------------------------------------------------------------*/
+/*  bsearchFirst()：                                                         */
+/*  與 bsearch() 用法相同，但若尋找到多筆相同 key 值之紀錄時，               */
+/*  會傳回第一筆具有此 key 值之紀錄，若找不到則傳回 NULL                     */
+/*---------------------------------------------------------------------------*/
+void *bsearchFirst(const void *key, const void *base0, size_t nmemb, size_t size, int (*compar)(const void *, const void *))
+{
+  const char *base = base0;
+  int lim, cmp;
+  const char *p;
+  for (lim = nmemb; lim != 0; lim &amp;gt;&amp;gt;= 1) {
+    p = base + (lim &amp;gt;&amp;gt; 1) * size;
+    cmp = (*compar)(key, p);
+    if (cmp == 0) {
+      while(!(*compar)(key, p-size)) p-=size;
+      return ((void *)p);
+    }
+    if (cmp &amp;gt; 0) {  /* key &amp;gt; p: move right */
+      base = (char *)p + size;
+      lim--;
+    } /* else move left */
+  }
+  return (NULL);
+}
+/*---------------------------------------------------------------------------*/
+/*  bsearchRows()：                                                          */
+/*  以 bsearch() 方法尋找具有相同 key 值之紀錄的筆數，若找不到則傳回 0       */
+/*---------------------------------------------------------------------------*/
+int bsearchRows(const void *key, const void *base0, size_t nmemb, size_t size, int (*compar)(const void *, const void *))
+{
+  const char *base = base0;
+  int lim, cmp, cnt=1;
+  const char *p;
+  for (lim = nmemb; lim != 0; lim &amp;gt;&amp;gt;= 1) {
+    p = base + (lim &amp;gt;&amp;gt; 1) * size;
+    cmp = (*compar)(key, p);
+    if (cmp == 0) {
+      while(!(*compar)(key, p-size)) p-=size;
+      while(!(*compar)(key, p+size)) {p+=size; cnt++;}
+      return cnt;
+    }
+    if (cmp &amp;gt; 0) {  /* key &amp;gt; p: move right */
+      base = (char *)p + size;
+      lim--;
+    } /* else move left */
+  }
+  return 0;
+}
+/*----------------------------------------------------------------------------*/
+&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
+&lt;li&gt;編譯指令：&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;ecpg example07.pgc
+gcc -I/usr/local/greenplum-db-6.13.0/include -L/usr/local/greenplum-db-6.13.0/lib -lecpg -o example07 example07.c
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;範例8不定數量的記憶體配置方式-載入時不須排序&#34; &gt;範例8：不定數量的記憶體配置方式 (載入時不須排序)
+&lt;span&gt;
+    &lt;a href=&#34;#%e7%af%84%e4%be%8b8%e4%b8%8d%e5%ae%9a%e6%95%b8%e9%87%8f%e7%9a%84%e8%a8%98%e6%86%b6%e9%ab%94%e9%85%8d%e7%bd%ae%e6%96%b9%e5%bc%8f-%e8%bc%89%e5%85%a5%e6%99%82%e4%b8%8d%e9%a0%88%e6%8e%92%e5%ba%8f&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;參考：投影片講義 P.31 ~ 35&lt;/li&gt;
+&lt;li&gt;題目：改寫範例7，令表格 order_details 的數量視為不固定。&lt;/li&gt;
+&lt;li&gt;原始碼位置：/home/gpadmin/cfchen/ecpg/example08.ec&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-C=&#34; data-lang=&#34;C=&#34;&gt;#include &amp;lt;stdio.h&amp;gt;
+#include &amp;lt;stdlib.h&amp;gt;
+void order_details_load();
+void orders_load(char *);
+int comp_func(const void *, const void *);
+int upper_power_of_two(const int);
+void *order_details_mem_insert(void *, void *, int *, const int);
+void *bsearchFirst(const void *, const void *, size_t, size_t, int(*)(const void *, const void *));
+int bsearchRows(const void *, const void *, size_t, size_t, int (*)(const void *, const void *));
+
+exec sql begin declare section;
+  struct _order_details {
+    int order_id;
+    double unit_price, quantity;
+  };
+  typedef struct _order_details ORDER_DETAILS;
+  ORDER_DETAILS *ORDER_DETAILSs = NULL;
+  static int ORDER_DETAILS_TOT = 0;
+
+  struct _orders {
+    int order_id;
+    ORDER_DETAILS *odPt;
+  };
+  typedef struct _orders ORDERS;
+  ORDERS *ORDERSs = NULL;
+  static int ORDERS_TOT = 0;
+
+  char sqlStm[1000]; /* 用來產生自訂 SQL */
+exec sql end declare section;
+/*----------------------------------------------------------------------------*/
+void main()
+{
+  ORDER_DETAILS *odPt = NULL;
+  ORDERS *oPt = NULL;
+  double sum = 0;
+  int i, j, cnt;
+  exec sql connect to &amp;#39;postgres&amp;#39;;
+  order_details_load();
+  orders_load(&amp;#34;19980501&amp;#34;);  /* 限制 19980501 之後的訂單 */
+  for(i = 0, oPt = ORDERSs; i &amp;lt; ORDERS_TOT; i++, oPt++) {
+    odPt = bsearchFirst(&amp;amp;oPt-&amp;gt;order_id, ORDER_DETAILSs, ORDER_DETAILS_TOT, sizeof(ORDER_DETAILS), comp_func);  /* 資料搜尋 (會搜尋到相同 order_id 的第一筆) */
+    cnt = bsearchRows(&amp;amp;oPt-&amp;gt;order_id, ORDER_DETAILSs, ORDER_DETAILS_TOT, sizeof(ORDER_DETAILS), comp_func);  /* 計算相同 order_id 的筆數 */
+    if(odPt != NULL) {
+      for(j = 0; j &amp;lt; cnt; j++, odPt++)
+        sum += odPt-&amp;gt;unit_price * odPt-&amp;gt;quantity;
+      printf(&amp;#34;order_id=%d, 金額總計=%f\n&amp;#34;, oPt-&amp;gt;order_id, sum);
+      sum = 0;
+    }
+  }
+}
+/*----------------------------------------------------------------------------*/
+void order_details_load()
+{
+  exec sql begin declare section;
+    ORDER_DETAILS data;
+  exec sql end declare section;
+
+  sprintf(sqlStm, &amp;#34;select order_id, unit_price, quantity from northwind.order_details;&amp;#34;);
+  printf(&amp;#34;SQL=%s\n&amp;#34;, sqlStm);
+  exec sql prepare odQry from :sqlStm;
+  exec sql declare odCur cursor for odQry;
+  exec sql open odCur;
+  for(;;) {
+    exec sql fetch odCur into :data.order_id, :data.unit_price, :data.quantity;
+    if(sqlca.sqlcode == 100) break;
+    ORDER_DETAILSs = (ORDER_DETAILS *) order_details_mem_insert(&amp;amp;data, ORDER_DETAILSs, &amp;amp;ORDER_DETAILS_TOT, sizeof(ORDER_DETAILS));
+  }
+  exec sql close odCur;
+  qsort(ORDER_DETAILSs, ORDER_DETAILS_TOT, sizeof(ORDER_DETAILS), comp_func);  /* 資料排序 */
+}
+/*----------------------------------------------------------------------------*/
+void orders_load(order_date)
+exec sql begin declare section;
+  char *order_date;
+exec sql end declare section;
+{
+  exec sql begin declare section;
+    ORDERS *oPt = NULL;
+  exec sql end declare section;
+
+  exec sql select count(*) into :ORDERS_TOT from northwind.orders where order_date &amp;gt;= :order_date;
+  ORDERSs = calloc(ORDERS_TOT, sizeof(ORDERS));
+  if(ORDERS_TOT != 0 &amp;amp;&amp;amp; ORDERSs == NULL) {printf(&amp;#34;calloc error!\n&amp;#34;); exit(1);}
+
+  exec sql declare oCur cursor for
+    select order_id from northwind.orders where order_date &amp;gt;= :order_date;
+  exec sql open oCur;
+  for(oPt = ORDERSs;;oPt++) {
+    exec sql fetch oCur into :oPt-&amp;gt;order_id;
+    if(sqlca.sqlcode == 100) break;
+  }
+  exec sql close oCur;
+}
+/*----------------------------------------------------------------------------*/
+int comp_func(const void *val1, const void *val2)
+{
+  return (*(int *)val1 - *(int *)val2);
+}
+/*----------------------------------------------------------------------------*/
+/* 回傳最小大於等於 c 之 2^n                                                  */
+/*----------------------------------------------------------------------------*/
+int upper_power_of_two(const int c)
+{
+  int v = c;
+  v--;
+  v |= v &amp;gt;&amp;gt; 1;
+  v |= v &amp;gt;&amp;gt; 2;
+  v |= v &amp;gt;&amp;gt; 4;
+  v |= v &amp;gt;&amp;gt; 8;
+  v |= v &amp;gt;&amp;gt; 16;
+  v++;
+  return v;
+}
+/*----------------------------------------------------------------------------*/
+/* 於 base 中新增一大小為 size 之 data，若 base 的空間不足，
+   則 realloc base 之空間至最小大於本身之 2^n bytes。
+   data 新增於 base 之最後一筆，不排序，新增後將總數量 num 加 1               */
+/*----------------------------------------------------------------------------*/
+void *order_details_mem_insert(void *data, void *base, int *num, const int size)
+{
+  int pow2;
+  char *new_base;
+  pow2 = upper_power_of_two(*num);
+  if(pow2 == (*num)) {
+    if((*num) == 0) pow2 = 1;
+    else pow2 *= 2;
+    new_base = realloc(base, pow2 * size);
+    if((new_base == NULL)) {
+      free(base);
+      printf(&amp;#34;new_base (re)allocating memory error.\n&amp;#34;);
+      exit(1);
+    }
+  }
+  else new_base = base;
+  memcpy(&amp;amp;(new_base[(*num) * size]), data, size);
+  (*num)++;
+  return new_base;
+}
+/*---------------------------------------------------------------------------*/
+/*  bsearchFirst()：                                                         */
+/*  與 bsearch() 用法相同，但若尋找到多筆相同 key 值之紀錄時，               */
+/*  會傳回第一筆具有此 key 值之紀錄，若找不到則傳回 NULL                     */
+/*---------------------------------------------------------------------------*/
+void *bsearchFirst(const void *key, const void *base0, size_t nmemb, size_t size, int (*compar)(const void *, const void *))
+{
+  const char *base = base0;
+  int lim, cmp;
+  const char *p;
+  for (lim = nmemb; lim != 0; lim &amp;gt;&amp;gt;= 1) {
+    p = base + (lim &amp;gt;&amp;gt; 1) * size;
+    cmp = (*compar)(key, p);
+    if (cmp == 0) {
+      while(!(*compar)(key, p-size)) p-=size;
+      return ((void *)p);
+    }
+    if (cmp &amp;gt; 0) {  /* key &amp;gt; p: move right */
+      base = (char *)p + size;
+      lim--;
+    } /* else move left */
+  }
+  return (NULL);
+}
+/*---------------------------------------------------------------------------*/
+/*  bsearchRows()：                                                          */
+/*  以 bsearch() 方法尋找具有相同 key 值之紀錄的筆數，若找不到則傳回 0       */
+/*---------------------------------------------------------------------------*/
+int bsearchRows(const void *key, const void *base0, size_t nmemb, size_t size, int (*compar)(const void *, const void *))
+{
+  const char *base = base0;
+  int lim, cmp, cnt=1;
+  const char *p;
+  for (lim = nmemb; lim != 0; lim &amp;gt;&amp;gt;= 1) {
+    p = base + (lim &amp;gt;&amp;gt; 1) * size;
+    cmp = (*compar)(key, p);
+    if (cmp == 0) {
+      while(!(*compar)(key, p-size)) p-=size;
+      while(!(*compar)(key, p+size)) {p+=size; cnt++;}
+      return cnt;
+    }
+    if (cmp &amp;gt; 0) {  /* key &amp;gt; p: move right */
+      base = (char *)p + size;
+      lim--;
+    } /* else move left */
+  }
+  return 0;
+}
+/*----------------------------------------------------------------------------*/
+&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
+&lt;li&gt;編譯指令：&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;ecpg example08.pgc
+gcc -I/usr/local/greenplum-db-6.13.0/include -L/usr/local/greenplum-db-6.13.0/lib -lecpg -o example08 example08.c
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;範例9不定數量的記憶體配置方式-載入時須排序-異常版&#34; &gt;範例9：不定數量的記憶體配置方式 (載入時須排序) (異常版)
+&lt;span&gt;
+    &lt;a href=&#34;#%e7%af%84%e4%be%8b9%e4%b8%8d%e5%ae%9a%e6%95%b8%e9%87%8f%e7%9a%84%e8%a8%98%e6%86%b6%e9%ab%94%e9%85%8d%e7%bd%ae%e6%96%b9%e5%bc%8f-%e8%bc%89%e5%85%a5%e6%99%82%e9%a0%88%e6%8e%92%e5%ba%8f-%e7%95%b0%e5%b8%b8%e7%89%88&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;參考：投影片講義 P.36 ~ 42&lt;/li&gt;
+&lt;li&gt;題目：依據投影片講義 P.36 所述，將檔案中的資料，不重複地填入資料庫表格 northwind.my_table 中 (利用第一個設計方式)&lt;/li&gt;
+&lt;li&gt;執行方式：依序執行 1.txt、2.txt 兩個檔案&lt;/li&gt;
+&lt;li&gt;原始碼位置：/home/gpadmin/cfchen/ecpg/example09.ec&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-C=&#34; data-lang=&#34;C=&#34;&gt;#include &amp;lt;stdio.h&amp;gt;
+#include &amp;lt;stdlib.h&amp;gt;
+#define dbErr()    dbErr_log(__FILE__, __LINE__)
+void my_table_load();
+void input_file_load(char *);
+int getfCount(char *);
+int comp_func(const void *, const void *);
+void dbErr_log(char *, int);
+
+exec sql whenever sqlerror call dbErr; /* 若出現任何資料庫異常，則呼叫 dbErr */
+exec sql begin declare section;
+  /* table: my_table */
+  struct _my_table {
+    char key[11];
+  };
+  typedef struct _my_table MY_TABLE;
+  MY_TABLE *MY_TABLEs = NULL;
+  static int MY_TABLE_TOT = 0;
+
+  /* 輸入檔 */
+  struct _input_file {
+    char key[11];
+  };
+  typedef struct _input_file INPUT_FILE;
+  INPUT_FILE *INPUT_FILEs = NULL;
+  static int INPUT_FILE_TOT = 0;
+exec sql end declare section;
+/*----------------------------------------------------------------------------*/
+void main(int argc, char *argv[])
+{
+  exec sql begin declare section;
+    INPUT_FILE *ifPt = NULL;
+  exec sql end declare section;
+  MY_TABLE *myPt = NULL, *tmpPt = NULL;
+  int i, j;
+
+  exec sql connect to &amp;#39;postgres&amp;#39;;
+
+  printf(&amp;#34;一、載入資料：\n&amp;#34;);
+  my_table_load();
+  printf(&amp;#34;載入table (my_table)：筆數=%d.\n  資料：&amp;#34;, MY_TABLE_TOT);
+  for(i = 0, myPt = MY_TABLEs; i &amp;lt; MY_TABLE_TOT; i++, myPt++) printf(&amp;#34;%s &amp;#34;, myPt-&amp;gt;key);
+  printf(&amp;#34;\n&amp;#34;);
+  input_file_load(argv[1]);
+  printf(&amp;#34;載入檔案：檔名=%s, 筆數=%d.\n  資料：&amp;#34;, argv[1], INPUT_FILE_TOT);
+  for(i = 0, ifPt = INPUT_FILEs; i &amp;lt; INPUT_FILE_TOT; i++, ifPt++)  printf(&amp;#34;%s &amp;#34;, ifPt-&amp;gt;key);
+  printf(&amp;#34;\n&amp;#34;);
+
+  printf(&amp;#34;二、新增資料：\n&amp;#34;);
+  for(i = 0, ifPt = INPUT_FILEs; i &amp;lt; INPUT_FILE_TOT; i++, ifPt++) {
+    myPt = bsearch(ifPt-&amp;gt;key, MY_TABLEs, MY_TABLE_TOT, sizeof(MY_TABLE), comp_func);
+    if(myPt == NULL) {
+      exec sql insert into northwind.my_table values (:ifPt-&amp;gt;key);
+      printf(&amp;#34;(步驟%02d).新增==&amp;gt;insert into northwind.my_table values (&amp;#39;%s&amp;#39;);\n&amp;#34;, i+1, ifPt-&amp;gt;key);
+      printf(&amp;#34;  記憶體內容：&amp;#34;);
+      for(j = 0, tmpPt = MY_TABLEs; j &amp;lt; MY_TABLE_TOT; j++, tmpPt++) printf(&amp;#34;%s &amp;#34;, tmpPt-&amp;gt;key);
+      printf(&amp;#34;\n&amp;#34;);
+    }
+    else
+      printf(&amp;#34;(步驟%02d).不須新增==&amp;gt;資料已存在：%s.\n&amp;#34;, i+1, ifPt-&amp;gt;key);
+  }
+  exec sql commit work; /* transaction commit */
+}
+/*----------------------------------------------------------------------------*/
+void my_table_load()
+{
+  exec sql begin declare section;
+    MY_TABLE *myPt = NULL;
+  exec sql end declare section;
+
+  exec sql select count(*) into :MY_TABLE_TOT from northwind.my_table;
+  MY_TABLEs = calloc(MY_TABLE_TOT, sizeof(MY_TABLE));
+  if(MY_TABLE_TOT != 0 &amp;amp;&amp;amp; MY_TABLEs == NULL) {printf(&amp;#34;calloc error!\n&amp;#34;); exit(1);}
+
+  exec sql declare myCur cursor for
+    select key from northwind.my_table;
+  exec sql open myCur;
+  for(myPt = MY_TABLEs;;myPt++) {
+    exec sql fetch myCur into :myPt-&amp;gt;key;
+    if(sqlca.sqlcode == 100) break;
+  }
+  exec sql close myCur;
+  qsort(MY_TABLEs, MY_TABLE_TOT, sizeof(MY_TABLE), comp_func);
+}
+/*----------------------------------------------------------------------------*/
+void input_file_load(char *file_name)
+{
+  INPUT_FILE *ifPt = NULL;
+  FILE *filePt = NULL;
+  char rec[16] = &amp;#34;\0&amp;#34;;
+
+  INPUT_FILE_TOT = getfCount(file_name);
+  switch(INPUT_FILE_TOT) {
+    case -1:
+      printf(&amp;#34;%s not found.\n&amp;#34;, file_name);
+      exit(1);
+    case 0:
+      return; /* 無資料則不須處理 */
+    default:
+      INPUT_FILEs = calloc(INPUT_FILE_TOT, sizeof(INPUT_FILE));
+      if(INPUT_FILEs == NULL) {
+        printf(&amp;#34;memory allocation error.\n&amp;#34;);
+        exit(1);
+      }
+      break;
+  }
+  filePt = fopen(file_name, &amp;#34;r&amp;#34;);
+  if(filePt == NULL) {
+    printf(&amp;#34;%s read error.\n&amp;#34;, file_name);
+    exit(1);
+  }
+  ifPt = INPUT_FILEs;
+  while((fgets(rec, 12, filePt)) != NULL) {
+    strncpy(ifPt-&amp;gt;key, &amp;amp;rec[0], 1);
+    ifPt++;
+  }
+}
+/*----------------------------------------------------------------------------*/
+int getfCount(char *fName)
+{
+  FILE *fPtr;
+  char recordLine[4096];
+  int fCount = 0;
+  if((fPtr = fopen(fName, &amp;#34;r&amp;#34;)) == NULL) return -1;
+  while((fgets(recordLine, 4096, fPtr)) != NULL ) fCount++;
+  fclose(fPtr);
+  return fCount;
+}
+/*----------------------------------------------------------------------------*/
+int comp_func(const void *val1, const void *val2)
+{
+  return(strcmp((char *) val1, (char *) val2));
+}
+/*----------------------------------------------------------------------------*/
+void dbErr_log(char *ecfName, int errLine)
+{
+  char errmsg[70];
+  int msg_len;
+  printf(&amp;#34;DB ERROR==&amp;gt;異常代碼：%d, 程式檔名：%s.\n&amp;#34;, sqlca.sqlcode, ecfName);
+  printf(&amp;#34;sqlerrmc：%s\n&amp;#34;, sqlca.sqlerrm.sqlerrmc);
+  printf(&amp;#34;sqlstate：%s, sqlerrml：%d\n&amp;#34;, sqlca.sqlstate, sqlca.sqlerrm.sqlerrml);
+  exec sql rollback work;
+  exit(1);
+}
+/*----------------------------------------------------------------------------*/
+&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
+&lt;li&gt;編譯指令：&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;ecpg example09.pgc
+gcc -I/usr/local/greenplum-db-6.13.0/include -L/usr/local/greenplum-db-6.13.0/lib -lecpg -o example09 example09.c
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;範例10不定數量的記憶體配置方式-載入時須排序-正常版&#34; &gt;範例10：不定數量的記憶體配置方式 (載入時須排序) (正常版)
+&lt;span&gt;
+    &lt;a href=&#34;#%e7%af%84%e4%be%8b10%e4%b8%8d%e5%ae%9a%e6%95%b8%e9%87%8f%e7%9a%84%e8%a8%98%e6%86%b6%e9%ab%94%e9%85%8d%e7%bd%ae%e6%96%b9%e5%bc%8f-%e8%bc%89%e5%85%a5%e6%99%82%e9%a0%88%e6%8e%92%e5%ba%8f-%e6%ad%a3%e5%b8%b8%e7%89%88&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;參考：投影片講義 P.43 ~ 49&lt;/li&gt;
+&lt;li&gt;題目：依據範例9，利用第二個設計方式 (投影片講義 P.43) 來修正異常。&lt;/li&gt;
+&lt;li&gt;原始碼位置：/home/gpadmin/cfchen/ecpg/example10.ec&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-C=&#34; data-lang=&#34;C=&#34;&gt;#include &amp;lt;stdio.h&amp;gt;
+#include &amp;lt;stdlib.h&amp;gt;
+#define dbErr()    dbErr_log(__FILE__, __LINE__)
+void my_table_load();
+void input_file_load(char *);
+int getfCount(char *);
+int comp_func(const void *, const void *);
+int upper_power_of_two(const int);
+void dbErr_log(char *, int);
+
+exec sql whenever sqlerror call dbErr; /* 若出現任何資料庫異常，則呼叫 dbErr */
+exec sql begin declare section;
+  /* table: my_table */
+  struct _my_table {
+    char key[11];
+  };
+  typedef struct _my_table MY_TABLE;
+  MY_TABLE *MY_TABLEs = NULL;
+  static int MY_TABLE_TOT = 0;
+
+  /* 輸入檔 */
+  struct _input_file {
+    char key[11];
+  };
+  typedef struct _input_file INPUT_FILE;
+  INPUT_FILE *INPUT_FILEs = NULL;
+  static int INPUT_FILE_TOT = 0;
+exec sql end declare section;
+
+MY_TABLE *my_table_mem_insert(MY_TABLE *, MY_TABLE *, int *, const int);
+/*----------------------------------------------------------------------------*/
+void main(int argc, char *argv[])
+{
+  exec sql begin declare section;
+    INPUT_FILE *ifPt = NULL;
+  exec sql end declare section;
+  MY_TABLE *myPt = NULL, data, *tmpPt = NULL;
+  int i, j;
+
+  exec sql connect to &amp;#39;postgres&amp;#39;;
+
+  printf(&amp;#34;一、載入資料：\n&amp;#34;);
+  my_table_load();
+  printf(&amp;#34;載入table (my_table)：筆數=%d.\n  資料：&amp;#34;, MY_TABLE_TOT);
+  for(i = 0, myPt = MY_TABLEs; i &amp;lt; MY_TABLE_TOT; i++, myPt++) printf(&amp;#34;%s &amp;#34;, myPt-&amp;gt;key);
+  printf(&amp;#34;\n&amp;#34;);
+  input_file_load(argv[1]);
+  printf(&amp;#34;載入檔案：檔名=%s, 筆數=%d.\n  資料：&amp;#34;, argv[1], INPUT_FILE_TOT);
+  for(i = 0, ifPt = INPUT_FILEs; i &amp;lt; INPUT_FILE_TOT; i++, ifPt++)  printf(&amp;#34;%s &amp;#34;, ifPt-&amp;gt;key);
+  printf(&amp;#34;\n&amp;#34;);
+
+  printf(&amp;#34;二、新增資料：\n&amp;#34;);
+  for(i = 0, ifPt = INPUT_FILEs; i &amp;lt; INPUT_FILE_TOT; i++, ifPt++) {
+    myPt = bsearch(ifPt-&amp;gt;key, MY_TABLEs, MY_TABLE_TOT, sizeof(MY_TABLE), comp_func);
+    if(myPt == NULL) {
+      exec sql insert into northwind.my_table values (:ifPt-&amp;gt;key);
+      printf(&amp;#34;(步驟%02d).新增==&amp;gt;insert into northwind.my_table values (&amp;#39;%s&amp;#39;);\n&amp;#34;, i+1, ifPt-&amp;gt;key);
+      strncpy(data.key, ifPt-&amp;gt;key, strlen(ifPt-&amp;gt;key));  /* 設定新資料 */
+      MY_TABLEs = my_table_mem_insert(&amp;amp;data, MY_TABLEs, &amp;amp;MY_TABLE_TOT, sizeof(MY_TABLE));
+      printf(&amp;#34;  記憶體內容：&amp;#34;);
+      for(j = 0, tmpPt = MY_TABLEs; j &amp;lt; MY_TABLE_TOT; j++, tmpPt++) printf(&amp;#34;%s &amp;#34;, tmpPt-&amp;gt;key);
+      printf(&amp;#34;\n&amp;#34;);
+    }
+    else
+      printf(&amp;#34;(步驟%02d).不須新增==&amp;gt;資料已存在：%s.\n&amp;#34;, i+1, ifPt-&amp;gt;key);
+  }
+  exec sql commit work; /* transaction commit */
+}
+/*----------------------------------------------------------------------------*/
+void my_table_load()
+{
+  exec sql begin declare section;
+    MY_TABLE *myPt = NULL;
+  exec sql end declare section;
+  int pow2 = 0;
+
+  exec sql select count(*) into :MY_TABLE_TOT from northwind.my_table;
+  pow2 = upper_power_of_two(MY_TABLE_TOT);  /* 配置數量須為 2^n，使稍後可以新增資料 */
+  MY_TABLEs = calloc(pow2, sizeof(MY_TABLE));
+  if(pow2 != 0 &amp;amp;&amp;amp; MY_TABLEs == NULL) {printf(&amp;#34;calloc error!\n&amp;#34;); exit(1);}
+
+  exec sql declare myCur cursor for
+    select key from northwind.my_table;
+  exec sql open myCur;
+  for(myPt = MY_TABLEs;;myPt++) {
+    exec sql fetch myCur into :myPt-&amp;gt;key;
+    if(sqlca.sqlcode == 100) break;
+  }
+  exec sql close myCur;
+  qsort(MY_TABLEs, MY_TABLE_TOT, sizeof(MY_TABLE), comp_func);
+}
+/*----------------------------------------------------------------------------*/
+void input_file_load(char *file_name)
+{
+  INPUT_FILE *ifPt = NULL;
+  FILE *filePt = NULL;
+  char rec[16] = &amp;#34;\0&amp;#34;;
+
+  INPUT_FILE_TOT = getfCount(file_name);
+  switch(INPUT_FILE_TOT) {
+    case -1:
+      printf(&amp;#34;%s not found.\n&amp;#34;, file_name);
+      exit(1);
+    case 0:
+      return; /* 無資料則不須處理 */
+    default:
+      INPUT_FILEs = calloc(INPUT_FILE_TOT, sizeof(INPUT_FILE));
+      if(INPUT_FILEs == NULL) {
+        printf(&amp;#34;memory allocation error.\n&amp;#34;);
+        exit(1);
+      }
+      break;
+  }
+  filePt = fopen(file_name, &amp;#34;r&amp;#34;);
+  if(filePt == NULL) {
+    printf(&amp;#34;%s read error.\n&amp;#34;, file_name);
+    exit(1);
+  }
+  ifPt = INPUT_FILEs;
+  while((fgets(rec, 12, filePt)) != NULL) {
+    strncpy(ifPt-&amp;gt;key, &amp;amp;rec[0], 1);
+    ifPt++;
+  }
+}
+/*----------------------------------------------------------------------------*/
+int getfCount(char *fName)
+{
+  FILE *fPtr;
+  char recordLine[4096];
+  int fCount = 0;
+  if((fPtr = fopen(fName, &amp;#34;r&amp;#34;)) == NULL) return -1;
+  while((fgets(recordLine, 4096, fPtr)) != NULL ) fCount++;
+  fclose(fPtr);
+  return fCount;
+}
+/*----------------------------------------------------------------------------*/
+int comp_func(const void *val1, const void *val2)
+{
+  return(strcmp((char *) val1, (char *) val2));
+}
+/*----------------------------------------------------------------------------*/
+/* 回傳最小大於等於 c 之 2^n                                                  */
+/*----------------------------------------------------------------------------*/
+int upper_power_of_two(const int c)
+{
+  int v = c;
+  v--;
+  v |= v &amp;gt;&amp;gt; 1;
+  v |= v &amp;gt;&amp;gt; 2;
+  v |= v &amp;gt;&amp;gt; 4;
+  v |= v &amp;gt;&amp;gt; 8;
+  v |= v &amp;gt;&amp;gt; 16;
+  v++;
+  return v;
+}
+/*----------------------------------------------------------------------------*/
+/* 將 data 填入 MY_TABLEs 中，MY_TABLEs 之資料以 key 欄位排序
+   若發生 key 相同情形時，該資料不重複填入 MY_TABLEs 中。                 */
+/*----------------------------------------------------------------------------*/
+MY_TABLE *my_table_mem_insert(MY_TABLE *data, MY_TABLE *base, int *num, const int size)
+{
+  MY_TABLE *p, *new_base, *tmp_base;
+  int lim, cmp, pow2, pn, bn=0;
+  tmp_base = base;
+  for (lim = *num; lim != 0; lim &amp;gt;&amp;gt;= 1) {
+    p = tmp_base + (lim &amp;gt;&amp;gt; 1);
+    pn = bn + (lim &amp;gt;&amp;gt; 1);
+    cmp = strcmp(data-&amp;gt;key, p-&amp;gt;key);
+    if (cmp == 0) return base;
+    if (cmp &amp;gt; 0) {  /* key &amp;gt; p: move right */
+      tmp_base = p + 1;
+      bn = pn + 1;
+      lim--;
+    } /* else move left */
+  }
+  pow2 = upper_power_of_two(*num);
+  if(pow2 == (*num)) {
+    if((*num) == 0) pow2 = 1;
+    else pow2 *= 2;
+    new_base = realloc(base, pow2 * size);
+    if((new_base == NULL)) {
+      free(base);
+      printf(&amp;#34;new_base (re)allocating memory error.\n&amp;#34;);
+      exit(1);
+    }
+  }
+  else new_base = base;
+  (*num)++;
+  /* 若填入之資料不是最後一筆，則需 memmove 後面的資料 */
+  if(bn != (*num) - 1) memmove(&amp;amp;new_base[bn+1], &amp;amp;new_base[bn], ((*num) - bn - 1) * size);
+  memcpy(&amp;amp;new_base[bn], data, size);
+  return new_base;
+}
+/*----------------------------------------------------------------------------*/
+void dbErr_log(char *ecfName, int errLine)
+{
+  char errmsg[70];
+  int msg_len;
+  printf(&amp;#34;DB ERROR==&amp;gt;異常代碼：%d, 程式檔名：%s.\n&amp;#34;, sqlca.sqlcode, ecfName);
+  printf(&amp;#34;sqlerrmc：%s\n&amp;#34;, sqlca.sqlerrm.sqlerrmc);
+  printf(&amp;#34;sqlstate：%s, sqlerrml：%d\n&amp;#34;, sqlca.sqlstate, sqlca.sqlerrm.sqlerrml);
+  exec sql rollback work;
+  exit(1);
+}
+/*----------------------------------------------------------------------------*/
+&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
+&lt;li&gt;編譯指令：&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;ecpg example10.pgc
+gcc -I/usr/local/greenplum-db-6.13.0/include -L/usr/local/greenplum-db-6.13.0/lib -lecpg -o example10 example10.c
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;-記憶體配置策略總整理&#34; &gt;※ 記憶體配置策略總整理
+&lt;span&gt;
+    &lt;a href=&#34;#-%e8%a8%98%e6%86%b6%e9%ab%94%e9%85%8d%e7%bd%ae%e7%ad%96%e7%95%a5%e7%b8%bd%e6%95%b4%e7%90%86&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;參考：投影片講義 P.50&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol&gt;
+&lt;li&gt;數量經常固定：
+&lt;ul&gt;
+&lt;li&gt;例如：介面檔/table的欄位長度&lt;/li&gt;
+&lt;li&gt;使用：
+&lt;ul&gt;
+&lt;li&gt;陣列&lt;/li&gt;
+&lt;li&gt;數量很大時：calloc (值會初始化為0)、malloc (值不會初始化)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;數量可能不固定，但在執行期間固定，也很容易計算
+&lt;ul&gt;
+&lt;li&gt;例如：公用表格筆數、檔案資料筆數&lt;/li&gt;
+&lt;li&gt;使用：calloc (值會初始化為0)、malloc (值不會初始化)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;數量在執行期間不固定 (不定數量的記憶體配置方式)
+&lt;ul&gt;
+&lt;li&gt;例如：筆數不好算/不想算、記憶體中的資料於執行時期必須隨時變動
+&lt;ul&gt;
+&lt;li&gt;利用 realloc 重新配置&lt;/li&gt;
+&lt;li&gt;記憶體配置數量 = 2^N，或&lt;/li&gt;
+&lt;li&gt;記憶體配置數量 = 目前已配置記憶體數量 × 2&lt;/li&gt;
+&lt;li&gt;有限度地浪費空間，最多不會浪費大於已配置記憶體一倍的空間。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;範例11排序欄位於彙總時的應用&#34; &gt;範例11：排序欄位於彙總時的應用
+&lt;span&gt;
+    &lt;a href=&#34;#%e7%af%84%e4%be%8b11%e6%8e%92%e5%ba%8f%e6%ac%84%e4%bd%8d%e6%96%bc%e5%bd%99%e7%b8%bd%e6%99%82%e7%9a%84%e6%87%89%e7%94%a8&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;參考：投影片講義 P.52 ~ 55&lt;/li&gt;
+&lt;li&gt;題目：參考投影片講義 P.54，利用多層key欄位的方式：
+&lt;ol&gt;
+&lt;li&gt;以姓名彙總金額&lt;/li&gt;
+&lt;li&gt;以姓名+費用代號彙總金額&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;限制：程式中只能 qsort 一次&lt;/li&gt;
+&lt;li&gt;原始碼位置：/home/gpadmin/cfchen/ecpg/example11.ec&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-C=&#34; data-lang=&#34;C=&#34;&gt;#include &amp;lt;stdio.h&amp;gt;
+#include &amp;lt;stdlib.h&amp;gt;
+struct _ama_rec {
+  char key[20], key2[20];
+  char name[7], fee_item[4];
+  int pid, amount;
+};
+typedef struct _ama_rec AMA_REC;
+int comp_func(const void *, const void *);
+static int AMA_REC_TOT = 0;
+/*----------------------------------------------------------------------------*/
+void main()
+{
+  int i, sum = 0;
+  AMA_REC *aPt = NULL;
+  AMA_REC data[] = {
+    {&amp;#34;&amp;#34;, &amp;#34;&amp;#34;, &amp;#34;小華&amp;#34;, &amp;#34;D01&amp;#34;, 1, 100},
+    {&amp;#34;&amp;#34;, &amp;#34;&amp;#34;, &amp;#34;小華&amp;#34;, &amp;#34;D01&amp;#34;, 2, 200},
+    {&amp;#34;&amp;#34;, &amp;#34;&amp;#34;, &amp;#34;小華&amp;#34;, &amp;#34;D02&amp;#34;, 1, 300},
+    {&amp;#34;&amp;#34;, &amp;#34;&amp;#34;, &amp;#34;小華&amp;#34;, &amp;#34;D02&amp;#34;, 2, 400},
+    {&amp;#34;&amp;#34;, &amp;#34;&amp;#34;, &amp;#34;小明&amp;#34;, &amp;#34;D01&amp;#34;, 1, 500},
+    {&amp;#34;&amp;#34;, &amp;#34;&amp;#34;, &amp;#34;小明&amp;#34;, &amp;#34;D01&amp;#34;, 2, 600},
+    {&amp;#34;&amp;#34;, &amp;#34;&amp;#34;, &amp;#34;小明&amp;#34;, &amp;#34;D02&amp;#34;, 1, 700},
+    {&amp;#34;&amp;#34;, &amp;#34;&amp;#34;, &amp;#34;小明&amp;#34;, &amp;#34;D02&amp;#34;, 2, 800}
+  };
+  AMA_REC_TOT = sizeof(data) / sizeof(AMA_REC); /* 計算筆數 */
+
+  for(i = 0, aPt = data; i &amp;lt; AMA_REC_TOT; i++, aPt++) {
+    sprintf(aPt-&amp;gt;key, &amp;#34;%s.%s&amp;#34;, aPt-&amp;gt;name, aPt-&amp;gt;fee_item); /* 設定 key */
+    sprintf(aPt-&amp;gt;key2, &amp;#34;%s&amp;#34;, aPt-&amp;gt;name);                  /* 設定 key2 */
+  }
+  qsort(data, AMA_REC_TOT, sizeof(AMA_REC), comp_func);
+
+  printf(&amp;#34;一、以姓名彙總：\n&amp;#34;);
+  for(i = 0, aPt = data; i &amp;lt; AMA_REC_TOT; i++, aPt++) {
+    sum += aPt-&amp;gt;amount;
+    if(strcmp(aPt-&amp;gt;key2, (aPt+1)-&amp;gt;key2) != 0) {
+      printf(&amp;#34;    name=%s, sum(amount)=%d.\n&amp;#34;, aPt-&amp;gt;name, sum);
+      sum = 0;
+    }
+  }
+  printf(&amp;#34;二、以姓名+費用代號彙總：\n&amp;#34;);
+  for(i = 0, aPt = data; i &amp;lt; AMA_REC_TOT; i++, aPt++) {
+    sum += aPt-&amp;gt;amount;
+    if(strcmp(aPt-&amp;gt;key, (aPt+1)-&amp;gt;key) != 0) {
+      printf(&amp;#34;    name=%s, fee_item=%s, sum(amount)=%d.\n&amp;#34;, aPt-&amp;gt;name, aPt-&amp;gt;fee_item, sum);
+      sum = 0;
+    }
+  }
+}
+/*----------------------------------------------------------------------------*/
+int comp_func(const void *val1, const void *val2)
+{
+  return(strcmp((char *) val1, (char *) val2));
+}
+/*----------------------------------------------------------------------------*/
+&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
+&lt;li&gt;編譯指令：&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;ecpg example11.pgc
+gcc -I/usr/local/greenplum-db-6.13.0/include -L/usr/local/greenplum-db-6.13.0/lib -lecpg -o example11 example11.c
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;範例12排序欄位於彙總時的應用-改寫-compare-function&#34; &gt;範例12：排序欄位於彙總時的應用 (改寫 compare function)
+&lt;span&gt;
+    &lt;a href=&#34;#%e7%af%84%e4%be%8b12%e6%8e%92%e5%ba%8f%e6%ac%84%e4%bd%8d%e6%96%bc%e5%bd%99%e7%b8%bd%e6%99%82%e7%9a%84%e6%87%89%e7%94%a8-%e6%94%b9%e5%af%ab-compare-function&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;參考：投影片講義 P.56 ~ 58&lt;/li&gt;
+&lt;li&gt;題目：參考投影片講義 P.56，改寫 compare function，配合二元搜尋協助彙總：
+&lt;ol&gt;
+&lt;li&gt;以小華彙總金額&lt;/li&gt;
+&lt;li&gt;以小明+D02 彙總金額&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;限制：
+&lt;ol&gt;
+&lt;li&gt;程式中只能 qsort 一次&lt;/li&gt;
+&lt;li&gt;結構中只能有一個 key&lt;/li&gt;
+&lt;li&gt;以姓名+費用代號+產品代號排序&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;原始碼位置：/home/gpadmin/cfchen/ecpg/example12.ec&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-C=&#34; data-lang=&#34;C=&#34;&gt;#include &amp;lt;stdio.h&amp;gt;
+#include &amp;lt;stdlib.h&amp;gt;
+struct _ama_rec {
+  char key[20];
+  char name[7], fee_item[4];
+  int pid, amount;
+};
+typedef struct _ama_rec AMA_REC;
+void *bsearchFirst(const void *, const void *, size_t, size_t, int(*)(const void *, const void *));
+int bsearchRows(const void *, const void *, size_t, size_t, int (*)(const void *, const void *));
+int comp_func(const void *, const void *);
+int comp_func2(const void *, const void *);
+int comp_func3(const void *, const void *);
+static int AMA_REC_TOT = 0;
+/*----------------------------------------------------------------------------*/
+void main()
+{
+  int i, cnt, sum = 0;
+  AMA_REC *aPt = NULL;
+  AMA_REC data[] = {
+    {&amp;#34;&amp;#34;, &amp;#34;小華&amp;#34;, &amp;#34;D01&amp;#34;, 1, 100},
+    {&amp;#34;&amp;#34;, &amp;#34;小華&amp;#34;, &amp;#34;D01&amp;#34;, 2, 200},
+    {&amp;#34;&amp;#34;, &amp;#34;小華&amp;#34;, &amp;#34;D02&amp;#34;, 1, 300},
+    {&amp;#34;&amp;#34;, &amp;#34;小華&amp;#34;, &amp;#34;D02&amp;#34;, 2, 400},
+    {&amp;#34;&amp;#34;, &amp;#34;小明&amp;#34;, &amp;#34;D01&amp;#34;, 1, 500},
+    {&amp;#34;&amp;#34;, &amp;#34;小明&amp;#34;, &amp;#34;D01&amp;#34;, 2, 600},
+    {&amp;#34;&amp;#34;, &amp;#34;小明&amp;#34;, &amp;#34;D02&amp;#34;, 1, 700},
+    {&amp;#34;&amp;#34;, &amp;#34;小明&amp;#34;, &amp;#34;D02&amp;#34;, 2, 800}
+  };
+  AMA_REC_TOT = sizeof(data) / sizeof(AMA_REC); /* 計算筆數 */
+
+  for(i = 0, aPt = data; i &amp;lt; AMA_REC_TOT; i++, aPt++) {
+    sprintf(aPt-&amp;gt;key, &amp;#34;%s.%s.%03d&amp;#34;, aPt-&amp;gt;name, aPt-&amp;gt;fee_item, aPt-&amp;gt;pid); /* 設定 key */
+  }
+  qsort(data, AMA_REC_TOT, sizeof(AMA_REC), comp_func);
+  /* 小華 */
+  cnt = bsearchRows(&amp;#34;小華&amp;#34;, data, AMA_REC_TOT, sizeof(AMA_REC), comp_func2);
+  aPt = bsearchFirst(&amp;#34;小華&amp;#34;, data, AMA_REC_TOT, sizeof(AMA_REC), comp_func2);
+  for(i = 0; i &amp;lt; cnt; i++, aPt++) sum += aPt-&amp;gt;amount;
+  printf(&amp;#34;小華：sum(amount)=%d.\n&amp;#34;, sum);
+  sum = 0;
+  /* 小明+D02 */
+  cnt = bsearchRows(&amp;#34;小明.D02&amp;#34;, data, AMA_REC_TOT, sizeof(AMA_REC), comp_func3);
+  aPt = bsearchFirst(&amp;#34;小明.D02&amp;#34;, data, AMA_REC_TOT, sizeof(AMA_REC), comp_func3);
+  for(i = 0; i &amp;lt; cnt; i++, aPt++) sum += aPt-&amp;gt;amount;
+  printf(&amp;#34;小明.D02：sum(amount)=%d.\n&amp;#34;, sum);
+  sum = 0;
+}
+/*----------------------------------------------------------------------------*/
+int comp_func(const void *str1, const void *str2)
+{
+  return(strcmp((char *) str1, (char *) str2));
+}
+/*----------------------------------------------------------------------------*/
+/* 協助二元搜尋法比對姓名(name)                                               */
+/*----------------------------------------------------------------------------*/
+comp_func2(const void *str1, const void* str2)
+{
+  char k1[20]=&amp;#34;\0&amp;#34;;
+  char s[40]=&amp;#34;\0&amp;#34;;
+  sscanf(str2, &amp;#34;%[^.]&amp;#34;, k1);
+  sprintf(s, &amp;#34;%s&amp;#34;, k1);
+  return(strcmp((char *) str1, (char *) s));
+}
+/*----------------------------------------------------------------------------*/
+/* 協助二元搜尋法比對姓名 + 費用代號 (name + fee_item)                        */
+/*----------------------------------------------------------------------------*/
+comp_func3(const void *str1, const void* str2)
+{
+  char k1[20]=&amp;#34;\0&amp;#34;, k2[20]=&amp;#34;\0&amp;#34;;
+  char s[40]=&amp;#34;\0&amp;#34;;
+  sscanf(str2, &amp;#34;%[^.].%[^.]&amp;#34;, k1, k2);
+  sprintf(s, &amp;#34;%s.%s&amp;#34;, k1, k2);
+  return(strcmp((char *) str1, (char *) s));
+}
+/*---------------------------------------------------------------------------*/
+/*  bsearchFirst()：                                                         */
+/*  與 bsearch() 用法相同，但若尋找到多筆相同 key 值之紀錄時，               */
+/*  會傳回第一筆具有此 key 值之紀錄，若找不到則傳回 NULL                     */
+/*---------------------------------------------------------------------------*/
+void *bsearchFirst(const void *key, const void *base0, size_t nmemb, size_t size, int (*compar)(const void *, const void *))
+{
+  const char *base = base0;
+  int lim, cmp;
+  const char *p;
+  for (lim = nmemb; lim != 0; lim &amp;gt;&amp;gt;= 1) {
+    p = base + (lim &amp;gt;&amp;gt; 1) * size;
+    cmp = (*compar)(key, p);
+    if (cmp == 0) {
+      while(!(*compar)(key, p-size)) p-=size;
+      return ((void *)p);
+    }
+    if (cmp &amp;gt; 0) {  /* key &amp;gt; p: move right */
+      base = (char *)p + size;
+      lim--;
+    } /* else move left */
+  }
+  return (NULL);
+}
+/*---------------------------------------------------------------------------*/
+/*  bsearchRows()：                                                          */
+/*  以 bsearch() 方法尋找具有相同 key 值之紀錄的筆數，若找不到則傳回 0       */
+/*---------------------------------------------------------------------------*/
+int bsearchRows(const void *key, const void *base0, size_t nmemb, size_t size, int (*compar)(const void *, const void *))
+{
+  const char *base = base0;
+  int lim, cmp, cnt=1;
+  const char *p;
+  for (lim = nmemb; lim != 0; lim &amp;gt;&amp;gt;= 1) {
+    p = base + (lim &amp;gt;&amp;gt; 1) * size;
+    cmp = (*compar)(key, p);
+    if (cmp == 0) {
+      while(!(*compar)(key, p-size)) p-=size;
+      while(!(*compar)(key, p+size)) {p+=size; cnt++;}
+      return cnt;
+    }
+    if (cmp &amp;gt; 0) {  /* key &amp;gt; p: move right */
+      base = (char *)p + size;
+      lim--;
+    } /* else move left */
+  }
+  return 0;
+}
+/*----------------------------------------------------------------------------*/
+&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
+&lt;li&gt;編譯指令：&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;ecpg example12.pgc
+gcc -I/usr/local/greenplum-db-6.13.0/include -L/usr/local/greenplum-db-6.13.0/lib -lecpg -o example12 example12.c
+&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
+&lt;h3 id=&#34;reference&#34; &gt;Reference：
+&lt;span&gt;
+    &lt;a href=&#34;#reference&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;C/C++ 語言新手十三誡
+&lt;a href=&#34;https://www.ptt.cc/bbs/C_and_CPP/M.1465304337.A.9F2.html&#34;&gt;https://www.ptt.cc/bbs/C_and_CPP/M.1465304337.A.9F2.html&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;C Traps and Pitfalls
+&lt;a href=&#34;http://www.literateprogramming.com/ctraps.pdf&#34;&gt;http://www.literateprogramming.com/ctraps.pdf&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;C 語言的指標頭腦體操：
+&lt;a href=&#34;https://stackoverflow.com/questions/8208021/how-to-increment-a-pointer-address-and-pointers-value/8208106#8208106&#34;&gt;https://stackoverflow.com/questions/8208021/how-to-increment-a-pointer-address-and-pointers-value/8208106#8208106&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

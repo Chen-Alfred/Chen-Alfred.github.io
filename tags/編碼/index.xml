@@ -1,0 +1,613 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>編碼 on Alfred Chen</title>
+    <link>/tags/%E7%B7%A8%E7%A2%BC/</link>
+    <description>Alfred Chen (編碼)</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-tw</language>
+    <lastBuildDate>Sat, 01 Jan 2022 00:00:00 +0000</lastBuildDate>
+    
+    <atom:link href="/tags/%E7%B7%A8%E7%A2%BC/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Alfred 的教學筆記 01 - 編碼、檔案、斷行字元、Excel、其他基礎知識介紹</title>
+      <link>/posts/handout_01_basic_introduction/</link>
+      <pubDate>Sat, 01 Jan 2022 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/handout_01_basic_introduction/</guid>
+      <description>&lt;hr&gt;
+&lt;h2 id=&#34;一檔案字元集-character-set-編碼的判斷轉換&#34; &gt;一、檔案字元集 (Character Set) 編碼的判斷、轉換
+&lt;span&gt;
+    &lt;a href=&#34;#%e4%b8%80%e6%aa%94%e6%a1%88%e5%ad%97%e5%85%83%e9%9b%86-character-set-%e7%b7%a8%e7%a2%bc%e7%9a%84%e5%88%a4%e6%96%b7%e8%bd%89%e6%8f%9b&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;
+&lt;h3 id=&#34;在台灣常見的編碼有-ansi-與-unicode-兩大體系&#34; &gt;在台灣常見的編碼，有 ANSI 與 Unicode 兩大體系：
+&lt;span&gt;
+    &lt;a href=&#34;#%e5%9c%a8%e5%8f%b0%e7%81%a3%e5%b8%b8%e8%a6%8b%e7%9a%84%e7%b7%a8%e7%a2%bc%e6%9c%89-ansi-%e8%88%87-unicode-%e5%85%a9%e5%a4%a7%e9%ab%94%e7%b3%bb&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;ANSI：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;input checked=&#34;&#34; disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; ASCII (1 byte) &lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt; &lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input checked=&#34;&#34; disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; BIG5 → MS950 (2 bytes) &lt;sup id=&#34;fnref:3&#34;&gt;&lt;a href=&#34;#fn:3&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;3&lt;/a&gt;&lt;/sup&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; GB&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Unicode：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;input checked=&#34;&#34; disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; UTF8 (2~3 bytes)&lt;/li&gt;
+&lt;li&gt;&lt;input checked=&#34;&#34; disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; UTF8 (BOM) (2~3 bytes) &lt;sup id=&#34;fnref:4&#34;&gt;&lt;a href=&#34;#fn:4&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;4&lt;/a&gt;&lt;/sup&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; UTF16 (LE) (2 bytes)&lt;/li&gt;
+&lt;li&gt;&lt;input disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; UTF16 (BE) (2 bytes)&lt;/li&gt;
+&lt;li&gt;&lt;input disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; UTF32 (LE) (2 bytes)&lt;/li&gt;
+&lt;li&gt;&lt;input disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; UTF32 (BE) (2 bytes)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;h3 id=&#34;判斷編碼的方式&#34; &gt;判斷編碼的方式：
+&lt;span&gt;
+    &lt;a href=&#34;#%e5%88%a4%e6%96%b7%e7%b7%a8%e7%a2%bc%e7%9a%84%e6%96%b9%e5%bc%8f&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;下載範例：&lt;a href=&#34;https://drive.google.com/file/d/1MHGp5G1uVeC55tAkOlBxSwABwN0SvrDN/view?usp=sharing&#34;&gt;char_set.zip&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;文字編輯器(Windows記事本、Notepad++&amp;hellip;等工具)&lt;/li&gt;
+&lt;li&gt;判斷字元的位元範圍：(利用程式語言、command line)&lt;/li&gt;
+&lt;li&gt;There is no 100% reliable way to detemine if a byte stream in ANSI or UTF-8 (without BOM). &lt;sup id=&#34;fnref:5&#34;&gt;&lt;a href=&#34;#fn:5&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;5&lt;/a&gt;&lt;/sup&gt;&lt;/li&gt;
+&lt;li&gt;可利用 Notepad++ 的 HEX-Editor 外掛程式來判斷&lt;/li&gt;
+&lt;li&gt;可利用 Linux 指令來判斷 (於教學筆記 02 再教)&lt;/li&gt;
+&lt;li&gt;中文碼查詢：https://www.cns11643.gov.tw/searchQ.jsp?ID=0&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;h3 id=&#34;轉換編碼的方式&#34; &gt;轉換編碼的方式：
+&lt;span&gt;
+    &lt;a href=&#34;#%e8%bd%89%e6%8f%9b%e7%b7%a8%e7%a2%bc%e7%9a%84%e6%96%b9%e5%bc%8f&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;input checked=&#34;&#34; disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; 記事本另存新檔&lt;/li&gt;
+&lt;li&gt;&lt;input checked=&#34;&#34; disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; 文字編輯器(notepad++)&lt;/li&gt;
+&lt;li&gt;&lt;input disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; Linux指令：iconv (於教學筆記 02 再教)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;二存放資料的檔案-結構化的文字檔&#34; &gt;二、存放資料的檔案 (結構化的文字檔)
+&lt;span&gt;
+    &lt;a href=&#34;#%e4%ba%8c%e5%ad%98%e6%94%be%e8%b3%87%e6%96%99%e7%9a%84%e6%aa%94%e6%a1%88-%e7%b5%90%e6%a7%8b%e5%8c%96%e7%9a%84%e6%96%87%e5%ad%97%e6%aa%94&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;
+&lt;h3 id=&#34;檔案種類&#34; &gt;檔案種類：
+&lt;span&gt;
+    &lt;a href=&#34;#%e6%aa%94%e6%a1%88%e7%a8%ae%e9%a1%9e&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;一、以「分隔符號」 (delimiter) 區分欄位：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;適用於任何字元集編碼&lt;/li&gt;
+&lt;li&gt;較常見&lt;/li&gt;
+&lt;li&gt;常用的分隔符號：逗號(,)、空白、Tab、pipe(|)、ACSII碼(002)&lt;/li&gt;
+&lt;li&gt;亦可同時使用多種字元、字串作為分隔符號&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;1,John,0911-222-333,Taipei City,總公司
+2,May,0922-333-444,New Taipei City,北區分公司
+...
+&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
+&lt;li&gt;範例：https://data.gov.tw/dataset/8355  下載 csv 檔，並觀察內容。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;二、以「固定長度」區分欄位：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;僅適用於ASCII、BIG5等固定寬度之編碼&lt;/li&gt;
+&lt;li&gt;衍生議題：
+&lt;ul&gt;
+&lt;li&gt;文字：左靠/右靠&lt;/li&gt;
+&lt;li&gt;數字：左靠/右靠/整數or小數位補幾個0&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;1John0911-222-333    Taipei City總公司
+2 May0922-333-444New Taipei City北區分公司
+...
+&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
+&lt;li&gt;範例：&lt;a href=&#34;https://drive.google.com/file/d/1wcQM10vX2OtqqN3Q0wyTVW8lNaBOmgMF/view?usp=sharing&#34;&gt;10107CF.BAD.txt&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;格式：&lt;img src=&#34;https://i.imgur.com/3dINuuM.jpg&#34; alt=&#34;&#34;&gt;&lt;a href=&#34;https://i.imgur.com/3dINuuM.jpg&#34;&gt;https://i.imgur.com/3dINuuM.jpg&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;【練習】各位學員可以嘗試使用 Excel 工具開啟上述兩種檔案，看看會發生什麼問題。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;h3 id=&#34;檔案檢查機制&#34; &gt;檔案檢查機制：
+&lt;span&gt;
+    &lt;a href=&#34;#%e6%aa%94%e6%a1%88%e6%aa%a2%e6%9f%a5%e6%a9%9f%e5%88%b6&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h3&gt;&lt;p&gt;檔案有時可能會在傳輸的過程中間遺失資料，因此接收檔案時必須有一些檢查機制。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;方式一：檔名中包含資料筆數。(例如：FILENAME_YYYYMMDD_筆數.csv)&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;衍生議題：檢查資料筆數與檔名是否相符。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;方式二：檔案附加尾筆，確認傳輸完畢。(也可以尾筆包含筆數以提供檢查)&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;衍生議題：檢查資料筆數與最後一筆是否相符、去除掉最後一列之後再處理。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;第 1 筆
+第 2 筆
+...
+第 N 筆
+*** N ***
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;方式三：利用控制檔，檢查整批檔案的數量、筆數、格式等屬性。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;財稅案的資料交換規格範例：
+&lt;ul&gt;
+&lt;li&gt;分為 .H 檔 (資料規格) 與 .D 檔 (資料內容) 兩類檔案&lt;/li&gt;
+&lt;li&gt;未來會用在 oltp -&amp;gt; prestage 之階段&lt;/li&gt;
+&lt;li&gt;範例：&lt;em&gt;&amp;lt;連結已移除&amp;gt;&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;.H檔格式：&lt;img src=&#34;https://i.imgur.com/thRBRdl.jpg&#34; alt=&#34;&#34;&gt;&lt;a href=&#34;https://i.imgur.com/thRBRdl.jpg&#34;&gt;https://i.imgur.com/thRBRdl.jpg&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;三斷行字元&#34; &gt;三、斷行字元
+&lt;span&gt;
+    &lt;a href=&#34;#%e4%b8%89%e6%96%b7%e8%a1%8c%e5%ad%97%e5%85%83&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;斷行字元的種類：&lt;/li&gt;
+&lt;/ul&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;作業系統種類&lt;/th&gt;
+&lt;th&gt;斷行字元 (※)&lt;/th&gt;
+&lt;th&gt;以跳脫序列(escape sequence)方式表示&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;WINDOWS&lt;/td&gt;
+&lt;td&gt;CRLF&lt;/td&gt;
+&lt;td&gt;\r\n&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;UNIX / Linux&lt;/td&gt;
+&lt;td&gt;LF&lt;/td&gt;
+&lt;td&gt;\n&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;MAC&lt;/td&gt;
+&lt;td&gt;CR&lt;/td&gt;
+&lt;td&gt;\r&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;※ 補充：&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;字元&lt;/th&gt;
+&lt;th&gt;念法&lt;/th&gt;
+&lt;th&gt;跳脫序列&lt;/th&gt;
+&lt;th&gt;ASCII碼 (10進位)&lt;/th&gt;
+&lt;th&gt;ASCII碼 (16進位)&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;CR&lt;/td&gt;
+&lt;td&gt;Carriage Return&lt;/td&gt;
+&lt;td&gt;\r&lt;/td&gt;
+&lt;td&gt;13&lt;/td&gt;
+&lt;td&gt;0D&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;LF&lt;/td&gt;
+&lt;td&gt;Line Feed&lt;/td&gt;
+&lt;td&gt;\n&lt;/td&gt;
+&lt;td&gt;10&lt;/td&gt;
+&lt;td&gt;0A&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;斷行字元的判斷：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;可利用 Notepad++ 的 HEX-Editor 外掛程式來判斷&lt;/li&gt;
+&lt;li&gt;可利用 PsPad HEX 工具來判斷&lt;/li&gt;
+&lt;li&gt;可利用 Linux 指令 (od) 來判斷&lt;/li&gt;
+&lt;li&gt;【練習】使用一些編輯器，分別在 WINDOWS 或 UNIX 模式下任意編輯，再觀察斷行字元的型態。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;斷行字元的轉換：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Notepad++：
+&lt;ul&gt;
+&lt;li&gt;視窗右下角選擇斷行字元種類。&lt;/li&gt;
+&lt;li&gt;設定 &amp;gt; 偏好設定 &amp;gt; 新文件預設設定 &amp;gt; 切換：Windows/Unix/Mac。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;PsPad：按視窗下方狀態列即可切換。&lt;/li&gt;
+&lt;li&gt;【補充】Linux 指令：
+&lt;ul&gt;
+&lt;li&gt;Windows 轉 Unix (利用 tr、sed、dos2unix 指令)&lt;/li&gt;
+&lt;li&gt;Unix 轉 Windows (利用 sed、unix2dos 指令)&lt;/li&gt;
+&lt;li&gt;參考網址：https://www.commandlinewizardry.com/post/removing-windows-line-breaks&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;四excel-工具&#34; &gt;四、Excel 工具
+&lt;span&gt;
+    &lt;a href=&#34;#%e5%9b%9bexcel-%e5%b7%a5%e5%85%b7&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;工作中時常用來：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;撰寫文件、圖表&lt;/li&gt;
+&lt;li&gt;比對資料&lt;/li&gt;
+&lt;li&gt;產製具有固定規則的資料&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;常用功能/函式：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;開啟檔案 (以分隔符號切、以固定長度切)&lt;/li&gt;
+&lt;li&gt;產生數列 (拉控制點 or 公式)&lt;/li&gt;
+&lt;li&gt;判斷資料&lt;/li&gt;
+&lt;li&gt;設定格式化條件&lt;/li&gt;
+&lt;li&gt;樞紐分析表&lt;/li&gt;
+&lt;li&gt;統計圖&lt;/li&gt;
+&lt;li&gt;Excel函數線上說明：https://support.microsoft.com/zh-tw/office/excel-%E5%87%BD%E6%95%B8-%E4%BE%9D%E9%A1%9E%E5%88%A5-5f91f4e9-7b42-46d2-9bd1-63f26a86c0eb&lt;/li&gt;
+&lt;li&gt;IF&lt;/li&gt;
+&lt;li&gt;COUNTIF&lt;/li&gt;
+&lt;li&gt;TRIM：移除文字中的 7 位元 ASCII 空格字元 (值 32)。在 Unicode 字元集中，有一個額外的空格字元稱為不分行空格字元，其十進位值為 160。此字元一般用於網頁中，做為 HTML 實體  。單獨使用 TRIM 函數，不會移除此不分行空格字元。&lt;/li&gt;
+&lt;li&gt;CLEAN：移除文字中 7 位元 ASCII 碼的前 32 個非列印位元 (值 0 至 31)。在 Unicode 字元集中，還有額外的非列印字元 (值 127、129、141、143、144 及 157)。單獨使用 CLEAN 函數，不會移除這些額外的非列印位元。&lt;/li&gt;
+&lt;li&gt;CONCATENATE (功能與 &amp;amp; 相同)&lt;/li&gt;
+&lt;li&gt;SUBSTITUTE&lt;/li&gt;
+&lt;li&gt;VLOOKUP&lt;/li&gt;
+&lt;li&gt;FIND：搜尋文字在另一字串中的起始位置。&lt;/li&gt;
+&lt;li&gt;LEFT&lt;/li&gt;
+&lt;li&gt;RIGHT&lt;/li&gt;
+&lt;li&gt;MID&lt;/li&gt;
+&lt;li&gt;AND&lt;/li&gt;
+&lt;li&gt;OR&lt;/li&gt;
+&lt;li&gt;LEN(X)：字串X的長度&lt;/li&gt;
+&lt;li&gt;REPT(A,B)：字串A重複B次&lt;/li&gt;
+&lt;li&gt;CHAR(X)：回傳十進位值為X的ASCII code。例如CHAR(65)為&amp;quot;A&amp;quot;。&lt;/li&gt;
+&lt;li&gt;CODE(X)：回傳ASCII code為X的十進位值。例如CODE(&amp;ldquo;A&amp;rdquo;)為65。&lt;/li&gt;
+&lt;li&gt;DEC2HEX(X)：將10進位的數字X轉為16進位。&lt;/li&gt;
+&lt;li&gt;HEX2DEC(X)：將16進位的數字X轉為10進位。&lt;/li&gt;
+&lt;li&gt;VBA&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;五de-morgan-定理&#34; &gt;五、de morgan 定理
+&lt;span&gt;
+    &lt;a href=&#34;#%e4%ba%94de-morgan-%e5%ae%9a%e7%90%86&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h2&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;非(P or Q) ≡ (非P) and (非Q)
+非(P and Q) ≡ (非P) or (非Q)
+&lt;/code&gt;&lt;/pre&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;非(P or Q or R) ≡ (非P) and (非Q) and (非R)
+非(P and Q and R) ≡ (非P) or (非Q) or (非R)
+&lt;/code&gt;&lt;/pre&gt;&lt;div class=&#34;highlight line-numbers&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;非&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;P or Q&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; ≡ &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;非P&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; and &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;非Q&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;非&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;P and Q&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; ≡ &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;非P&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; or &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;非Q&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;非&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;P or Q or R&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; ≡ &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;非P&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; and &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;非Q&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; and &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;非R&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;非&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;P and Q and R&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; ≡ &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;非P&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; or &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;非Q&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; or &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;非R&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/A5pp5A7.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;舉例：正常人的捐血資格：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;17歲以上，65歲以下。&lt;/li&gt;
+&lt;li&gt;女性應45公斤以上，男性應50公斤以上。&lt;/li&gt;
+&lt;li&gt;體溫不超過攝氏37.5度。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;如果一個人可以捐血，就表示：&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;「AGE &amp;gt;= 17歲」 and 「AGE &amp;lt;= 65歲」 and
+(「SEX = 女 and WEIGHT &amp;gt;= 45公斤」 or 「SEX = 男 and WEIGHT &amp;gt;= 50公斤」) and 
+「TEMPERATURE &amp;lt;= 37.5度」
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;如果一個人無法捐血，就表示：&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;「AGE &amp;lt; 17歲」 or 「AGE &amp;gt; 65歲」 or
+(「SEX = 女 and WEIGHT &amp;lt; 45公斤」 or 「SEX = 男 and WEIGHT &amp;lt; 50公斤」) or
+「TEMPERATURE &amp;gt; 37.5度」
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;作業三excel練習&#34; &gt;作業三：(EXCEL練習)
+&lt;span&gt;
+    &lt;a href=&#34;#%e4%bd%9c%e6%a5%ad%e4%b8%89excel%e7%b7%b4%e7%bf%92&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;SDM下載 (V0.01)：&lt;em&gt;&amp;lt;連結已移除&amp;gt;&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;SDM下載 (V0.04)：&lt;em&gt;&amp;lt;連結已移除&amp;gt;&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol&gt;
+&lt;li&gt;先將 SDM 文件另存為 xlsx 檔，並找出 SDM V0.01 中的「Base基礎資料欄位對應V0_01」頁籤：
+(1). 檢查序號是否正確。(不要每一張表都各自拉正確的序號)
+※ Hint：正確的序號計算方法：若該列的資料表名稱與上一列相同，則遞增；若不同，則由1起算。
+(2). 資料欄位名稱兩側有空白的的欄位有哪些？&lt;/li&gt;
+&lt;li&gt;先將 SDM 文件另存為 xlsx 檔，並利用 SDM V0.04 進行下列工作：
+利用資料表名稱、資料欄位名稱、資料型態、不為空值、序號這些資料，製作出下列 CREATE、DROP、INSERT 的 SQL。
+(1). 檢查 BASE 表中的序號是否正確。(不要每一張表都各自拉正確的序號)
+(2). 對於 STAGE 表進行資料型態的拆解，例如：VARCHAR(X)、DECIMAL(X,Y) ==&amp;gt; 拆出：資料型態(VARCHAR/DECIMAL)、X、Y
+產生SQL：
+(3). 請利用 BASE 表製作 CREATE TABLE DDL：&lt;/li&gt;
+&lt;/ol&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;資料表名稱&lt;/th&gt;
+&lt;th&gt;資料欄位名稱&lt;/th&gt;
+&lt;th&gt;資料型態&lt;/th&gt;
+&lt;th&gt;不為空值&lt;/th&gt;
+&lt;th&gt;序號&lt;/th&gt;
+&lt;th&gt;SQL(自建)&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;table1&lt;/td&gt;
+&lt;td&gt;column1&lt;/td&gt;
+&lt;td&gt;int&lt;/td&gt;
+&lt;td&gt;Y&lt;/td&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;create table base.table1 (column1 int not null,&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;table1&lt;/td&gt;
+&lt;td&gt;column2&lt;/td&gt;
+&lt;td&gt;varchar(10)&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;column2 varchar(10),&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;table1&lt;/td&gt;
+&lt;td&gt;column3&lt;/td&gt;
+&lt;td&gt;decimal(10,2)&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;3&lt;/td&gt;
+&lt;td&gt;column3 decimal(10,2));&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;table2&lt;/td&gt;
+&lt;td&gt;column1&lt;/td&gt;
+&lt;td&gt;varchar(5)&lt;/td&gt;
+&lt;td&gt;Y&lt;/td&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;create table base.table2 (column1 varchar(5) not null,&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;table2&lt;/td&gt;
+&lt;td&gt;column2&lt;/td&gt;
+&lt;td&gt;text&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;column2 text);&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;(4). 請利用 BASE 表製作 DROP TABLE DDL：&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;資料表名稱&lt;/th&gt;
+&lt;th&gt;資料欄位名稱&lt;/th&gt;
+&lt;th&gt;資料型態&lt;/th&gt;
+&lt;th&gt;不為空值&lt;/th&gt;
+&lt;th&gt;序號&lt;/th&gt;
+&lt;th&gt;SQL(自建)&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;table1&lt;/td&gt;
+&lt;td&gt;column1&lt;/td&gt;
+&lt;td&gt;int&lt;/td&gt;
+&lt;td&gt;Y&lt;/td&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;drop table base.table1;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;table1&lt;/td&gt;
+&lt;td&gt;column2&lt;/td&gt;
+&lt;td&gt;varchar(10)&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;table1&lt;/td&gt;
+&lt;td&gt;column3&lt;/td&gt;
+&lt;td&gt;decimal(10,2)&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;3&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;table2&lt;/td&gt;
+&lt;td&gt;column1&lt;/td&gt;
+&lt;td&gt;varchar(5)&lt;/td&gt;
+&lt;td&gt;Y&lt;/td&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;drop table base.table2;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;table2&lt;/td&gt;
+&lt;td&gt;column2&lt;/td&gt;
+&lt;td&gt;text&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;(5). 請利用 STAGE 表製作 INSERT SQL：(每張表填一筆資料就好)
+規則：依據欄位的資料型態決定欄位的值。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;int：填 1。&lt;/li&gt;
+&lt;li&gt;varchar(X)、char(X)：填 X 個 &amp;lsquo;A&amp;rsquo; (例如：varchar(3) 填 &amp;lsquo;AAA&amp;rsquo;)。&lt;/li&gt;
+&lt;li&gt;text：固定填 &amp;lsquo;ZZZZZZZZZZ&amp;rsquo;。&lt;/li&gt;
+&lt;li&gt;decimal(X,Y)：整數填 X-Y 個 1，小數填 Y 個 1 (例如：decimal(5,2) 填 111.11)。&lt;/li&gt;
+&lt;li&gt;decimal(X)：整數填 X 個 (例如：decimal(5) 填 11111)。&lt;/li&gt;
+&lt;li&gt;date：填 2021-01-01。&lt;/li&gt;
+&lt;li&gt;timestamp：填 2021-01-01 00:00:00。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;資料表名稱&lt;/th&gt;
+&lt;th&gt;資料欄位名稱&lt;/th&gt;
+&lt;th&gt;資料型態&lt;/th&gt;
+&lt;th&gt;不為空值&lt;/th&gt;
+&lt;th&gt;序號&lt;/th&gt;
+&lt;th&gt;TYPE(自建)&lt;/th&gt;
+&lt;th&gt;X(自建)&lt;/th&gt;
+&lt;th&gt;Y(自建)&lt;/th&gt;
+&lt;th&gt;SQL(自建)&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;table1&lt;/td&gt;
+&lt;td&gt;column1&lt;/td&gt;
+&lt;td&gt;int&lt;/td&gt;
+&lt;td&gt;Y&lt;/td&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;int&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;insert into base.table1 values (1,&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;table1&lt;/td&gt;
+&lt;td&gt;column2&lt;/td&gt;
+&lt;td&gt;varchar(10)&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;varchar&lt;/td&gt;
+&lt;td&gt;10&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&amp;lsquo;AAAAAAAAAA&amp;rsquo;,&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;table1&lt;/td&gt;
+&lt;td&gt;column3&lt;/td&gt;
+&lt;td&gt;decimal(10,2)&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;3&lt;/td&gt;
+&lt;td&gt;decimal&lt;/td&gt;
+&lt;td&gt;10&lt;/td&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;11111111.11);&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;table2&lt;/td&gt;
+&lt;td&gt;column1&lt;/td&gt;
+&lt;td&gt;varchar(5)&lt;/td&gt;
+&lt;td&gt;Y&lt;/td&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;varchar&lt;/td&gt;
+&lt;td&gt;5&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;insert into base.table2 values (&amp;lsquo;AAAAA&amp;rsquo;,&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;table2&lt;/td&gt;
+&lt;td&gt;column2&lt;/td&gt;
+&lt;td&gt;text&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;text&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&amp;lsquo;ZZZZZZZZZZ&amp;rsquo;);&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;※ 提示： 使用 IF、TRIM、ISERR、FIND、MID、LEN、REPT、OR、&amp;amp;(或CONCATENATE)。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;reference&#34; &gt;Reference：
+&lt;span&gt;
+    &lt;a href=&#34;#reference&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h2&gt;&lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id=&#34;fn:1&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://zh.wikipedia.org/wiki/ASCII&#34;&gt;ASCII&lt;/a&gt;&amp;#160;&lt;a href=&#34;#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:2&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;http://www.asciitable.com/&#34;&gt;ASCII Table and Description&lt;/a&gt;&amp;#160;&lt;a href=&#34;#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:3&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://zh.wikipedia.org/wiki/%E4%BB%A3%E7%A2%BC%E9%A0%81950&#34;&gt;代碼頁950&lt;/a&gt;&amp;#160;&lt;a href=&#34;#fnref:3&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:4&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://zh.wikipedia.org/wiki/%E4%BD%8D%E5%85%83%E7%B5%84%E9%A0%86%E5%BA%8F%E8%A8%98%E8%99%9F&#34;&gt;位元組順序記號&lt;/a&gt;&amp;#160;&lt;a href=&#34;#fnref:4&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:5&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://social.msdn.microsoft.com/Forums/vstudio/de-DE/b172cd4d-25fe-4696-8c0f-37226c053d71/how-to-detect-encoding-file-in-ansi-utf8-and-utf8-without-bom?forum=csharpgeneral&#34;&gt;How to detect encoding file in ANSI, UTF8 and UTF8 without BOM&lt;/a&gt;&amp;#160;&lt;a href=&#34;#fnref:5&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

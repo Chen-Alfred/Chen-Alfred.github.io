@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>booklist on Alfred Chen</title>
+    <link>/tags/booklist/</link>
+    <description>Alfred Chen (booklist)</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-tw</language>
+    <lastBuildDate>Sat, 01 Jan 2022 00:00:00 +0000</lastBuildDate>
+    
+    <atom:link href="/tags/booklist/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Alfred 的教學筆記：推薦書籍</title>
+      <link>/posts/handout_ps01_booklist/</link>
+      <pubDate>Sat, 01 Jan 2022 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/handout_ps01_booklist/</guid>
+      <description>&lt;hr&gt;
+&lt;h3 id=&#34;變更歷史&#34; &gt;變更歷史：
+&lt;span&gt;
+    &lt;a href=&#34;#%e8%ae%8a%e6%9b%b4%e6%ad%b7%e5%8f%b2&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;2022/04/08 新增書籍：
+&lt;ul&gt;
+&lt;li&gt;打好 AI 的基礎：一探機器學習底層數學運作&lt;/li&gt;
+&lt;li&gt;管理技術債 (Managing Technical Debt)&lt;/li&gt;
+&lt;li&gt;系統程式設計 (上册) System Programming Vol I&lt;/li&gt;
+&lt;li&gt;系統程式設計 (下册) System Programming Vol II&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;2022/04/18 新增線上課程：
+&lt;ul&gt;
+&lt;li&gt;Concurrent Computing (冼鏡光教授，MTU)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;一專案管理企業管理散文類書籍&#34; &gt;一、專案管理、企業管理、散文類書籍
+&lt;span&gt;
+    &lt;a href=&#34;#%e4%b8%80%e5%b0%88%e6%a1%88%e7%ae%a1%e7%90%86%e4%bc%81%e6%a5%ad%e7%ae%a1%e7%90%86%e6%95%a3%e6%96%87%e9%a1%9e%e6%9b%b8%e7%b1%8d&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;人月神話：軟體專案管理之道
+&lt;a href=&#34;https://www.tenlong.com.tw/products/9789867889188&#34;&gt;https://www.tenlong.com.tw/products/9789867889188&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Peopleware：腦力密集產業的人才管理之道
+&lt;a href=&#34;https://www.tenlong.com.tw/products/9789869916240&#34;&gt;https://www.tenlong.com.tw/products/9789869916240&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;與熊共舞：軟體專案的風險管理
+&lt;a href=&#34;https://www.tenlong.com.tw/products/9789860611694&#34;&gt;https://www.tenlong.com.tw/products/9789860611694&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;約耳趣談軟體：來自專案管理的現場實錄 Joel On Software
+&lt;a href=&#34;https://www.books.com.tw/products/0010467041&#34;&gt;https://www.books.com.tw/products/0010467041&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;約耳續談軟體：探究軟體經營的根本實學
+&lt;a href=&#34;https://www.books.com.tw/products/0010472662&#34;&gt;https://www.books.com.tw/products/0010472662&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;大數據的傲慢與偏見
+&lt;a href=&#34;https://www.tenlong.com.tw/products/9789865695927&#34;&gt;https://www.tenlong.com.tw/products/9789865695927&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;大數據 Big Data:A Revolution That Will Transform How We Live, Work, and Think
+&lt;a href=&#34;https://www.books.com.tw/products/0010587258&#34;&gt;https://www.books.com.tw/products/0010587258&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;我們是誰？大數據下的人類行為觀察
+&lt;a href=&#34;https://www.books.com.tw/activity/2016/05/dataclysm/&#34;&gt;https://www.books.com.tw/activity/2016/05/dataclysm/&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;第五項修練
+&lt;a href=&#34;https://www.tenlong.com.tw/products/4713510946343&#34;&gt;https://www.tenlong.com.tw/products/4713510946343&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;駭客與畫家 Hackers &amp;amp; Painters: Big Ideas from the Computer Age
+&lt;a href=&#34;https://www.taaze.tw/products/11100495829.html&#34;&gt;https://www.taaze.tw/products/11100495829.html&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;爪哇夜未眠
+&lt;a href=&#34;https://www.eslite.com/product/1001133101001059&#34;&gt;https://www.eslite.com/product/1001133101001059&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;二程式語言&#34; &gt;二、程式語言
+&lt;span&gt;
+    &lt;a href=&#34;#%e4%ba%8c%e7%a8%8b%e5%bc%8f%e8%aa%9e%e8%a8%80&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;C Traps and Pitfalls (中文版)
+&lt;a href=&#34;https://www.tenlong.com.tw/products/9789864344529&#34;&gt;https://www.tenlong.com.tw/products/9789864344529&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;C 程式設計藝術
+&lt;a href=&#34;https://www.tenlong.com.tw/products/9789864639403&#34;&gt;https://www.tenlong.com.tw/products/9789864639403&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;由片語學習C程式設計
+&lt;a href=&#34;https://www.tenlong.com.tw/products/9789863503576&#34;&gt;https://www.tenlong.com.tw/products/9789863503576&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;21世紀C語言
+&lt;a href=&#34;https://www.tenlong.com.tw/products/9789865021368&#34;&gt;https://www.tenlong.com.tw/products/9789865021368&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;程式設計師的自我修養－連結、載入、程式庫
+&lt;a href=&#34;https://www.tenlong.com.tw/products/9789861818283&#34;&gt;https://www.tenlong.com.tw/products/9789861818283&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;C 語言之修煉與實踐
+&lt;a href=&#34;https://www.tenlong.com.tw/products/9789868255517&#34;&gt;https://www.tenlong.com.tw/products/9789868255517&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;名題精選百則 使用C語言
+&lt;a href=&#34;https://www.tenlong.com.tw/products/9789574999071&#34;&gt;https://www.tenlong.com.tw/products/9789574999071&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Essential C++ (簡體中文版)
+&lt;a href=&#34;https://www.tenlong.com.tw/products/9787121209345&#34;&gt;https://www.tenlong.com.tw/products/9787121209345&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Shell Programming 即學活用
+&lt;a href=&#34;https://www.tenlong.com.tw/products/9789575273637&#34;&gt;https://www.tenlong.com.tw/products/9789575273637&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;sed &amp;amp; awk 程式設計
+&lt;a href=&#34;https://24h.pchome.com.tw/books/prod/DJAA07-A49972946&#34;&gt;https://24h.pchome.com.tw/books/prod/DJAA07-A49972946&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Python 自動化的樂趣
+&lt;a href=&#34;https://www.tenlong.com.tw/products/9789865025977&#34;&gt;https://www.tenlong.com.tw/products/9789865025977&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;[原文書] Cracking the Coding Interview: 189 Programming Questions and Solutions
+&lt;a href=&#34;https://www.books.com.tw/products/F013846860&#34;&gt;https://www.books.com.tw/products/F013846860&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;三軟體開發&#34; &gt;三、軟體開發
+&lt;span&gt;
+    &lt;a href=&#34;#%e4%b8%89%e8%bb%9f%e9%ab%94%e9%96%8b%e7%99%bc&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;程式設計專家手冊
+&lt;a href=&#34;https://www.kingstone.com.tw/basic/2014712546488/&#34;&gt;https://www.kingstone.com.tw/basic/2014712546488/&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;管理技術債 (Managing Technical Debt)
+&lt;a href=&#34;https://www.tenlong.com.tw/products/9789865023560&#34;&gt;https://www.tenlong.com.tw/products/9789865023560&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;軟體預先架構之美學
+&lt;a href=&#34;https://www.books.com.tw/products/0010322321&#34;&gt;https://www.books.com.tw/products/0010322321&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;[原文書] Core J2Ee Patterns: Best Practices and Design Strategies
+&lt;a href=&#34;https://www.amazon.com/Core-J2EE-Patterns-Practices-Strategies/dp/0131422464&#34;&gt;https://www.amazon.com/Core-J2EE-Patterns-Practices-Strategies/dp/0131422464&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;[原文書] The Unified Modeling Language User Guide
+&lt;a href=&#34;https://www.amazon.com/Unified-Modeling-Language-User-Guide/dp/0321267974&#34;&gt;https://www.amazon.com/Unified-Modeling-Language-User-Guide/dp/0321267974&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;四資料庫&#34; &gt;四、資料庫
+&lt;span&gt;
+    &lt;a href=&#34;#%e5%9b%9b%e8%b3%87%e6%96%99%e5%ba%ab&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;資料庫系統原理 (Fundamentals of Database Systems, 6/e)
+&lt;a href=&#34;https://www.tenlong.com.tw/products/9789862800188&#34;&gt;https://www.tenlong.com.tw/products/9789862800188&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;深入資料庫之美學
+&lt;a href=&#34;https://www.kingstone.com.tw/basic/2014712842153/&#34;&gt;https://www.kingstone.com.tw/basic/2014712842153/&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;PostgreSQL查詢引擎源碼技術探析 (解析PostgreSQL程式與資料庫應用)
+&lt;a href=&#34;https://www.tenlong.com.tw/products/9787121294815&#34;&gt;https://www.tenlong.com.tw/products/9787121294815&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;五資料科學人工智慧大數據&#34; &gt;五、資料科學、人工智慧、大數據
+&lt;span&gt;
+    &lt;a href=&#34;#%e4%ba%94%e8%b3%87%e6%96%99%e7%a7%91%e5%ad%b8%e4%ba%ba%e5%b7%a5%e6%99%ba%e6%85%a7%e5%a4%a7%e6%95%b8%e6%93%9a&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;大數據分析與資料挖礦
+&lt;a href=&#34;https://www.books.com.tw/products/0010815082&#34;&gt;https://www.books.com.tw/products/0010815082&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;打好 AI 的基礎：一探機器學習底層數學運作
+&lt;a href=&#34;https://www.tenlong.com.tw/products/9789860776881&#34;&gt;https://www.tenlong.com.tw/products/9789860776881&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;資訊檢索導論 Introduction to Information Retrieval
+&lt;a href=&#34;https://www.eslite.com/product/1001116712141217&#34;&gt;https://www.eslite.com/product/1001116712141217&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Text Mining 文本探勘
+&lt;a href=&#34;https://readmoo.com/book/210078179000101&#34;&gt;https://readmoo.com/book/210078179000101&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;推薦系統實踐
+&lt;a href=&#34;https://www.tenlong.com.tw/products/9787115281586&#34;&gt;https://www.tenlong.com.tw/products/9787115281586&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;深度學習 Deep Learning
+&lt;a href=&#34;https://www.eslite.com/product/1001113692802579&#34;&gt;https://www.eslite.com/product/1001113692802579&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;數值分析
+&lt;a href=&#34;https://www.books.com.tw/products/0010312619&#34;&gt;https://www.books.com.tw/products/0010312619&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;利用R語言打通大數據的經脈
+&lt;a href=&#34;https://www.books.com.tw/products/0010704723&#34;&gt;https://www.books.com.tw/products/0010704723&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;R數據分析——方法與案例詳解
+&lt;a href=&#34;https://www.tenlong.com.tw/products/9787121252907&#34;&gt;https://www.tenlong.com.tw/products/9787121252907&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;資料科學的商業運用 (Data science for business)
+&lt;a href=&#34;https://www.tenlong.com.tw/products/9789864760268&#34;&gt;https://www.tenlong.com.tw/products/9789864760268&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;大數據時代的演算法：機器學習、人工智慧及其典型實例
+&lt;a href=&#34;https://www.kingstone.com.tw/basic/2013180004032/&#34;&gt;https://www.kingstone.com.tw/basic/2013180004032/&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;六基礎學科&#34; &gt;六、基礎學科
+&lt;span&gt;
+    &lt;a href=&#34;#%e5%85%ad%e5%9f%ba%e7%a4%8e%e5%ad%b8%e7%a7%91&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;離散數學(上)、(下) 黃子嘉
+&lt;a href=&#34;https://www.books.com.tw/products/0010837082&#34;&gt;https://www.books.com.tw/products/0010837082&lt;/a&gt;
+&lt;a href=&#34;https://www.books.com.tw/products/0010844694&#34;&gt;https://www.books.com.tw/products/0010844694&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;線性代數及其應用(上)、(下) 黃子嘉
+&lt;a href=&#34;https://www.books.com.tw/products/0010834726&#34;&gt;https://www.books.com.tw/products/0010834726&lt;/a&gt;
+&lt;a href=&#34;https://www.books.com.tw/products/0010840819&#34;&gt;https://www.books.com.tw/products/0010840819&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;[原文書] Fundamentals of Data Structures in C, 2/e
+&lt;a href=&#34;https://www.tenlong.com.tw/products/9780929306407&#34;&gt;https://www.tenlong.com.tw/products/9780929306407&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;演算法導論 (Introduction to Algorithms)
+&lt;a href=&#34;https://zh.wikipedia.org/wiki/%E7%AE%97%E6%B3%95%E5%AF%BC%E8%AE%BA&#34;&gt;https://zh.wikipedia.org/wiki/%E7%AE%97%E6%B3%95%E5%AF%BC%E8%AE%BA&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;電腦與網際網路
+&lt;a href=&#34;https://www.books.com.tw/products/0010833575&#34;&gt;https://www.books.com.tw/products/0010833575&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;[原文書] 作業系統 (Operating System Concepts), 10/e
+&lt;a href=&#34;https://www.tenlong.com.tw/products/9781119586166&#34;&gt;https://www.tenlong.com.tw/products/9781119586166&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;作業系統
+&lt;a href=&#34;https://www.flag.com.tw/books/product_s/F7852&#34;&gt;https://www.flag.com.tw/books/product_s/F7852&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;[原文書] 計算機組織 (Computer Organization and Design MIPS Edition: The Hardware/Software Interface, 6/e)
+&lt;a href=&#34;https://www.tenlong.com.tw/products/9780128201091&#34;&gt;https://www.tenlong.com.tw/products/9780128201091&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;[原文書] An Introduction to Parallel Programming, 2/e
+&lt;a href=&#34;https://www.tenlong.com.tw/products/9780128046050&#34;&gt;https://www.tenlong.com.tw/products/9780128046050&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;系統程式設計 (上册) System Programming Vol I
+&lt;a href=&#34;https://www.tenlong.com.tw/products/9786263240773&#34;&gt;https://www.tenlong.com.tw/products/9786263240773&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;系統程式設計 (下册) System Programming Vol II
+&lt;a href=&#34;https://www.tenlong.com.tw/products/9786263241114&#34;&gt;https://www.tenlong.com.tw/products/9786263241114&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;七計算理論&#34; &gt;七、計算理論
+&lt;span&gt;
+    &lt;a href=&#34;#%e4%b8%83%e8%a8%88%e7%ae%97%e7%90%86%e8%ab%96&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;[原文書] 形式語言與運算理論入門 (Introduction to Languages and the Theory of Computation 4th)
+&lt;a href=&#34;https://www.amazon.com/Introduction-Languages-Theory-Computation-Martin/dp/0073191469&#34;&gt;https://www.amazon.com/Introduction-Languages-Theory-Computation-Martin/dp/0073191469&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;[原文書] Computational Complexity
+&lt;a href=&#34;https://www.amazon.com/Computational-Complexity-Christos-H-Papadimitriou/dp/0201530821&#34;&gt;https://www.amazon.com/Computational-Complexity-Christos-H-Papadimitriou/dp/0201530821&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;八線上課程推薦&#34; &gt;八、線上課程推薦
+&lt;span&gt;
+    &lt;a href=&#34;#%e5%85%ab%e7%b7%9a%e4%b8%8a%e8%aa%b2%e7%a8%8b%e6%8e%a8%e8%96%a6&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;From Nand to Tetris
+&lt;a href=&#34;https://www.nand2tetris.org/&#34;&gt;https://www.nand2tetris.org/&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;機器學習基石－林軒田 (上)、(下)
+&lt;a href=&#34;https://zh-tw.coursera.org/learn/ntumlone-mathematicalfoundations&#34;&gt;https://zh-tw.coursera.org/learn/ntumlone-mathematicalfoundations&lt;/a&gt;
+&lt;a href=&#34;https://zh-tw.coursera.org/learn/ntumlone-algorithmicfoundations&#34;&gt;https://zh-tw.coursera.org/learn/ntumlone-algorithmicfoundations&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;機器學習技術－林軒田
+&lt;a href=&#34;https://zh-tw.coursera.org/learn/machine-learning-techniques&#34;&gt;https://zh-tw.coursera.org/learn/machine-learning-techniques&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Concurrent Computing (冼鏡光教授，MTU)
+&lt;a href=&#34;https://www.csl.mtu.edu/cs3331.ck/www/3331-slides.html?fbclid=IwAR3v1Tf4KD-l1GuipEfTZqlv2OSuvx9rVQIIYm8ZiVAJbukPvumS92wFAZU&#34;&gt;https://www.csl.mtu.edu/cs3331.ck/www/3331-slides.html?fbclid=IwAR3v1Tf4KD-l1GuipEfTZqlv2OSuvx9rVQIIYm8ZiVAJbukPvumS92wFAZU&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;九推薦文章&#34; &gt;九、推薦文章
+&lt;span&gt;
+    &lt;a href=&#34;#%e4%b9%9d%e6%8e%a8%e8%96%a6%e6%96%87%e7%ab%a0&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;【Delphi 深度歷險】 作者：陳寬達 (陳昇瑋)
+章節：實作與理論 P.26 ~ P.31 (pdf檔 P.56 ~ P.61)
+&lt;a href=&#34;https://aiacademy.tw/swc/book/delphi_adv.pdf&#34;&gt;https://aiacademy.tw/swc/book/delphi_adv.pdf&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;你所不知道的 C 語言 (jserv)
+&lt;a href=&#34;https://hackmd.io/@sysprog/c-prog/%2F%40sysprog%2Fc-programming&#34;&gt;https://hackmd.io/@sysprog/c-prog/%2F%40sysprog%2Fc-programming&lt;/a&gt;
+&lt;a href=&#34;http://wiki.csie.ncku.edu.tw/User/jserv&#34;&gt;http://wiki.csie.ncku.edu.tw/User/jserv&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;施威銘研究室
+&lt;a href=&#34;https://flag-editors.medium.com/&#34;&gt;https://flag-editors.medium.com/&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

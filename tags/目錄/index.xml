@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>目錄 on Alfred Chen</title>
+    <link>/tags/%E7%9B%AE%E9%8C%84/</link>
+    <description>Alfred Chen (目錄)</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-tw</language>
+    <lastBuildDate>Sat, 01 Jan 2022 00:00:00 +0000</lastBuildDate>
+    
+    <atom:link href="/tags/%E7%9B%AE%E9%8C%84/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Alfred 的教學筆記 [目錄]</title>
+      <link>/posts/handout_00_content/</link>
+      <pubDate>Sat, 01 Jan 2022 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/handout_00_content/</guid>
+      <description>&lt;hr&gt;
+&lt;p&gt;&lt;a href=&#34;../handout_01_basic_introduction/&#34;&gt;教學筆記 01：編碼、檔案、斷行字元、Excel、其他基礎知識介紹&lt;/a&gt;&lt;br&gt;
+&lt;a href=&#34;../handout_02_linux_basic_introduction/&#34;&gt;教學筆記 02：Linux 指令介紹&lt;/a&gt;&lt;br&gt;
+&lt;a href=&#34;../handout_03_awk_introduction/&#34;&gt;教學筆記 03：awk 指令介紹&lt;/a&gt;&lt;br&gt;
+&lt;a href=&#34;../handout_04_writing_document/&#34;&gt;教學筆記 04：文件圖表表達方式的經驗分享&lt;/a&gt;&lt;br&gt;
+&lt;a href=&#34;../handout_05_ecpg_programming/&#34;&gt;教學筆記 05：以 C 語言開發資料庫存取程式 (ECPG)&lt;/a&gt;&lt;br&gt;
+&lt;a href=&#34;../handout_ps01_booklist/&#34;&gt;推薦書籍&lt;/a&gt;&lt;br&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;導讀&#34; &gt;導讀
+&lt;span&gt;
+    &lt;a href=&#34;#%e5%b0%8e%e8%ae%80&#34;&gt;
+        &lt;svg viewBox=&#34;0 0 28 23&#34; height=&#34;100%&#34; width=&#34;19&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;path d=&#34;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;path d=&#34;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&#34; fill=&#34;none&#34; stroke-linecap=&#34;round&#34; stroke-miterlimit=&#34;10&#34; stroke-width=&#34;2&#34;/&gt;&lt;/svg&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;本教學筆記之撰寫目的，為教育公司新進人員，補強基本技術能力，使能最低限度應用於工作中。&lt;/li&gt;
+&lt;li&gt;筆記 01 為須具備的最基礎知識，包含常見的字元集編碼種類 (外案可能會遭遇各種編碼)、文字類型的資料格式介紹。另外 Excel 也是常用的工具，容易取得 (可以從公司內部下載) 與使用，且因外案工作是以 Excel 所撰寫的資料模型文件 (SDM) 為基礎，所以也會介紹常用的使用方式。&lt;/li&gt;
+&lt;li&gt;筆記 02 為 Linux 指令教學。Linux 已經是許多客戶所採用的作業系統，因此須了解基本操作方式。Linux 亦有許多功能強大的資料處理指令並且能協助自動化，讓資料在進入database之前進行許多資料前處理動作。&lt;/li&gt;
+&lt;li&gt;筆記 03 為 awk 指令教學。awk 為 Linux 指令之一，也是一種程式語言，其特色為處理字串的能力相當強大。公司的外案工作中有許多字串處理，例如自動產生工作指令、產生 DDL、產生測試資料，這些都可以利用 awk 指令來加以處理。&lt;/li&gt;
+&lt;li&gt;筆記 04 是屬於非技術類型的教學，主要是分享我個人曾經撰寫文件的經驗說明、須注意事項，並展示部份成品。工作中撰寫文件是一件稀鬆平常的事情，但要如何寫得有條不紊，能夠被閱讀者所理解，有時需要經驗的累積。&lt;/li&gt;
+&lt;li&gt;筆記 05 則是較為冷門的 C 語言資料處理教學 (Embedded SQL)，目前或許已較少人使用這種方法來開發程式，因此本篇教學僅供參考。但 C 語言本身的優點為快速，當程式需要追求較高的效能時，不失為一個好選擇。&lt;/li&gt;
+&lt;li&gt;「推薦書籍」與「補充教材」則是一些課外補充說明。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
